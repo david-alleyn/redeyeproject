@@ -11,7 +11,7 @@ class MyApp : public wxApp
 {
 public:
 	virtual bool OnInit();
-
+	// This is a test comment
 
 };
 
