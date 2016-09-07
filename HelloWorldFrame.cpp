@@ -41,5 +41,5 @@ void MyFrame::OnAbout(wxCommandEvent& event)
 }
 void MyFrame::OnHello(wxCommandEvent& event)
 {
-	wxLogMessage("Hello world from wxWidgets!");
+	wxLogMessage("Hello world from wxWidgets! AAAAAAAAAAA");
 }
