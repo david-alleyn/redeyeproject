@@ -31,19 +31,20 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	SetStatusText("Welcome to wxWidgets!");
 
 	wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
-	
-	wxBoxSizer *verticalSizerTop = new wxBoxSizer(wxVERTICAL);
-	wxBoxSizer *verticalSizerBottom = new wxBoxSizer(wxVERTICAL);
+	verticalSizer->Add(new wxButton(this, ID_SDLInitButton, "Test SDL initialization"), 0, wxALIGN_CENTER | wxALL, 5);
 
-	verticalSizer->Add(verticalSizerTop, 1, wxEXPAND, 5);
-	verticalSizer->Add(verticalSizerBottom, 1, wxEXPAND, 5);
+	wxTextCtrl *logControl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500,300));
+	verticalSizer->Add(logControl, 0, wxALIGN_CENTER | wxALL, 5);
+
+	
+
+	Bind(wxEVT_BUTTON, &MyFrame::OnSDLInit, this, ID_SDLInitButton);
+
+	wxLog::SetActiveTarget(new wxLogTextCtrl(logControl));
 
 	this->SetSizer(verticalSizer);
 	this->Layout();
 	this->Center();
-
-	verticalSizerTop->Add(new wxButton(this, wxID_ANY, "newButton"), 0, wxALIGN_CENTER | wxALL, 5);
-	verticalSizerBottom->Add(new wxButton(this, wxID_ANY, "newButton"), 0, wxALIGN_CENTER | wxALL, 5);
 }
 void MyFrame::OnExit(wxCommandEvent& event)
 {
@@ -57,4 +58,8 @@ void MyFrame::OnAbout(wxCommandEvent& event)
 void MyFrame::OnHello(wxCommandEvent& event)
 {
 	wxLogMessage("Hello world from wxWidgets! AAAAAAAAAAA");
+}
+void MyFrame::OnSDLInit(wxCommandEvent& event)
+{
+	displayEngine = DisplayEngine::getInstance();
 }
