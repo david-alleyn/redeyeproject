@@ -29,6 +29,21 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	SetMenuBar(menuBar);
 	CreateStatusBar();
 	SetStatusText("Welcome to wxWidgets!");
+
+	wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
+	
+	wxBoxSizer *verticalSizerTop = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *verticalSizerBottom = new wxBoxSizer(wxVERTICAL);
+
+	verticalSizer->Add(verticalSizerTop, 1, wxEXPAND, 5);
+	verticalSizer->Add(verticalSizerBottom, 1, wxEXPAND, 5);
+
+	this->SetSizer(verticalSizer);
+	this->Layout();
+	this->Center();
+
+	verticalSizerTop->Add(new wxButton(this, wxID_ANY, "newButton"), 0, wxALIGN_CENTER | wxALL, 5);
+	verticalSizerBottom->Add(new wxButton(this, wxID_ANY, "newButton"), 0, wxALIGN_CENTER | wxALL, 5);
 }
 void MyFrame::OnExit(wxCommandEvent& event)
 {
