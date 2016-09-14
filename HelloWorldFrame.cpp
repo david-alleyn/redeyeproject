@@ -33,7 +33,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
 	verticalSizer->Add(new wxButton(this, ID_SDLInitButton, "Test SDL initialization"), 0, wxALIGN_CENTER | wxALL, 5);
 
-	wxTextCtrl *logControl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500,300));
+	wxTextCtrl *logControl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500,300), wxTE_MULTILINE);
 	verticalSizer->Add(logControl, 0, wxALIGN_CENTER | wxALL, 5);
 
 	
