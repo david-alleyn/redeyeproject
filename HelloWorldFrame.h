@@ -14,6 +14,7 @@ private:
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	void OnSDLInit(wxCommandEvent& event);
+	void OnTestEnumeration(wxCommandEvent& event);
 
 	DisplayEngine* displayEngine;
 };
@@ -23,5 +24,6 @@ private:
 enum
 {
 	ID_Hello = 1,
-	ID_SDLInitButton
+	ID_SDLInitButton,
+	ID_TestEnumerationButton
 };

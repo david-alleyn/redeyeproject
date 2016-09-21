@@ -32,6 +32,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 
 	wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
 	verticalSizer->Add(new wxButton(this, ID_SDLInitButton, "Test SDL initialization"), 0, wxALIGN_CENTER | wxALL, 5);
+	verticalSizer->Add(new wxButton(this, ID_TestEnumerationButton, "Test Enumeration"), 0, wxALIGN_CENTER | wxALL, 5);
 
 	wxTextCtrl *logControl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(500,300), wxTE_MULTILINE);
 	verticalSizer->Add(logControl, 0, wxALIGN_CENTER | wxALL, 5);
@@ -39,6 +40,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 	
 
 	Bind(wxEVT_BUTTON, &MyFrame::OnSDLInit, this, ID_SDLInitButton);
+	Bind(wxEVT_BUTTON, &MyFrame::OnTestEnumeration, this, ID_TestEnumerationButton);
 
 	wxLog::SetActiveTarget(new wxLogTextCtrl(logControl));
 
@@ -62,4 +64,8 @@ void MyFrame::OnHello(wxCommandEvent& event)
 void MyFrame::OnSDLInit(wxCommandEvent& event)
 {
 	displayEngine = DisplayEngine::getInstance();
+}
+void MyFrame::OnTestEnumeration(wxCommandEvent& event)
+{
+	vector<Display> someDisplays = displayEngine->enumerateAllDisplays();
 }
