@@ -28,6 +28,8 @@ DisplayEngine::DisplayEngine()
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
 	numDisplays = SDL_GetNumVideoDisplays();
+
+	running = false;
 	
 
 	//for(int i = 0; i < numDisplays; i++)
@@ -138,4 +140,35 @@ void DisplayEngine::setLastDisplay(int displayIndex)
 	{
 		lastDisplay = displayIndex;
 	}
+}
+
+void DisplayEngine::StartEngine()
+{
+	/* BEGIN IDEAS
+
+	Experiment Initialize
+	 experimentObject.initialize()
+
+	Set "running" to true
+	
+	Experiment Run loop
+	 Checks "running" is true
+	 experimentObject.
+
+	Experiment cleanup
+	 experimentObject.cleanup()
+
+	 END IDEAS */
+}
+
+void DisplayEngine::StopEngine()
+{
+	/* BEGIN IDEAS
+	 * 
+	 * Set running to false
+	 * 
+	 * 
+	 * END IDEAS
+	 */
+	
 }

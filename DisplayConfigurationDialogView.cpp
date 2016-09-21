@@ -97,9 +97,6 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxGridSizer* confButtonGridSizer;
 	confButtonGridSizer = new wxGridSizer( 3, 3, 0, 0 );
 	
-	m_exampleConfButtonCOMMENTOUT = new wxButton( this, wxID_ANY, wxT("EXAMPLEBUTTON"), wxDefaultPosition, wxDefaultSize, 0 );
-	confButtonGridSizer->Add( m_exampleConfButtonCOMMENTOUT, 0, 0, 5 );
-	
 	
 	rootSizer->Add( confButtonGridSizer, 0, wxALL, 1 );
 	
@@ -123,18 +120,18 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(DisplayConfigurationDialogView::OnExit));
 	m_unlockModificationButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnUnlock ), NULL, this );
-	m_exampleConfButtonCOMMENTOUT->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnDisplay1ConfButtonClick ), NULL, this );
 	m_okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
-	m_cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnCancel ), NULL, this );
+	m_cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
 }
 
 DisplayConfigurationDialogView::~DisplayConfigurationDialogView()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DisplayConfigurationDialogView::OnExit ) );
 	m_unlockModificationButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnUnlock ), NULL, this );
-	m_exampleConfButtonCOMMENTOUT->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnDisplay1ConfButtonClick ), NULL, this );
 	m_okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
-	m_cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnCancel ), NULL, this );
+	m_cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
 	
 }

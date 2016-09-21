@@ -24,13 +24,16 @@
     <ClCompile Include="DisplayEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayConfigurationDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DisplayConfigurationDialogView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainWindowView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayConfigurationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +44,16 @@
     <ClInclude Include="DisplayEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayConfigurationDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DisplayConfigurationDialogView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainWindowView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayConfigurationDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

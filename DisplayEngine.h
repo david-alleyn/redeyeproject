@@ -28,6 +28,9 @@ class DisplayEngine
 
 	int numDisplays;
 
+	//State
+	bool running;
+
 	//Display Configuration Variables
 	int firstDisplay = -1; // Default = -1 (secondary display is first). First display will be used if there is only one display.
 	int lastDisplay = -1; // Default = -1 (the Nth display is last). First display will be used if there is only one display
@@ -47,6 +50,10 @@ public:
 
 	int getLastDisplay();
 	void setLastDisplay(int displayIndex);
+
+	// Controls
+	void StartEngine();
+	void StopEngine();
 	
 
 };

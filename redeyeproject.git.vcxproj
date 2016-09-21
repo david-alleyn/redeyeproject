@@ -161,6 +161,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -172,6 +173,7 @@
     <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
     <ClInclude Include="HelloWorldFrame.h" />
+    <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

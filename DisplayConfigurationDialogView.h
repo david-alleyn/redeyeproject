@@ -44,15 +44,14 @@ class DisplayConfigurationDialogView : public wxDialog
 		wxStaticText* m_staticText9;
 		wxStaticText* m_staticText10;
 		wxButton* m_unlockModificationButton;
-		wxButton* m_exampleConfButtonCOMMENTOUT;
 		wxButton* m_okButton;
 		wxButton* m_cancelButton;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnUnlock( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDisplay1ConfButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnCancel( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
