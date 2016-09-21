@@ -155,18 +155,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DisplayConfigurationDialog.cpp" />
+    <ClCompile Include="DisplayConfigurationDialogView.cpp" />
     <ClCompile Include="DisplayEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="MainWindowView.cpp" />
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HelloWorldFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DisplayConfigurationDialog.h" />
+    <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
     <ClInclude Include="HelloWorldFrame.h" />
+    <ClInclude Include="MainWindowView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
