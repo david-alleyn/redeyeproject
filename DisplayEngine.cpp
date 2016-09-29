@@ -6,12 +6,14 @@
 #include "DisplayEngine.h"
 #include "SDL.h"
 #include <GL/glew.h>
+#include "Experiment.h"
 
 //#pragma comment (lib, "glew32s.lib")
 
 DisplayEngine::DisplayEngine()
 {
-
+	windows = vector<SDL_Window*>();
+	glContexts = vector<SDL_GLContext>();
 
 	if( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS) < 0)
 	{
@@ -23,32 +25,10 @@ DisplayEngine::DisplayEngine()
 		wxLogMessage("SDL initialized.");
 	}
 
-	////Use OpenGL 3.0. The primary reason for this choice was instanced rendering.
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-
 	numDisplays = SDL_GetNumVideoDisplays();
 
 	running = false;
 	
-
-	//for(int i = 0; i < numDisplays; i++)
-	//{
-	//	int numModes = SDL_GetNumDisplayModes(i);
-	//	wxLogMessage("Display " + wxString::Format(wxT("%i"), i) + " total modes: " + wxString::Format(wxT("%i"), numModes));
-
-	//	for(int j = 0; j < numModes; j++)
-	//	{
-	//		SDL_DisplayMode* displayMode = new SDL_DisplayMode();
-	//		SDL_GetDisplayMode(i, j, displayMode);
-	//		wxLogMessage("Display " + wxString::Format(wxT("%i"), i) + ", mode " + wxString::Format(wxT("%i"), j) + ": " + wxString::Format(wxT("%i"), displayMode->w) + "x" + wxString::Format(wxT("%i"), displayMode->h) + " " + wxString::Format(wxT("%i"), displayMode->refresh_rate) + "hz");
-	//	}
-
-	//}
-
-
-
-
 	////Create window
 	////SDL_Window* window1 = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED_DISPLAY(1), SDL_WINDOWPOS_UNDEFINED_DISPLAY(1), 1500, 800, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
 	//SDL_Window* window2 = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED_DISPLAY(0), SDL_WINDOWPOS_UNDEFINED_DISPLAY(0), 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
@@ -144,16 +124,78 @@ void DisplayEngine::setLastDisplay(int displayIndex)
 
 void DisplayEngine::StartEngine()
 {
+
+	// TEMPORARY, USE DETECTED SCREENS, DONT USE PREFERENCES
+
+	vector<Display> displays = enumerateAllDisplays();
+
+	if(displays.size() < 1)
+	{
+		wxLogError("There is only 1 display, program is programmed to use only second display right now");
+		throw "There is only 1 display, program is programmed to use only second display right now";
+	}
+
+	for(int i = 0; i < displays.size(); i++)
+	{
+		// use double buffering
+		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+
+		//Create window
+		SDL_Window* window1 = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), /*displays[i].maxWidth*/ 1000, /*displays[i].maxHeight*/ 600, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+		windows.push_back(window1);
+
+		if(glContexts.size() > 0)
+		{
+			SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
+		}
+
+		SDL_GLContext ctx1 = SDL_GL_CreateContext(window1);
+		glContexts.push_back(ctx1);
+	}
+
+	Experiment newExperiment = Experiment("Test experiment", 0);
+
+	newExperiment.initialize(SDL_GetTicks(), windows, glContexts);
+
+	running = true;
+	
+	while(running)
+	{
+		newExperiment.runFrame(SDL_GetTicks());
+
+		for(int i = 0; i < windows.size(); i++)
+		{
+			SDL_GL_MakeCurrent(windows[i], glContexts[i]);
+			SDL_GL_SwapWindow(windows[i]);
+		}
+	}
+
+	newExperiment.cleanup();
+
+
+
+
 	/* BEGIN IDEAS
 
 	Experiment Initialize
-	 experimentObject.initialize()
+	 experimentObject.initialize(//MAYBE PASS IN ALL THE CONTEXTS?)
 
 	Set "running" to true
 	
 	Experiment Run loop
 	 Checks "running" is true
-	 experimentObject.
+		for each monitor
+			experimentObject.runFrame(pass desired context for that display)
+			swap the window buffer
 
 	Experiment cleanup
 	 experimentObject.cleanup()

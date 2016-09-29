@@ -1,6 +1,7 @@
 #include "wx/wxprec.h"
 #include "MainWindow.h"
 #include "DisplayConfigurationDialogView.h"
+#include "DisplayEngine.h"
 
 
 MainWindow::MainWindow() : MainWindowView(0)
@@ -8,6 +9,10 @@ MainWindow::MainWindow() : MainWindowView(0)
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::OnExit, this, wxID_EXIT);
 	m_fileMenu->AppendSeparator();
 	m_fileMenu->Append(wxID_EXIT);
+
+	wxLog::SetActiveTarget(new wxLogTextCtrl(m_logTextControl));
+
+	DisplayEngine::getInstance();
 }
 
 
@@ -43,5 +48,6 @@ void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 
 void MainWindow::OnRunExperiment(wxCommandEvent& event)
 {
+	DisplayEngine::getInstance()->StartEngine();
 	event.Skip();
 }

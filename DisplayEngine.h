@@ -1,17 +1,19 @@
 ﻿#pragma once
 
 #include <vector>
+#include <SDL.h>
 
 using namespace std;
 
 class Display
 {
+public:
+	
 	int displayId;
 	int maxWidth;
 	int maxHeight;
-	int maxRefreshRate;
-
-public:
+	int maxRefreshRate;	
+	
 	Display(int displayId, int maxWidth, int maxHeight, int maxRefreshRate)
 	{
 		this->displayId = displayId;
@@ -27,6 +29,8 @@ class DisplayEngine
 	static DisplayEngine* s_instance;
 
 	int numDisplays;
+	vector<SDL_Window*> windows;
+	vector<SDL_GLContext> glContexts;
 
 	//State
 	bool running;

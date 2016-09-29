@@ -84,8 +84,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\SDL2-devel-2.0.4-VC\SDL2-2.0.4\include;C:\wxWidgets-3.1.0\include\msvc;C:\wxWidgets-3.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2-devel-2.0.4-VC\SDL2-2.0.4\lib\x64;C:\wxWidgets-3.1.0\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\glm;C:\glew-2.0.0\include;C:\SDL2-devel-2.0.4-VC\SDL2-2.0.4\include;C:\wxWidgets-3.1.0\include\msvc;C:\wxWidgets-3.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\glew-2.0.0\lib\Release\x64;C:\SDL2-devel-2.0.4-VC\SDL2-2.0.4\lib\x64;C:\wxWidgets-3.1.0\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,7 +151,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,8 +161,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Experiment.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
+    <ClCompile Include="RedDotExperiment.cpp" />
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -172,9 +174,11 @@
     <ClInclude Include="DisplayConfigurationDialog.h" />
     <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
+    <ClInclude Include="Experiment.h" />
     <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
+    <ClInclude Include="RedDotExperiment.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
