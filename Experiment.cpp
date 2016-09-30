@@ -204,6 +204,9 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 		drawWidth.push_back(width);
 		drawHeight.push_back(height);
 
+		wxLogMessage(wxString(std::to_string(width)));
+		wxLogMessage(wxString(std::to_string(height)));
+
 		SDL_GL_SetSwapInterval(1);
 		// use double buffering
 
@@ -225,12 +228,24 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 
 		// Setup Matrix:
 		/*m4Projection.push_back(glm::perspective(45.0f, 1000.0f / 600.0f, 0.1f, 1000.0f));*/
-		m4Projection.push_back(glm::ortho(-(width /2),width / 2,-(height/2),height/2,-10, 10));
-		m4ViewMatrix.push_back(glm::lookAt(glm::vec3(4, 8, 8), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
+		//m4Projection.push_back(glm::ortho(-(width /2),width / 2,-(height/2),height/2,-10, 10));
+
+		float aspect = (float) width / (float) height;
+		wxLogMessage(wxString(std::to_string(aspect)));
+
+		if (aspect >= 1.0) {
+			m4Projection.push_back(glm::ortho(-10.0f * aspect, 10.0f * aspect, -10.0f, 10.0f, 0.0f, 10000.0f));
+		}
+		else {
+			m4Projection.push_back(glm::ortho(-10.0f, 10.0f, -10.0f / aspect, 10.0f / aspect, 0.0f, 10000.0f));
+		}
+		
+		
+		m4ViewMatrix.push_back(glm::lookAt(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 
 		// set OpenGL Options:
 		glViewport(0, 0, width, height);
-		glClearColor(0.25f, 0.25f, 0.25f, 1);
+		glClearColor(0.0f, 0.0f, 0.0f, 1);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 	}
@@ -256,10 +271,14 @@ bool Experiment::runFrame(double currentTime)
 	{
 		// Keep Running!
 		// get delta time for this iteration:
-		float fDeltaTime = SDL_GetTicks() / 10000.0f;
+		float fDeltaTime = SDL_GetTicks() / 1000.0f;
 
 		glm::mat4 identity;
-		modelMatrix = glm::rotate(identity, fDeltaTime * 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		modelMatrix = glm::rotate(identity, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, fDeltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		
+		//modelMatrix = glm::scale(modelMatrix, glm::vec3(1000.0f));
 
 		// draw each window in sequence:
 		for (int i = 0; i < windows.size(); i++)

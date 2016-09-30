@@ -58,7 +58,7 @@ MainWindowView::MainWindowView( wxWindow* parent, wxWindowID id, const wxString&
 	m_logTextTitle->Wrap( -1 );
 	bottomSizer->Add( m_logTextTitle, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	m_logTextControl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_logTextControl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
 	bottomSizer->Add( m_logTextControl, 1, wxALL|wxEXPAND, 5 );
 	
 	
