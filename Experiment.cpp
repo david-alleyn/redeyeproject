@@ -8,6 +8,8 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+#include <cmath>
+
 
 
 Experiment::Experiment(string name, int duration)
@@ -62,7 +64,7 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 		"}\n"
 		"\n";
 
-	const char *fragmentShaderString = 
+	const char *fragmentShaderString =
 		"#version 130\n"
 		"in vec2 vUV;\n"
 		"in vec4 vColour;\n"
@@ -70,7 +72,8 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 		"uniform sampler2D diffuseTexture;\n"
 		"void main()\n"
 		"{\n"
-		"outColour = texture2D(diffuseTexture, vUV) + vColour;\n"
+		"outColour = texture2D(diffuseTexture, vUV) * vColour;\n"
+		//"outColour = vColour;\n"
 		"}\n"
 		"\n";
 
@@ -121,21 +124,50 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 
 	// LOAD COLORS OR TEXTURES
 
-	glm::vec4 *texData = new glm::vec4[256 * 256];
-	for (int i = 0; i < 256 * 256; i += 256)
+	int texDimensions = 256; //must be factor of 2
+	double radius = ((double) texDimensions) / 2.0f;
+	glm::vec4 *texData = new glm::vec4[texDimensions * texDimensions];
+	for (int i = 0; i < texDimensions * texDimensions; i += texDimensions)
 	{
-		for (int j = 0; j < 256; ++j)
+		for (int j = 0; j < texDimensions; ++j)
 		{
-			if (j % 2 == 0)
-			{
-				texData[i + j] = glm::vec4(0, 0, 0, 1);
-			}
-			else
-			{
-				texData[i + j] = glm::vec4(1, 1, 1, 1);
-			}
+			double xNorm = (i / texDimensions) + 1;
+			double yNorm = (j + 1);
+			//if (j % 2 == 0)
+			//{
+			//	texData[i + j] = glm::vec4(0, 0, 0, 1); //
+			//}
+			//else
+			//{
+				double distanceFromCenter = sqrt(pow((double) xNorm - (double) radius, 2) + pow((double)yNorm - (double) radius, 2));
+
+				if (distanceFromCenter <= radius) {
+					texData[i + j] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+				}
+				else {
+					texData[i + j] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+				}
+			//}
+
+			
 		}
 	}
+
+	//glm::vec4 *texData = new glm::vec4[256 * 256];
+	//for (int i = 0; i < 256 * 256; i += 256)
+	//{
+	//	for (int j = 0; j < 256; ++j)
+	//	{
+	//		/*if (j % 2 == 0)
+	//		{
+	//			texData[i + j] = glm::vec4(0, 0, 0, 1);
+	//		}
+	//		else
+	//		{*/
+	//			texData[i + j] = glm::vec4(1, 1, 1, 1);
+	//		//}
+	//	}
+	//}
 
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -143,13 +175,17 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 
 	// if textures, BIND TEXTURES
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	// set the texture to use slot 0 in the shader
 	GLuint texUniformID = glGetUniformLocation(shader, "diffuseTexture");
+	wxLogMessage("textureUniformID: ");
+	wxString converted;
+	converted << texUniformID;
+	wxLogMessage(converted);
 	glUniform1i(texUniformID, 0);
 
 	
@@ -298,8 +334,16 @@ bool Experiment::runFrame(double currentTime)
 			glUniformMatrix4fv(ViewID, 1, false, glm::value_ptr(m4ViewMatrix[i]));
 			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(modelMatrix));
 
+			GLuint texUniformID = glGetUniformLocation(shader, "diffuseTexture");
+
 			glActiveTexture(GL_TEXTURE0);
+			glUniform1i(texUniformID, 0);
 			glBindTexture(GL_TEXTURE_2D, texture);
+
+			
+			
+
+
 			glBindVertexArray(vaos[i]);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
