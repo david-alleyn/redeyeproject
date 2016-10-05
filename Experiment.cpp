@@ -10,6 +10,7 @@
 
 #include <cmath>
 
+#include <SDL.h>
 
 
 Experiment::Experiment(string name, int duration)
@@ -26,6 +27,7 @@ Experiment::~Experiment()
 bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
 {
 	GLenum err = glewInit();
+
 	if(GLEW_OK != err)
 	{
 		wxLogMessage("Error: " + wxString(glewGetErrorString(err)));
@@ -145,7 +147,7 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 					texData[i + j] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 				}
 				else {
-					texData[i + j] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+					texData[i + j] = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 				}
 			//}
 
@@ -284,7 +286,11 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 		glClearColor(0.0f, 0.0f, 0.0f, 1);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+
+	running = true;
 
 
 	return false;
@@ -303,8 +309,29 @@ bool Experiment::runFrame(double currentTime)
 	//RENDER CALL
 	//SWAP WINDOW BUFFERS
 
-	while (true)
+	while (running)
 	{
+		SDL_Event event;
+		if (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+			{
+				running = false;
+			}
+
+			if (event.type == SDL_KEYDOWN)
+			{
+				SDL_Keycode keyPressed = event.key.keysym.sym;
+
+				switch (keyPressed)
+				{
+				case SDLK_ESCAPE:
+					running = false;
+					break;
+				}
+			}
+		}
+
 		// Keep Running!
 		// get delta time for this iteration:
 		float fDeltaTime = SDL_GetTicks() / 1000.0f;
@@ -341,10 +368,16 @@ bool Experiment::runFrame(double currentTime)
 			glBindTexture(GL_TEXTURE_2D, texture);
 
 			
-			
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 			glBindVertexArray(vaos[i]);
+
+
+			glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
+			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(movedModel));
+
+
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 			glFinish();
@@ -357,6 +390,8 @@ bool Experiment::runFrame(double currentTime)
 		//SDL_Delay(1000 / fDeltaTime);
 
 		//glfwPollEvents(); // process events!
+
+		return true;
 	}
 
 	return false;

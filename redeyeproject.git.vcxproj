@@ -179,6 +179,13 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
     <ClInclude Include="RedDotExperiment.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="renderTextureToTarget.fs" />
+    <None Include="renderTextureToTarget.vs" />
+    <None Include="renderToTexture.fs" />
+    <None Include="renderToTexture.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

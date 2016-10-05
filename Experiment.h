@@ -17,6 +17,7 @@ class Experiment
 	vector<SDL_Window*> windows;
 	vector<SDL_GLContext> renderContexts;
 	bool initialized;
+	bool running;
 
 	map<unsigned int, unsigned int>	vaos;
 	unsigned int vbo = 0;

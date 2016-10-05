@@ -68,5 +68,22 @@
     <ClInclude Include="RedDotExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="renderToTexture.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="renderToTexture.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="renderTextureToTarget.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="renderTextureToTarget.fs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

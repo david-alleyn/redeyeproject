@@ -147,7 +147,7 @@ void DisplayEngine::StartEngine()
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 
 		//Create window
 		SDL_Window* window1 = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), /*displays[i].maxWidth*/ 1000, /*displays[i].maxHeight*/ 600, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
@@ -162,24 +162,36 @@ void DisplayEngine::StartEngine()
 		glContexts.push_back(ctx1);
 	}
 
-	Experiment newExperiment = Experiment("Test experiment", 0);
+	Experiment* newExperiment =  new Experiment("Test experiment", 0);
 
-	newExperiment.initialize(SDL_GetTicks(), windows, glContexts);
+	newExperiment->initialize(SDL_GetTicks(), windows, glContexts);
 
 	running = true;
 	
-	while(running)
+	while(newExperiment->timeRemaining() >= 0 && running == true)
 	{
-		newExperiment.runFrame(SDL_GetTicks());
+		if (newExperiment->runFrame(SDL_GetTicks()) == true) {
 
-		for(int i = 0; i < windows.size(); i++)
-		{
-			SDL_GL_MakeCurrent(windows[i], glContexts[i]);
-			SDL_GL_SwapWindow(windows[i]);
+			for (int i = 0; i < windows.size(); i++)
+			{
+				SDL_GL_MakeCurrent(windows[i], glContexts[i]);
+				SDL_GL_SwapWindow(windows[i]);
+			}
+		} else {
+			running = false;
+			break;
 		}
 	}
 
-	newExperiment.cleanup();
+	newExperiment->cleanup();
+
+	delete newExperiment;
+
+	for (int i = 0; i < windows.size(); i++)
+	{
+		SDL_GL_DeleteContext(glContexts[i]);
+		SDL_DestroyWindow(windows[i]);
+	}
 
 
 

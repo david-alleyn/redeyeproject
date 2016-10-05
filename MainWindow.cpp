@@ -49,5 +49,4 @@ void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 void MainWindow::OnRunExperiment(wxCommandEvent& event)
 {
 	DisplayEngine::getInstance()->StartEngine();
-	event.Skip();
 }
