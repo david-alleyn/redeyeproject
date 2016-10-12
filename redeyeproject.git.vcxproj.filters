@@ -36,10 +36,19 @@
     <ClCompile Include="DisplayConfigurationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Experiment.cpp">
+    <ClCompile Include="RedDotExperiment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RedDotExperiment.cpp">
+    <ClCompile Include="FBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectFBExperiment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MRTExperiment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,13 +71,22 @@
     <ClInclude Include="DisplayConfigurationDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Experiment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RedDotExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectFBExperiment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MRTExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,10 +97,10 @@
     <None Include="renderToTexture.fs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="renderTextureToTarget.vs">
+    <None Include="basicShader.fs">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="renderTextureToTarget.fs">
+    <None Include="basicShader.vs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

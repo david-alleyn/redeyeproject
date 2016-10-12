@@ -152,6 +152,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,29 +164,39 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Experiment.cpp" />
+    <ClCompile Include="DirectFBExperiment.cpp" />
+    <ClCompile Include="FBO.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
+    <ClCompile Include="MRTExperiment.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="RedDotExperiment.cpp" />
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HelloWorldFrame.cpp" />
+    <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayConfigurationDialog.h" />
     <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
-    <ClInclude Include="Experiment.h" />
+    <ClInclude Include="DirectFBExperiment.h" />
+    <ClInclude Include="FBO.h" />
     <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
+    <ClInclude Include="MRTExperiment.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="RedDotExperiment.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ShaderLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="renderTextureToTarget.fs" />
-    <None Include="renderTextureToTarget.vs" />
+    <None Include="basicShader.fs" />
+    <None Include="basicShader.vs" />
     <None Include="renderToTexture.fs" />
     <None Include="renderToTexture.vs" />
   </ItemGroup>

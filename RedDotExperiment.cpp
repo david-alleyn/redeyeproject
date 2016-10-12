@@ -1,8 +1,11 @@
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
 #include "RedDotExperiment.h"
 
 
-RedDotExperiment::RedDotExperiment(string name, int duration) : Experiment(name, duration)
+RedDotExperiment::RedDotExperiment(string name, int duration) : DirectFBExperiment(name, duration)
 {
 }
 
@@ -16,7 +19,7 @@ bool RedDotExperiment::initialize(double currentTime, vector<SDL_Window*> allWin
 	return false;
 }
 
-bool RedDotExperiment::runFrame(double currentTime)
+bool RedDotExperiment::run(double currentTime)
 {
 	return false;
 }

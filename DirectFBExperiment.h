@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Experiment
+class DirectFBExperiment
 {
 	string name;
 	int duration;
@@ -40,11 +40,11 @@ class Experiment
 
 
 public:
-	Experiment(string name, int duration);
-	virtual ~Experiment();
+	DirectFBExperiment(string name, int duration);
+	virtual ~DirectFBExperiment();
 
 	virtual bool initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts);
-	virtual bool runFrame(double currentTime);
+	virtual bool run(double currentTime);
 	virtual bool cleanup();
 	virtual int timeRemaining();
 };

@@ -6,7 +6,8 @@
 #include "DisplayEngine.h"
 #include "SDL.h"
 #include <GL/glew.h>
-#include "Experiment.h"
+//#include "DirectFBExperiment.h"
+#include "MRTExperiment.h"
 
 //#pragma comment (lib, "glew32s.lib")
 
@@ -144,7 +145,7 @@ void DisplayEngine::StartEngine()
 		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		//SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
@@ -162,26 +163,14 @@ void DisplayEngine::StartEngine()
 		glContexts.push_back(ctx1);
 	}
 
-	Experiment* newExperiment =  new Experiment("Test experiment", 0);
+	MRTExperiment* newExperiment =  new MRTExperiment("Test experiment", 0);
+	//DirectFBExperiment* newExperiment = new DirectFBExperiment("Test experiment", 0);
 
 	newExperiment->initialize(SDL_GetTicks(), windows, glContexts);
 
 	running = true;
 	
-	while(newExperiment->timeRemaining() >= 0 && running == true)
-	{
-		if (newExperiment->runFrame(SDL_GetTicks()) == true) {
-
-			for (int i = 0; i < windows.size(); i++)
-			{
-				SDL_GL_MakeCurrent(windows[i], glContexts[i]);
-				SDL_GL_SwapWindow(windows[i]);
-			}
-		} else {
-			running = false;
-			break;
-		}
-	}
+	newExperiment->run(SDL_GetTicks());
 
 	newExperiment->cleanup();
 

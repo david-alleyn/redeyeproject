@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 #endif
 
-#include "Experiment.h"
+#include "DirectFBExperiment.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -12,19 +12,22 @@
 
 #include <SDL.h>
 
+#include "ShaderLoader.h"
 
-Experiment::Experiment(string name, int duration)
+
+DirectFBExperiment::DirectFBExperiment(string name, int duration)
 {
 	this->name = name;
 	this->duration = duration;
+
 }
 
 
-Experiment::~Experiment()
+DirectFBExperiment::~DirectFBExperiment()
 {
 }
 
-bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
+bool DirectFBExperiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
 {
 	GLenum err = glewInit();
 
@@ -43,68 +46,71 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 
 	// CREATE SHADER
 
-	GLint success = 0;
-	GLchar shaderInfoLog[256];
-	GLuint vertexShaderHandle = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragmentShaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
+	//GLint success = 0;
+	//GLchar shaderInfoLog[256];
+	//GLuint vertexShaderHandle = glCreateShader(GL_VERTEX_SHADER);
+	//GLuint fragmentShaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
 
-	const char *vertexShaderString = 
-		"#version 130\n"
-		"in vec4 Position;\n"
-		"in vec2 UV;\n"
-		"in vec4 Colour;\n"
-		"out vec2 vUV;\n"
-		"out vec4 vColour;\n"
-		"uniform mat4 Projection;\n"
-		"uniform mat4 View;\n"
-		"uniform mat4 Model;\n"
-		"void main()\n"
-		"{\n"
-		"vUV = UV;\n"
-		"vColour = Colour;"
-		"gl_Position = Projection * View * Model * Position;\n"
-		"}\n"
-		"\n";
+	//const char *vertexShaderString = 
+	//	"#version 130\n"
+	//	"in vec4 Position;\n"
+	//	"in vec2 UV;\n"
+	//	"in vec4 Colour;\n"
+	//	"out vec2 vUV;\n"
+	//	"out vec4 vColour;\n"
+	//	"uniform mat4 Projection;\n"
+	//	"uniform mat4 View;\n"
+	//	"uniform mat4 Model;\n"
+	//	"void main()\n"
+	//	"{\n"
+	//	"vUV = UV;\n"
+	//	"vColour = Colour;"
+	//	"gl_Position = Projection * View * Model * Position;\n"
+	//	"}\n"
+	//	"\n";
 
-	const char *fragmentShaderString =
-		"#version 130\n"
-		"in vec2 vUV;\n"
-		"in vec4 vColour;\n"
-		"out vec4 outColour;\n"
-		"uniform sampler2D diffuseTexture;\n"
-		"void main()\n"
-		"{\n"
-		"outColour = texture2D(diffuseTexture, vUV) * vColour;\n"
-		//"outColour = vColour;\n"
-		"}\n"
-		"\n";
+	//const char *fragmentShaderString =
+	//	"#version 130\n"
+	//	"in vec2 vUV;\n"
+	//	"in vec4 vColour;\n"
+	//	"out vec4 outColour;\n"
+	//	"uniform sampler2D diffuseTexture;\n"
+	//	"void main()\n"
+	//	"{\n"
+	//	"outColour = texture2D(diffuseTexture, vUV) * vColour;\n"
+	//	//"outColour = vColour;\n"
+	//	"}\n"
+	//	"\n";
 
-	glShaderSource(vertexShaderHandle, 1, (const char**)&vertexShaderString, 0);
-	glCompileShader(vertexShaderHandle);
-	glGetShaderiv(vertexShaderHandle, GL_COMPILE_STATUS, &success);
-	glGetShaderInfoLog(vertexShaderHandle, sizeof(shaderInfoLog), 0, shaderInfoLog);
-	if (success == GL_FALSE)
-	{
-		wxLogError("Experiment, initialize(): Vertex Shader did not compile");
-		wxLogError(shaderInfoLog);
-	}
+	//glShaderSource(vertexShaderHandle, 1, (const char**)&vertexShaderString, 0);
+	//glCompileShader(vertexShaderHandle);
+	//glGetShaderiv(vertexShaderHandle, GL_COMPILE_STATUS, &success);
+	//glGetShaderInfoLog(vertexShaderHandle, sizeof(shaderInfoLog), 0, shaderInfoLog);
+	//if (success == GL_FALSE)
+	//{
+	//	wxLogError("Experiment, initialize(): Vertex Shader did not compile");
+	//	wxLogError(shaderInfoLog);
+	//}
 
-	glShaderSource(fragmentShaderHandle, 1, (const char**)&fragmentShaderString, 0);
-	glCompileShader(fragmentShaderHandle);
-	glGetShaderiv(fragmentShaderHandle, GL_COMPILE_STATUS, &success);
-	glGetShaderInfoLog(fragmentShaderHandle, sizeof(shaderInfoLog), 0, shaderInfoLog);
-	if (success == GL_FALSE)
-	{
-		wxLogError("Experiment, initialize(): Fragment Shader did not compile");
-		wxLogError(shaderInfoLog);
-		wxLogError("\n");
-	}
+	//glShaderSource(fragmentShaderHandle, 1, (const char**)&fragmentShaderString, 0);
+	//glCompileShader(fragmentShaderHandle);
+	//glGetShaderiv(fragmentShaderHandle, GL_COMPILE_STATUS, &success);
+	//glGetShaderInfoLog(fragmentShaderHandle, sizeof(shaderInfoLog), 0, shaderInfoLog);
+	//if (success == GL_FALSE)
+	//{
+	//	wxLogError("Experiment, initialize(): Fragment Shader did not compile");
+	//	wxLogError(shaderInfoLog);
+	//	wxLogError("\n");
+	//}
 
-	shader = glCreateProgram();
-	glAttachShader(shader, vertexShaderHandle);
-	glAttachShader(shader, fragmentShaderHandle);
-	glDeleteShader(vertexShaderHandle);
-	glDeleteShader(fragmentShaderHandle);
+	//shader = glCreateProgram();
+	//glAttachShader(shader, vertexShaderHandle);
+	//glAttachShader(shader, fragmentShaderHandle);
+	//glDeleteShader(vertexShaderHandle);
+	//glDeleteShader(fragmentShaderHandle);
+
+	shader = ShaderLoader::loadShader("basicShader.vs", "basicShader.fs");
+
 
 	// Vertex Attributes:
 	glBindAttribLocation(shader, 0, "Position");
@@ -112,15 +118,15 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 	glBindAttribLocation(shader, 2, "Colour");
 	glBindFragDataLocation(shader, 0, "outColour");
 
-	glLinkProgram(shader);
-	glGetProgramiv(shader, GL_LINK_STATUS, &success);
-	glGetProgramInfoLog(shader, sizeof(shaderInfoLog), 0, shaderInfoLog);
-	if (success == GL_FALSE)
+	//glLinkProgram(shader);
+	//glGetProgramiv(shader, GL_LINK_STATUS, &success);
+	//glGetProgramInfoLog(shader, sizeof(shaderInfoLog), 0, shaderInfoLog);
+	/*if (success == GL_FALSE)
 	{
 		printf("Error: failed to link Shader Program!\n");
 		printf(shaderInfoLog);
 		printf("\n");
-	}
+	}*/
 
 	glUseProgram(shader);
 
@@ -293,10 +299,10 @@ bool Experiment::initialize(double currentTime, vector<SDL_Window*> allWindows, 
 	running = true;
 
 
-	return false;
+	return true;
 }
 
-bool Experiment::runFrame(double currentTime)
+bool DirectFBExperiment::run(double currentTime)
 {
 	//for each window/context
 
@@ -374,7 +380,7 @@ bool Experiment::runFrame(double currentTime)
 			glBindVertexArray(vaos[i]);
 
 
-			glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
+			glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(1.5f));
 			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(movedModel));
 
 
@@ -391,13 +397,13 @@ bool Experiment::runFrame(double currentTime)
 
 		//glfwPollEvents(); // process events!
 
-		return true;
+		//return true;
 	}
 
 	return false;
 }
 
-bool Experiment::cleanup()
+bool DirectFBExperiment::cleanup()
 {
 	//for each window/context
 	// delete context and destroy window
@@ -405,7 +411,7 @@ bool Experiment::cleanup()
 	return false;
 }
 
-int Experiment::timeRemaining()
+int DirectFBExperiment::timeRemaining()
 {
 	return 0;
 }
