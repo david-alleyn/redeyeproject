@@ -29,6 +29,8 @@ class MRTExperiment
 	map<unsigned int, unsigned int>	vaos;
 	unsigned int vbo = 0;
 	unsigned int ibo = 0;
+	unsigned int tbo = 0;
+	unsigned int offsetDataTex = 0;
 	unsigned int texture = 0;
 	unsigned int mrtShader = 0;
 	unsigned int basicShader = 0;
@@ -38,8 +40,6 @@ class MRTExperiment
 	vector<int>	drawHeight;
 	vector<glm::mat4>		m4Projection;
 	vector<glm::mat4>		m4ViewMatrix;
-
-	unsigned int offsetDataTex;
 
 	double leftMargin = 0.05;
 	double rightMargin = 0.05;

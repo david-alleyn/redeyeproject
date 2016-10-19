@@ -32,13 +32,19 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 	mrtQuadX = (((NDCWidth - (NDCWidth * leftMargin) - (NDCWidth * rightMargin) - ((NDCWidth * horizontalSep) * ((double) columns - 1.0)))) / columns) - 1.0;
 	mrtQuadY = (((NDCHeight - (NDCHeight * topMargin) - (NDCHeight * bottomMargin) - ((NDCHeight * verticalSep) * ((double) rows - 1.0)))) / rows) - 1.0;
 
-	vector<glm::vec2> offsets;
+	vector<glm::vec4> offsets;
 
 	for (unsigned int row = 0; row < rows; row++) {
 		for (unsigned int column = 0; column < columns; column++) {
-			double xOffset = (leftMargin * NDCWidth) + ((double)column * (leftMargin * NDCWidth)) + ((double)column * ((mrtQuadX + 1) * NDCWidth));
-			double yOffset = (bottomMargin * NDCHeight) + ((double)row * (bottomMargin * NDCHeight)) + ((double)row * ((mrtQuadY + 1) * NDCHeight));
-			offsets.push_back(glm::vec2(xOffset, yOffset));
+			double xOffset =
+				((leftMargin * NDCWidth) * (column + 1.0))
+				+ ((double)column * ((mrtQuadX + 1.0) * NDCWidth));
+
+			double yOffset =
+				((bottomMargin * NDCHeight) * (row + 1.0))
+				+ ((double)row * ((mrtQuadY + 1.0) * NDCHeight));
+
+			offsets.push_back(glm::vec4(xOffset, yOffset, 0.0f, 1.0f));
 		}
 	}
 
@@ -104,9 +110,17 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 
 	//offsets sent as a texture
 
+	
+	glGenBuffers(1, &tbo);
+	glBindBuffer(GL_TEXTURE_BUFFER, tbo);
+	glBufferData(GL_TEXTURE_BUFFER, sizeof(glm::vec4) * offsets.size(), &offsets[0], GL_STATIC_DRAW);
+	
 	glGenTextures(1, &offsetDataTex);
-	glBindTexture(GL_TEXTURE_1D, offsetDataTex);
-	glTexImage1D(GL_TEXTURE_1D, 0, GL_RG, offsets.size(), 0, GL_RG, GL_FLOAT, &offsets[0]);
+	glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
+	glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, tbo);
+
+	glBindBuffer(GL_TEXTURE_BUFFER, 0);
+
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -201,6 +215,8 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 		vaos[i] = 0;
 		glGenVertexArrays(1, &(vaos[i]));
 		glBindVertexArray(vaos[i]);
+
+
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
@@ -353,10 +369,9 @@ bool MRTExperiment::run(double currentTime)
 			GLuint tColor = glGetUniformLocation(mrtShader, "texture_color");
 			glUniform1i(tColor, 1);
 
-			glActiveTexture(GL_TEXTURE0 + 2);
-			glBindTexture(GL_TEXTURE_1D, offsetDataTex);
-			GLuint offsetUni = glGetUniformLocation(mrtShader, "offsets");
-			glUniform1i(offsetUni, 2);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
+			glUniform1i(glGetUniformLocation(mrtShader, "offsets"), 0);
 
 			glBindVertexArray(fboVao[i]);
 			glDisable(GL_DEPTH_TEST);
