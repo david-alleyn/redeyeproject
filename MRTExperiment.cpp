@@ -16,6 +16,10 @@
 #include "ShaderLoader.h"
 
 
+//
+const double NDCWIDTH = 2;
+const double NDCHEIGHT = 2;
+
 MRTExperiment::MRTExperiment(string name, int duration)
 {
 	this->name = name;
@@ -27,26 +31,8 @@ MRTExperiment::~MRTExperiment()
 {
 }
 
-inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
+bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
 {
-	mrtQuadX = (((NDCWidth - (NDCWidth * leftMargin) - (NDCWidth * rightMargin) - ((NDCWidth * horizontalSep) * ((double) columns - 1.0)))) / columns) - 1.0;
-	mrtQuadY = (((NDCHeight - (NDCHeight * topMargin) - (NDCHeight * bottomMargin) - ((NDCHeight * verticalSep) * ((double) rows - 1.0)))) / rows) - 1.0;
-
-	vector<glm::vec4> offsets;
-
-	for (unsigned int row = 0; row < rows; row++) {
-		for (unsigned int column = 0; column < columns; column++) {
-			double xOffset =
-				((leftMargin * NDCWidth) * (column + 1.0))
-				+ ((double)column * ((mrtQuadX + 1.0) * NDCWidth));
-
-			double yOffset =
-				((bottomMargin * NDCHeight) * (row + 1.0))
-				+ ((double)row * ((mrtQuadY + 1.0) * NDCHeight));
-
-			offsets.push_back(glm::vec4(xOffset, yOffset, 0.0f, 1.0f));
-		}
-	}
 
 	GLenum err = glewInit();
 
@@ -58,23 +44,15 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 	windows = allWindows;
 	renderContexts = allRenderContexts;
 
-	//USING FIRST CONTEXT / WINDOW
-
+	//Make sure that we begin initialization with the first window / render context
 	SDL_GL_MakeCurrent(windows[0], renderContexts[0]);
 
 
-	// CREATE SHADER
-
-	GLint success = 0;
-	GLchar shaderInfoLog[256];
-	GLuint vertexShaderHandle = glCreateShader(GL_VERTEX_SHADER);
-	GLuint fragmentShaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
-
+	// CREATE SHADERS
 	mrtShader = ShaderLoader::loadShader("renderToTexture.vs", "renderToTexture.fs");
 	basicShader = ShaderLoader::loadShader("basicShader.vs", "basicShader.fs");
 
-	// LOAD COLORS OR TEXTURES
-
+	// CREATE CIRCLE TEXTURE DATA
 	int texDimensions = 256; //must be factor of 2
 	double radius = ((double)texDimensions) / 2.0f;
 	glm::vec4 *texData = new glm::vec4[texDimensions * texDimensions];
@@ -104,24 +82,12 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 		}
 	}
 
+	// CREATE TEXTURE HANDLE, BIND THE HANDLE, AND BUFFER THE TEXTURE
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_FLOAT, texData);
 
-	//offsets sent as a texture
-
-	
-	glGenBuffers(1, &tbo);
-	glBindBuffer(GL_TEXTURE_BUFFER, tbo);
-	glBufferData(GL_TEXTURE_BUFFER, sizeof(glm::vec4) * offsets.size(), &offsets[0], GL_STATIC_DRAW);
-	
-	glGenTextures(1, &offsetDataTex);
-	glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
-	glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, tbo);
-
-	glBindBuffer(GL_TEXTURE_BUFFER, 0);
-
-
+	// SET TEXTURE FILTERING OPTIONS
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -136,66 +102,107 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 	texData = nullptr;
 
 	// now create a quad:
-	Vertex aoVertices[4];
-	aoVertices[0].v4Position = glm::vec4(-2, 0, -2, 1);
-	aoVertices[0].v2uv = glm::vec2(0, 0);
-	aoVertices[0].v4colour.xyzw = 1.0f; // = glm::vec4(0,1,0,1);
-	aoVertices[1].v4Position = glm::vec4(2, 0, -2, 1);
-	aoVertices[1].v2uv = glm::vec2(1, 0);
-	aoVertices[1].v4colour = glm::vec4(1, 0, 0, 1);
-	aoVertices[2].v4Position = glm::vec4(2, 0, 2, 1);
-	aoVertices[2].v2uv = glm::vec2(1, 1);
-	aoVertices[2].v4colour = glm::vec4(0, 1, 0, 1);
-	aoVertices[3].v4Position = glm::vec4(-2, 0, 2, 1);
-	aoVertices[3].v2uv = glm::vec2(0, 1);
-	aoVertices[3].v4colour = glm::vec4(0, 0, 1, 1);
+	Vertex circleQuadVertices[4];
+	circleQuadVertices[0].v4Position = glm::vec4(-2, 0, -2, 1);
+	circleQuadVertices[0].v2TexCoord = glm::vec2(0, 0);
+	circleQuadVertices[0].v4Colour.xyzw = glm::vec4(1,1,1,1);
+	circleQuadVertices[1].v4Position = glm::vec4(2, 0, -2, 1);
+	circleQuadVertices[1].v2TexCoord = glm::vec2(1, 0);
+	circleQuadVertices[1].v4Colour = glm::vec4(1, 0, 0, 1);
+	circleQuadVertices[2].v4Position = glm::vec4(2, 0, 2, 1);
+	circleQuadVertices[2].v2TexCoord = glm::vec2(1, 1);
+	circleQuadVertices[2].v4Colour = glm::vec4(0, 1, 0, 1);
+	circleQuadVertices[3].v4Position = glm::vec4(-2, 0, 2, 1);
+	circleQuadVertices[3].v2TexCoord = glm::vec2(0, 1);
+	circleQuadVertices[3].v4Colour = glm::vec4(0, 0, 1, 1);
 
-	unsigned int auiIndex[6] = {
+	unsigned int circleQuadIndices[6] = {
 		3,1,0,
 		3,2,1
 	};
 
-	// CREATE FBO / VBO / (maybe index buffer?)
+	// CREATE Vertex buffers / index buffers for circleQuad
 
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glGenBuffers(1, &circleQuadVBO);
+	glGenBuffers(1, &circleQuadIBO);
 
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), aoVertices, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), auiIndex, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, circleQuadVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, circleQuadIBO);
 
-	//Prepare render target geometry and other info
-	struct MrtVertex {
-		glm::vec3 position;
-		glm::vec2 texcoord;
-		MrtVertex(const glm::vec3 &pos, const glm::vec2 &tc) { position = pos; texcoord = tc; }
-	};
+	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), circleQuadVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), circleQuadIndices, GL_STATIC_DRAW);
 
 
-	//Construct a quad that 
-	std::vector<MrtVertex> vertices;
-	vertices.push_back(MrtVertex(glm::vec3(-1, -1, 0), glm::vec2(0, 0)));
-	vertices.push_back(MrtVertex(glm::vec3(mrtQuadX, -1, 0), glm::vec2(1, 0)));
-	vertices.push_back(MrtVertex(glm::vec3(mrtQuadX, mrtQuadY, 0), glm::vec2(1, 1)));
-	vertices.push_back(MrtVertex(glm::vec3(-1, mrtQuadY, 0), glm::vec2(0, 1)));
-	std::vector<unsigned int> indices;
-	indices.push_back(0); indices.push_back(1); indices.push_back(2);
-	indices.push_back(2); indices.push_back(3); indices.push_back(0);
+	//All relevant screen space margins and seperations converted from percentages to Normalized Device Coordinate compatible quantities.
+	double leftMarginNDC = NDCWIDTH * leftMargin;
+	double rightMarginNDC = NDCWIDTH * rightMargin;
+	double topMarginNDC = NDCHEIGHT * topMargin;
+	double bottomMarginNDC = NDCHEIGHT * bottomMargin;
+	double vertSepNDC = NDCHEIGHT * verticalSep;
+	double horizSepNDC = NDCWIDTH * horizontalSep;
 
-	glGenBuffers(1, &fboVbo);
-	glBindBuffer(GL_ARRAY_BUFFER, fboVbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MrtVertex) * 4, &vertices[0], GL_STATIC_DRAW);
-	glGenBuffers(1, &fboIbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, fboIbo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, &indices[0], GL_STATIC_DRAW);
+	double totalHorizontalSepNDC = horizSepNDC * ((double)columns - 1.0);
+	double totalVerticalSepNDC = vertSepNDC * ((double)rows - 1.0);
+
+	//determine the dimension of the render target's quad by subtracting all of the space designed for margins and seperations
+	//
+	mrtQuadWidth = ((NDCWIDTH - leftMarginNDC - rightMarginNDC - totalHorizontalSepNDC)) / columns;
+	mrtQuadHeight = ((NDCHEIGHT - topMarginNDC - bottomMarginNDC - totalVerticalSepNDC)) / rows;
+
+	vector<glm::vec4> offsets;
+
+	for (unsigned int row = 0; row < rows; row++) {
+		for (unsigned int column = 0; column < columns; column++) {
+
+			double xOffset = leftMarginNDC + (mrtQuadWidth * (double)column) + (horizSepNDC * (double)column);
+			double yOffset = bottomMarginNDC + (mrtQuadHeight * (double)row) + (vertSepNDC * (double)row);
+
+			offsets.push_back(glm::vec4(xOffset, yOffset, 0.0f, 0.0f));
+		}
+	}
+
+	//Send the position offsets for all the render targets to the GPU as a special "texture buffer" object.
+	glGenBuffers(1, &tbo);
+	glBindBuffer(GL_TEXTURE_BUFFER, tbo);
+	glBufferData(GL_TEXTURE_BUFFER, sizeof(glm::vec4) * offsets.size(), &offsets[0], GL_STATIC_DRAW);
+
+	glGenTextures(1, &offsetDataTex);
+	glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
+	glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, tbo);
+
+	//Construct a quad for use as a render target using the calculated mrtQuad values but offset for Normalized Device Coordinates
+	double mrtQuadWidthNDC = mrtQuadWidth - 1.0;
+	double mrtQuadHeightNDC = mrtQuadHeight - 1.0;
+
+	std::vector<MrtVertex> mrtQuadVertices;
+	mrtQuadVertices.push_back(MrtVertex(glm::vec3(-1, -1, 0), glm::vec2(0, 0)));
+	mrtQuadVertices.push_back(MrtVertex(glm::vec3(mrtQuadWidthNDC, -1, 0), glm::vec2(1, 0)));
+	mrtQuadVertices.push_back(MrtVertex(glm::vec3(mrtQuadWidthNDC, mrtQuadHeightNDC, 0), glm::vec2(1, 1)));
+	mrtQuadVertices.push_back(MrtVertex(glm::vec3(-1, mrtQuadHeightNDC, 0), glm::vec2(0, 1)));
+
+
+	// Create the indices for how the 
+	std::vector<unsigned int> mrtQuadIndices;
+	mrtQuadIndices.push_back(0); mrtQuadIndices.push_back(1); mrtQuadIndices.push_back(2);
+	mrtQuadIndices.push_back(2); mrtQuadIndices.push_back(3); mrtQuadIndices.push_back(0);
+
+
+	// CREATE Vertex buffers / index buffers for mrtQuad
+	glGenBuffers(1, &mrtQuadVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, mrtQuadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MrtVertex) * 4, &mrtQuadVertices[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &mrtQuadIBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mrtQuadIBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, &mrtQuadIndices[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0); glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
 	glEnableVertexAttribArray(1); glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
 
-	// ---- WINDOW SPECIFIC STUFF
+	// ---- For each WINDOW / RENDER CONTEXT, we have to setup VAOs and Vertex Attribs for all renderable objects, Projection/View Matrices and Opengl features and blend modes
 
 	for (int i = 0; i < windows.size(); i++)
 	{
+
+		//For each window / render context, 
 		SDL_GL_MakeCurrent(windows[i], renderContexts[i]);
 
 		//Get drawable area size for each window
@@ -211,14 +218,13 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 		//sync to refresh rate
 		SDL_GL_SetSwapInterval(1);
 
-		// Setup VAO:
-		vaos[i] = 0;
-		glGenVertexArrays(1, &(vaos[i]));
-		glBindVertexArray(vaos[i]);
+		// Setup VAOs and Vertex Attribs for circleQuad:
+		circleQuadVAOs[i] = 0;
+		glGenVertexArrays(1, &(circleQuadVAOs[i]));
+		glBindVertexArray(circleQuadVAOs[i]);
 
-
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBindBuffer(GL_ARRAY_BUFFER, circleQuadVBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, circleQuadIBO);
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -227,27 +233,27 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 16);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 24);
 
-		glUseProgram(mrtShader);
+		//glUseProgram(mrtShader);
 
-		fboVao[i] = 0;
-		glGenVertexArrays(1, &fboVao[i]);
-		glBindVertexArray(fboVao[i]);
+		// Setup VAOs and Vertex Attribs for mrtQuad:
+		mrtQuadVAOs[i] = 0;
+		glGenVertexArrays(1, &mrtQuadVAOs[i]);
+		glBindVertexArray(mrtQuadVAOs[i]);
 
-		glBindBuffer(GL_ARRAY_BUFFER, fboVbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, fboIbo);
+		glBindBuffer(GL_ARRAY_BUFFER, mrtQuadVBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mrtQuadIBO);
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
 
-		// Setup Matrix:
-		/*m4Projection.push_back(glm::perspective(45.0f, 1000.0f / 600.0f, 0.1f, 1000.0f));*/
-		//m4Projection.push_back(glm::ortho(-(width /2),width / 2,-(height/2),height/2,-10, 10));
 
+		//Setup Aspect Ratio
 		float aspect = (float)width / (float)height;
 		wxLogMessage(wxString(std::to_string(aspect)));
 
+		//Setup projection and view matrices
 		if (aspect >= 1.0) {
 			m4Projection.push_back(glm::ortho(-10.0f * aspect, 10.0f * aspect, -10.0f, 10.0f, 0.0f, 10000.0f));
 		}
@@ -255,15 +261,16 @@ inline bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> al
 			m4Projection.push_back(glm::ortho(-10.0f, 10.0f, -10.0f / aspect, 10.0f / aspect, 0.0f, 10000.0f));
 		}
 
-
 		m4ViewMatrix.push_back(glm::lookAt(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 
 		// set OpenGL Options:
-		glViewport(0, 0, width, height);
 		glClearColor(0.0f, 0.0f, 0.0f, 1);
 		glEnable(GL_DEPTH_TEST);
+
+		//TURN OFF FOR DEBUGGING
 		//glEnable(GL_CULL_FACE);
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
@@ -328,9 +335,11 @@ bool MRTExperiment::run(double currentTime)
 
 			//Pass 1, draw to framebuffer
 			fbos[i].bind();
+			glViewport(0, 0, drawWidth[i], drawHeight[i]);
+			glClearColor(1.0f, 0, 0, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_BLEND);
+			//glEnable(GL_BLEND);
 
 			glUseProgram(basicShader);
 
@@ -348,22 +357,25 @@ bool MRTExperiment::run(double currentTime)
 			glUniform1i(texUniformID, 0);
 			glBindTexture(GL_TEXTURE_2D, texture);
 
-			glBindVertexArray(vaos[i]);
+			glBindVertexArray(circleQuadVAOs[i]);
+
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			
 			glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
 			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(movedModel));
+
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 			fbos[i].unbind();
 
 			//Pass 2 - FOR EACH RENDER TARGET - currently there is only one for testing
 
+			glViewport(0, 0, drawWidth[i], drawHeight[i]);
+			glClearColor(0, 1.0f, 0, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glUseProgram(mrtShader);
 
-			//glViewport(0, 0, drawWidth[i], drawHeight[i]);
 			glActiveTexture(GL_TEXTURE0 + 1);
 			glBindTexture(GL_TEXTURE_2D, fbos[i].getRGBATexture());
 			GLuint tColor = glGetUniformLocation(mrtShader, "texture_color");
@@ -373,15 +385,15 @@ bool MRTExperiment::run(double currentTime)
 			glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
 			glUniform1i(glGetUniformLocation(mrtShader, "offsets"), 0);
 
-			glBindVertexArray(fboVao[i]);
+			glBindVertexArray(mrtQuadVAOs[i]);
 			glDisable(GL_DEPTH_TEST);
-			glDisable(GL_BLEND);
+			//glDisable(GL_BLEND);
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows*columns);
 
 			glFinish();
 
-			SDL_GL_SwapWindow(windows[i]);
+ 			SDL_GL_SwapWindow(windows[i]);
 		}
 	}
 
