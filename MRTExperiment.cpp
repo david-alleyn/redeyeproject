@@ -85,7 +85,7 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 	// CREATE TEXTURE HANDLE, BIND THE HANDLE, AND BUFFER THE TEXTURE
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_FLOAT, texData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, 256, 256, 0, GL_RGBA, GL_FLOAT, texData);
 
 	// SET TEXTURE FILTERING OPTIONS
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -365,6 +365,8 @@ bool MRTExperiment::run(double currentTime)
 			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(movedModel));
 
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+
 
 			fbos[i].unbind();
 
