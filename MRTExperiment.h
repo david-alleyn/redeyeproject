@@ -9,6 +9,7 @@
 #include "glm/ext.hpp"
 
 #include "FBO.h"
+#include "MovingObject.h"
 
 using namespace std;
 
@@ -20,6 +21,8 @@ class MRTExperiment
 	vector<SDL_GLContext> renderContexts;
 	bool initialized;
 	bool running;
+
+	bool blending = true;
 
 	map<unsigned int, FBO> fbos;
 	map<unsigned int, unsigned int> mrtQuadVAOs;
@@ -41,21 +44,32 @@ class MRTExperiment
 	vector<glm::mat4>		m4Projection;
 	vector<glm::mat4>		m4ViewMatrix;
 
-	double leftMargin = 0.05;
-	double rightMargin = 0.05;
-	double topMargin = 0.05;
-	double bottomMargin = 0.05;
-	double horizontalSep = 0.02;
-	double verticalSep = 0.02;
+	double leftMargin = 0.00;
+	double rightMargin = 0.00;
+	double topMargin = 0.00;
+	double bottomMargin = 0.00;
+	double horizontalSep = 0.00;
+	double verticalSep = 0.00;
+
+	/*double leftMargin = 0.02;
+	double rightMargin = 0.02;
+	double topMargin = 0.02;
+	double bottomMargin = 0.02;
+	double horizontalSep = 0.01;
+	double verticalSep = 0.01;*/
 
 
-	unsigned int rows = 3;
-	unsigned int columns = 3;
+	unsigned int rows = 4;
+	unsigned int columns = 6;
 
 	double mrtQuadWidth = 0; //renderTarget X value, between 0 and 2 for calculation. Normalized to -1 and 1;
 	double mrtQuadHeight = 0; //renderTarget Y value, between 0 and 2 for calculation. Normalized to -1 and 1;
 
-
+	int numberOfDots = 1000;
+	double sizeOfDots = 3;
+	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	double speedOfDots = 0.1;
+	vector<MovingObject*> dots;
 
 	struct Vertex
 	{

@@ -9,5 +9,5 @@ uniform sampler2D diffuseTexture;
 
 void main()
 {
-	outColour = texture2D(diffuseTexture, vUV) * vColour;
+	outColour = texture(diffuseTexture, vUV) * vColour;
 }

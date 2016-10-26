@@ -151,7 +151,7 @@ void DisplayEngine::StartEngine()
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 
 		//Create window
-		SDL_Window* window1 = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), /*displays[i].maxWidth*/ 1000, /*displays[i].maxHeight*/ 600, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+		SDL_Window* window1 = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), displays[i].maxWidth, displays[i].maxHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
 		windows.push_back(window1);
 
 		if(glContexts.size() > 0)

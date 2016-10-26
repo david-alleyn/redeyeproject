@@ -168,6 +168,7 @@
     <ClCompile Include="FBO.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="MRTExperiment.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -187,6 +188,7 @@
     <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
+    <ClInclude Include="MovingObject.h" />
     <ClInclude Include="MRTExperiment.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>

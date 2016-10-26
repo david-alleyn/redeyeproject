@@ -332,3 +332,4 @@ paket-files/
 __pycache__/
 *.pyc
 /libs/
+libs.zip

@@ -103,16 +103,16 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 
 	// now create a quad:
 	Vertex circleQuadVertices[4];
-	circleQuadVertices[0].v4Position = glm::vec4(-2, 0, -2, 1);
+	circleQuadVertices[0].v4Position = glm::vec4(-0.1, 0, -0.1, 1);
 	circleQuadVertices[0].v2TexCoord = glm::vec2(0, 0);
 	circleQuadVertices[0].v4Colour.xyzw = glm::vec4(1,1,1,1);
-	circleQuadVertices[1].v4Position = glm::vec4(2, 0, -2, 1);
+	circleQuadVertices[1].v4Position = glm::vec4(0.1, 0, -0.1, 1);
 	circleQuadVertices[1].v2TexCoord = glm::vec2(1, 0);
 	circleQuadVertices[1].v4Colour = glm::vec4(1, 0, 0, 1);
-	circleQuadVertices[2].v4Position = glm::vec4(2, 0, 2, 1);
+	circleQuadVertices[2].v4Position = glm::vec4(0.1, 0, 0.1, 1);
 	circleQuadVertices[2].v2TexCoord = glm::vec2(1, 1);
 	circleQuadVertices[2].v4Colour = glm::vec4(0, 1, 0, 1);
-	circleQuadVertices[3].v4Position = glm::vec4(-2, 0, 2, 1);
+	circleQuadVertices[3].v4Position = glm::vec4(-0.1, 0, 0.1, 1);
 	circleQuadVertices[3].v2TexCoord = glm::vec2(0, 1);
 	circleQuadVertices[3].v4Colour = glm::vec4(0, 0, 1, 1);
 
@@ -198,6 +198,10 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 	glEnableVertexAttribArray(1); glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
 
 	// ---- For each WINDOW / RENDER CONTEXT, we have to setup VAOs and Vertex Attribs for all renderable objects, Projection/View Matrices and Opengl features and blend modes
+	float leftBound;
+	float rightBound;
+	float bottomBound;
+	float topBound;
 
 	for (int i = 0; i < windows.size(); i++)
 	{
@@ -205,15 +209,19 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		//For each window / render context, 
 		SDL_GL_MakeCurrent(windows[i], renderContexts[i]);
 
-		//Get drawable area size for each window
-		int width = 0;
-		int height = 0;
+		//Get drawable area size for each render target
+		int screenWidth = 0;
+		int screenHeight = 0;
 
-		SDL_GL_GetDrawableSize(windows[i], &width, &height);
-		drawWidth.push_back(width);
-		drawHeight.push_back(height);
+		SDL_GL_GetDrawableSize(windows[i], &screenWidth, &screenHeight);
 
-		fbos[i].GenerateFBO(width, height);
+		int mrtWidth = (mrtQuadWidth / NDCWIDTH) * screenWidth;
+		int mrtHeight = (mrtQuadHeight / NDCHEIGHT) * screenHeight;
+
+		drawWidth.push_back(mrtWidth);
+		drawHeight.push_back(mrtHeight);
+
+		fbos[i].GenerateFBO(mrtWidth, mrtHeight);
 
 		//sync to refresh rate
 		SDL_GL_SetSwapInterval(1);
@@ -233,6 +241,8 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 16);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 24);
 
+		glBindVertexArray(0);
+
 		//glUseProgram(mrtShader);
 
 		// Setup VAOs and Vertex Attribs for mrtQuad:
@@ -248,19 +258,29 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
 
+		glBindVertexArray(0);
+
 
 		//Setup Aspect Ratio
-		float aspect = (float)width / (float)height;
+		float aspect = (float)mrtWidth / (float)mrtHeight;
 		wxLogMessage(wxString(std::to_string(aspect)));
 
 		//Setup projection and view matrices
 		if (aspect >= 1.0) {
-			m4Projection.push_back(glm::ortho(-10.0f * aspect, 10.0f * aspect, -10.0f, 10.0f, 0.0f, 10000.0f));
+			leftBound = -10.0f * aspect;
+			rightBound = 10.0f * aspect;
+			bottomBound = -10.0f;
+			topBound = 10.0f;
 		}
 		else {
-			m4Projection.push_back(glm::ortho(-10.0f, 10.0f, -10.0f / aspect, 10.0f / aspect, 0.0f, 10000.0f));
+			leftBound = -10.0f;
+			rightBound = 10.0f;
+			bottomBound = -10.0f / aspect;
+			topBound = 10.0f / aspect;
 		}
 
+
+		m4Projection.push_back(glm::ortho(leftBound, rightBound, bottomBound, topBound, 0.0f, 10000.0f));
 		m4ViewMatrix.push_back(glm::lookAt(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 
 		// set OpenGL Options:
@@ -273,6 +293,10 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+	for (int i = 0; i < numberOfDots; i++) {
+		dots.push_back(new MovingObject(glm::vec2(sizeOfDots), colorOfDots, glm::vec2(0.0f), speedOfDots, leftBound, rightBound, topBound, bottomBound));
 	}
 
 	running = true;
@@ -313,6 +337,8 @@ bool MRTExperiment::run(double currentTime)
 				case SDLK_ESCAPE:
 					running = false;
 					break;
+				case SDLK_b:
+					blending = blending ? false : true;
 				}
 			}
 		}
@@ -324,7 +350,13 @@ bool MRTExperiment::run(double currentTime)
 		glm::mat4 identity;
 
 		modelMatrix = glm::rotate(identity, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, fDeltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		//modelMatrix = glm::rotate(modelMatrix, fDeltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		for (int i = 0; i < dots.size(); i++) {
+			dots[i]->randomMovement();
+		}
+
+
 
 		//modelMatrix = glm::scale(modelMatrix, glm::vec3(1000.0f));
 
@@ -336,10 +368,19 @@ bool MRTExperiment::run(double currentTime)
 			//Pass 1, draw to framebuffer
 			fbos[i].bind();
 			glViewport(0, 0, drawWidth[i], drawHeight[i]);
-			glClearColor(1.0f, 0, 0, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 			glEnable(GL_DEPTH_TEST);
-			//glEnable(GL_BLEND);
+
+			if (blending) {
+				glEnable(GL_BLEND);
+				glClearColor(0.0f, 0, 0, 1.0f);
+			}
+			else {
+				glDisable(GL_BLEND);
+				glClearColor(1.0f, 0, 0, 1.0f);
+			}
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glUseProgram(basicShader);
 
@@ -359,12 +400,26 @@ bool MRTExperiment::run(double currentTime)
 
 			glBindVertexArray(circleQuadVAOs[i]);
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			
-			glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
-			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(movedModel));
+			for (int i = 0; i < dots.size(); i++) {
+				double x = dots[i]->getPosition().x;
+				double y = dots[i]->getPosition().y;
+				double width = dots[i]->getSize().x;
+				double height = dots[i]->getSize().y;
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				//translation is currently occuring on x and z instead of x and y. This will be changed later.
+				glm::mat4 dotTransform = glm::translate(modelMatrix, glm::vec3(x, 0.0f, y));
+				dotTransform = glm::scale(dotTransform, glm::vec3(width, 0.0f, height));
+
+				glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(dotTransform));
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			}
+
+			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			
+			/*glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
+			
+
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
 
 
 
@@ -372,8 +427,23 @@ bool MRTExperiment::run(double currentTime)
 
 			//Pass 2 - FOR EACH RENDER TARGET - currently there is only one for testing
 
-			glViewport(0, 0, drawWidth[i], drawHeight[i]);
-			glClearColor(0, 1.0f, 0, 1.0f);
+			int displayWidth = 0;
+			int displayHeight = 0;
+
+			SDL_GL_GetDrawableSize(windows[i], &displayWidth, &displayHeight);
+
+			glViewport(0, 0, displayWidth, displayHeight);
+			
+
+			if (blending) {
+				glEnable(GL_BLEND);
+				glClearColor(0.0f, 0, 0, 1.0f);
+			}
+			else {
+				glDisable(GL_BLEND);
+				glClearColor(0.0f, 1.0f, 0, 1.0f);
+			}
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			glUseProgram(mrtShader);
@@ -389,7 +459,7 @@ bool MRTExperiment::run(double currentTime)
 
 			glBindVertexArray(mrtQuadVAOs[i]);
 			glDisable(GL_DEPTH_TEST);
-			//glDisable(GL_BLEND);
+			glDisable(GL_BLEND);
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows*columns);
 
