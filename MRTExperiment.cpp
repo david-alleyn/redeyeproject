@@ -289,7 +289,7 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 
 		//TURN OFF FOR DEBUGGING
 		//glEnable(GL_CULL_FACE);
-		//glEnable(GL_BLEND);
+		glEnable(GL_BLEND);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -339,6 +339,7 @@ bool MRTExperiment::run(double currentTime)
 					break;
 				case SDLK_b:
 					blending = blending ? false : true;
+					break;
 				}
 			}
 		}
@@ -374,8 +375,7 @@ bool MRTExperiment::run(double currentTime)
 			if (blending) {
 				glEnable(GL_BLEND);
 				glClearColor(0.0f, 0, 0, 1.0f);
-			}
-			else {
+			} else {
 				glDisable(GL_BLEND);
 				glClearColor(1.0f, 0, 0, 1.0f);
 			}
@@ -458,8 +458,8 @@ bool MRTExperiment::run(double currentTime)
 			glUniform1i(glGetUniformLocation(mrtShader, "offsets"), 0);
 
 			glBindVertexArray(mrtQuadVAOs[i]);
-			glDisable(GL_DEPTH_TEST);
-			glDisable(GL_BLEND);
+			/*glDisable(GL_DEPTH_TEST);
+			glDisable(GL_BLEND);*/
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows*columns);
 
