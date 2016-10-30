@@ -52,86 +52,21 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 	mrtShader = ShaderLoader::loadShader("renderToTexture.vs", "renderToTexture.fs");
 	basicShader = ShaderLoader::loadShader("basicShader.vs", "basicShader.fs");
 
-	// CREATE CIRCLE TEXTURE DATA
-	int texDimensions = 256; //must be factor of 2
-	double radius = ((double)texDimensions) / 2.0f;
-	glm::vec4 *texData = new glm::vec4[texDimensions * texDimensions];
-	for (int i = 0; i < texDimensions * texDimensions; i += texDimensions)
-	{
-		for (int j = 0; j < texDimensions; ++j)
-		{
-			double xNorm = (i / texDimensions) + 1;
-			double yNorm = (j + 1);
-			//if (j % 2 == 0)
-			//{
-			//	texData[i + j] = glm::vec4(0, 0, 0, 1); //
-			//}
-			//else
-			//{
-			double distanceFromCenter = sqrt(pow((double)xNorm - (double)radius, 2) + pow((double)yNorm - (double)radius, 2));
+	//CREATE OUR CIRCLES
 
-			if (distanceFromCenter <= radius) {
-				texData[i + j] = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-			}
-			else {
-				texData[i + j] = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-			}
-			//}
+	unsigned int sharedVBO = 0;
+	unsigned int sharedIBO = 0;
 
-
+	for (int i = 0; i < numberOfDots; i++) {
+		if (i == 0) {
+			dots.push_back(new MovingCircle(glm::vec2(sizeOfDots), colorOfDots, glm::vec2(0.0f), speedOfDots, basicShader));
+			sharedVBO = dots[0]->getVBOHandle();
+			sharedIBO = dots[0]->getIBOHandle();
+		}
+		else {
+			dots.push_back(new MovingCircle(glm::vec2(sizeOfDots), colorOfDots, glm::vec2(0.0f), speedOfDots, basicShader, sharedVBO, sharedIBO));
 		}
 	}
-
-	// CREATE TEXTURE HANDLE, BIND THE HANDLE, AND BUFFER THE TEXTURE
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, 256, 256, 0, GL_RGBA, GL_FLOAT, texData);
-
-	// SET TEXTURE FILTERING OPTIONS
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	//// set the texture to use slot 0 in the shader
-	//GLuint texUniformID = glGetUniformLocation(basicShader, "diffuseTexture");
-	//glUniform1i(texUniformID, 0);
-
-	// cleanup Texture Data:
-	delete[] texData;
-	texData = nullptr;
-
-	// now create a quad:
-	Vertex circleQuadVertices[4];
-	circleQuadVertices[0].v4Position = glm::vec4(-0.1, 0, -0.1, 1);
-	circleQuadVertices[0].v2TexCoord = glm::vec2(0, 0);
-	circleQuadVertices[0].v4Colour.xyzw = glm::vec4(1,1,1,1);
-	circleQuadVertices[1].v4Position = glm::vec4(0.1, 0, -0.1, 1);
-	circleQuadVertices[1].v2TexCoord = glm::vec2(1, 0);
-	circleQuadVertices[1].v4Colour = glm::vec4(1, 0, 0, 1);
-	circleQuadVertices[2].v4Position = glm::vec4(0.1, 0, 0.1, 1);
-	circleQuadVertices[2].v2TexCoord = glm::vec2(1, 1);
-	circleQuadVertices[2].v4Colour = glm::vec4(0, 1, 0, 1);
-	circleQuadVertices[3].v4Position = glm::vec4(-0.1, 0, 0.1, 1);
-	circleQuadVertices[3].v2TexCoord = glm::vec2(0, 1);
-	circleQuadVertices[3].v4Colour = glm::vec4(0, 0, 1, 1);
-
-	unsigned int circleQuadIndices[6] = {
-		3,1,0,
-		3,2,1
-	};
-
-	// CREATE Vertex buffers / index buffers for circleQuad
-
-	glGenBuffers(1, &circleQuadVBO);
-	glGenBuffers(1, &circleQuadIBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, circleQuadVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, circleQuadIBO);
-
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vertex), circleQuadVertices, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), circleQuadIndices, GL_STATIC_DRAW);
-
 
 	//All relevant screen space margins and seperations converted from percentages to Normalized Device Coordinate compatible quantities.
 	double leftMarginNDC = NDCWIDTH * leftMargin;
@@ -226,24 +161,11 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		//sync to refresh rate
 		SDL_GL_SetSwapInterval(1);
 
-		// Setup VAOs and Vertex Attribs for circleQuad:
-		circleQuadVAOs[i] = 0;
-		glGenVertexArrays(1, &(circleQuadVAOs[i]));
-		glBindVertexArray(circleQuadVAOs[i]);
-
-		glBindBuffer(GL_ARRAY_BUFFER, circleQuadVBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, circleQuadIBO);
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 16);
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), ((char*)0) + 24);
-
-		glBindVertexArray(0);
-
-		//glUseProgram(mrtShader);
+		for (int dot = 0; dot < dots.size(); dot++) {
+			unsigned int dotVao;
+			glGenVertexArrays(1, &dotVao);
+			dots[dot]->addVao(dotVao);
+		}
 
 		// Setup VAOs and Vertex Attribs for mrtQuad:
 		mrtQuadVAOs[i] = 0;
@@ -295,8 +217,8 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	for (int i = 0; i < numberOfDots; i++) {
-		dots.push_back(new MovingObject(glm::vec2(sizeOfDots), colorOfDots, glm::vec2(0.0f), speedOfDots, leftBound, rightBound, topBound, bottomBound));
+	for (int dot = 0; dot < dots.size(); dot++) {
+		dots[dot]->setBounds(leftBound, rightBound, topBound, bottomBound);
 	}
 
 	running = true;
@@ -351,24 +273,19 @@ bool MRTExperiment::run(double currentTime)
 		glm::mat4 identity;
 
 		modelMatrix = glm::rotate(identity, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//modelMatrix = glm::rotate(modelMatrix, fDeltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		for (int i = 0; i < dots.size(); i++) {
 			dots[i]->randomMovement();
 		}
 
-
-
-		//modelMatrix = glm::scale(modelMatrix, glm::vec3(1000.0f));
-
 		// draw each window in sequence:
-		for (int i = 0; i < windows.size(); i++)
+		for (int window = 0; window < windows.size(); window++)
 		{
-			SDL_GL_MakeCurrent(windows[i], renderContexts[i]);
+			SDL_GL_MakeCurrent(windows[window], renderContexts[window]);
 
 			//Pass 1, draw to framebuffer
-			fbos[i].bind();
-			glViewport(0, 0, drawWidth[i], drawHeight[i]);
+			fbos[window].bind();
+			glViewport(0, 0, drawWidth[window], drawHeight[window]);
 			
 			glEnable(GL_DEPTH_TEST);
 
@@ -382,55 +299,28 @@ bool MRTExperiment::run(double currentTime)
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glUseProgram(basicShader);
+			//glUseProgram(basicShader);
 
 			GLuint ProjectionID = glGetUniformLocation(basicShader, "Projection");
 			GLuint ViewID = glGetUniformLocation(basicShader, "View");
-			GLuint ModelID = glGetUniformLocation(basicShader, "Model");
 
-			glUniformMatrix4fv(ProjectionID, 1, false, glm::value_ptr(m4Projection[i]));
-			glUniformMatrix4fv(ViewID, 1, false, glm::value_ptr(m4ViewMatrix[i]));
-			glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(modelMatrix));
+			for (int dot = 0; dot < dots.size(); dot++) {
+				dots[dot]->bindVao(window);
 
-			GLuint texUniformID = glGetUniformLocation(basicShader, "diffuseTexture");
+				glUniformMatrix4fv(ProjectionID, 1, false, glm::value_ptr(m4Projection[window]));
+				glUniformMatrix4fv(ViewID, 1, false, glm::value_ptr(m4ViewMatrix[window]));
 
-			glActiveTexture(GL_TEXTURE0);
-			glUniform1i(texUniformID, 0);
-			glBindTexture(GL_TEXTURE_2D, texture);
-
-			glBindVertexArray(circleQuadVAOs[i]);
-
-			for (int i = 0; i < dots.size(); i++) {
-				double x = dots[i]->getPosition().x;
-				double y = dots[i]->getPosition().y;
-				double width = dots[i]->getSize().x;
-				double height = dots[i]->getSize().y;
-
-				//translation is currently occuring on x and z instead of x and y. This will be changed later.
-				glm::mat4 dotTransform = glm::translate(modelMatrix, glm::vec3(x, 0.0f, y));
-				dotTransform = glm::scale(dotTransform, glm::vec3(width, 0.0f, height));
-
-				glUniformMatrix4fv(ModelID, 1, false, glm::value_ptr(dotTransform));
-				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+				dots[dot]->draw(modelMatrix);
 			}
 
-			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			
-			/*glm::mat4 movedModel = glm::translate(modelMatrix, glm::vec3(0.5f));
-			
-
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
-
-
-
-			fbos[i].unbind();
+			fbos[window].unbind();
 
 			//Pass 2 - FOR EACH RENDER TARGET - currently there is only one for testing
 
 			int displayWidth = 0;
 			int displayHeight = 0;
 
-			SDL_GL_GetDrawableSize(windows[i], &displayWidth, &displayHeight);
+			SDL_GL_GetDrawableSize(windows[window], &displayWidth, &displayHeight);
 
 			glViewport(0, 0, displayWidth, displayHeight);
 			
@@ -449,7 +339,7 @@ bool MRTExperiment::run(double currentTime)
 			glUseProgram(mrtShader);
 
 			glActiveTexture(GL_TEXTURE0 + 1);
-			glBindTexture(GL_TEXTURE_2D, fbos[i].getRGBATexture());
+			glBindTexture(GL_TEXTURE_2D, fbos[window].getRGBATexture());
 			GLuint tColor = glGetUniformLocation(mrtShader, "texture_color");
 			glUniform1i(tColor, 1);
 
@@ -457,7 +347,7 @@ bool MRTExperiment::run(double currentTime)
 			glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
 			glUniform1i(glGetUniformLocation(mrtShader, "offsets"), 0);
 
-			glBindVertexArray(mrtQuadVAOs[i]);
+			glBindVertexArray(mrtQuadVAOs[window]);
 			/*glDisable(GL_DEPTH_TEST);
 			glDisable(GL_BLEND);*/
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -465,7 +355,7 @@ bool MRTExperiment::run(double currentTime)
 
 			glFinish();
 
- 			SDL_GL_SwapWindow(windows[i]);
+ 			SDL_GL_SwapWindow(windows[window]);
 		}
 	}
 

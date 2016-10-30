@@ -9,7 +9,6 @@ MovingObject::MovingObject()
 	id = maxId;
 	maxId++;
 	this->size = glm::vec3(1.0f);
-	this->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	this->position = glm::vec3(0.0f);
 	this->speed = 0.5;
 	this->leftbound = -2.0;
@@ -22,16 +21,11 @@ MovingObject::MovingObject()
 }
 
 
-MovingObject::MovingObject(glm::vec2 size, glm::vec4 color, glm::vec2 position, double speed, double leftbound, double rightbound, double topbound, double bottombound) : MovingObject()
+MovingObject::MovingObject(glm::vec2 size, glm::vec2 position, double speed) : MovingObject()
 {
 	this->size = size;
-	this->color = color;
 	this->position = position;
 	this->speed = speed;
-	this->leftbound = leftbound;
-	this->rightbound = rightbound;
-	this->topbound = topbound;
-	this->bottombound = bottombound;
 }
 
 MovingObject::~MovingObject()
@@ -41,11 +35,6 @@ MovingObject::~MovingObject()
 glm::vec2 MovingObject::getSize()
 {
 	return size;
-}
-
-glm::vec4 MovingObject::getColor()
-{
-	return color;
 }
 
 glm::vec2 MovingObject::getPosition()
@@ -63,12 +52,47 @@ double MovingObject::getSpeed()
 	return speed;
 }
 
-void MovingObject::setSize(glm::vec2 size) {
-	this->size = size;
+double MovingObject::getLeftBound() {
+	return leftbound;
 }
 
-void MovingObject::setColor(glm::vec4 color) {
-	this->color = color;
+double MovingObject::getRightBound() {
+	return rightbound;
+}
+
+double MovingObject::getTopBound() {
+	return topbound;
+}
+
+double MovingObject::getBottomBound() {
+	return bottombound;
+}
+
+void MovingObject::setBounds(double leftbound, double rightbound, double topbound, double bottombound) {
+	this->leftbound = leftbound;
+	this->rightbound = rightbound;
+	this->topbound = topbound;
+	this->bottombound = bottombound;
+}
+
+void MovingObject::setLeftBound(double leftbound) {
+	this->leftbound = leftbound;
+}
+
+void MovingObject::setRightBound(double rightbound) {
+	this->rightbound = rightbound;
+}
+
+void MovingObject::setTopBound(double topbound) {
+	this->topbound = topbound;
+}
+
+void MovingObject::setBottomBound(double bottombound) {
+	this->bottombound = bottombound;
+}
+
+void MovingObject::setSize(glm::vec2 size) {
+	this->size = size;
 }
 
 void MovingObject::setPosition(glm::vec2 position) {

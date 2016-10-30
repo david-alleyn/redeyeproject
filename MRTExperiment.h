@@ -9,7 +9,7 @@
 #include "glm/ext.hpp"
 
 #include "FBO.h"
-#include "MovingObject.h"
+#include "MovingCircle.h"
 
 using namespace std;
 
@@ -29,12 +29,8 @@ class MRTExperiment
 	unsigned int mrtQuadVBO;
 	unsigned int mrtQuadIBO;
 
-	map<unsigned int, unsigned int>	circleQuadVAOs;
-	unsigned int circleQuadVBO = 0;
-	unsigned int circleQuadIBO = 0;
 	unsigned int tbo = 0;
 	unsigned int offsetDataTex = 0;
-	unsigned int texture = 0;
 	unsigned int mrtShader = 0;
 	unsigned int basicShader = 0;
 	glm::mat4	 modelMatrix;
@@ -65,28 +61,13 @@ class MRTExperiment
 	double mrtQuadWidth = 0; //renderTarget X value, between 0 and 2 for calculation. Normalized to -1 and 1;
 	double mrtQuadHeight = 0; //renderTarget Y value, between 0 and 2 for calculation. Normalized to -1 and 1;
 
-	int numberOfDots = 1000;
-	double sizeOfDots = 3;
-	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	int numberOfDots = 100;
+	double sizeOfDots = 1;
+	glm::vec4 colorOfDots = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
 	double speedOfDots = 0.1;
-	vector<MovingObject*> dots;
+	vector<MovingCircle*> dots;
 
-	struct Vertex
-	{
-		glm::vec4 v4Position;
-		glm::vec2 v2TexCoord;
-		glm::vec4 v4Colour;
-		Vertex() {
-			v4Position.xyzw = 0.0f;
-			v2TexCoord.xy = 0.0f;
-			v4Colour.xyzw = 0.0f;
-		}
-		Vertex(const glm::vec4 &pos, const glm::vec2 &tc, const glm::vec4 &colour) {
-			v4Position = pos;
-			v2TexCoord = tc;
-			v4Colour = colour;
-		}
-	};
+	
 
 	struct MrtVertex {
 		glm::vec3 v3Position;
