@@ -178,6 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HelloWorldFrame.cpp" />
+    <ClCompile Include="RenderTargetGrid.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +196,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="RedDotExperiment.h" />
+    <ClInclude Include="RenderTargetGrid.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderLoader.h" />
   </ItemGroup>

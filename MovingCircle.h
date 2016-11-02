@@ -48,9 +48,9 @@ public:
 	unsigned int getVBOHandle();
 	unsigned int getIBOHandle();
 
-	virtual void addVao(unsigned int vao);
+	virtual void addVao();
 	virtual void bindVao(unsigned int vaoIndex);
-	virtual void draw(glm::mat4 relativeMatrix);
+	virtual void draw(glm::mat4 relativeMatrix, glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
 
 };
 

@@ -132,9 +132,12 @@ unsigned int MovingCircle::getIBOHandle() {
 	return ibo;
 }
 
-void MovingCircle::addVao(unsigned int vao) {
-	vaos.push_back(vao);
-	glBindVertexArray(vao);
+void MovingCircle::addVao() {
+	unsigned int dotVao;
+	glGenVertexArrays(1, &dotVao);
+
+	vaos.push_back(dotVao);
+	glBindVertexArray(dotVao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -160,14 +163,18 @@ void MovingCircle::bindVao(unsigned int vaoIndex) {
 	glBindVertexArray(vaos[vaoIndex]);
 }
 
-void MovingCircle::draw(glm::mat4 relativeMatrix) {
+void MovingCircle::draw(glm::mat4 relativeMatrix, glm::mat4 projectionMatrix, glm::mat4 viewMatrix) {
+	GLuint ProjectionID = glGetUniformLocation(shader, "Projection");
+	GLuint ViewID = glGetUniformLocation(shader, "View");
 	GLuint ModelID = glGetUniformLocation(shader, "Model");
+
+	glUniformMatrix4fv(ProjectionID, 1, false, glm::value_ptr(projectionMatrix));
+	glUniformMatrix4fv(ViewID, 1, false, glm::value_ptr(viewMatrix));
 
 	double x = getPosition().x;
 	double y = getPosition().y;
 	double width = getSize().x;
 	double height = getSize().y;
-
 	glm::mat4 dotTransform = glm::translate(relativeMatrix, glm::vec3(x, 0.0f, y));
 	dotTransform = glm::scale(dotTransform, glm::vec3(width, 0.0f, height));
 

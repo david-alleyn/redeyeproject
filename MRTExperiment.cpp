@@ -15,11 +15,6 @@
 
 #include "ShaderLoader.h"
 
-
-//
-const double NDCWIDTH = 2;
-const double NDCHEIGHT = 2;
-
 MRTExperiment::MRTExperiment(string name, int duration)
 {
 	this->name = name;
@@ -68,69 +63,9 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		}
 	}
 
-	//All relevant screen space margins and seperations converted from percentages to Normalized Device Coordinate compatible quantities.
-	double leftMarginNDC = NDCWIDTH * leftMargin;
-	double rightMarginNDC = NDCWIDTH * rightMargin;
-	double topMarginNDC = NDCHEIGHT * topMargin;
-	double bottomMarginNDC = NDCHEIGHT * bottomMargin;
-	double vertSepNDC = NDCHEIGHT * verticalSep;
-	double horizSepNDC = NDCWIDTH * horizontalSep;
+	//Create our rendering grid
 
-	double totalHorizontalSepNDC = horizSepNDC * ((double)columns - 1.0);
-	double totalVerticalSepNDC = vertSepNDC * ((double)rows - 1.0);
-
-	//determine the dimension of the render target's quad by subtracting all of the space designed for margins and seperations
-	//
-	mrtQuadWidth = ((NDCWIDTH - leftMarginNDC - rightMarginNDC - totalHorizontalSepNDC)) / columns;
-	mrtQuadHeight = ((NDCHEIGHT - topMarginNDC - bottomMarginNDC - totalVerticalSepNDC)) / rows;
-
-	vector<glm::vec4> offsets;
-
-	for (unsigned int row = 0; row < rows; row++) {
-		for (unsigned int column = 0; column < columns; column++) {
-
-			double xOffset = leftMarginNDC + (mrtQuadWidth * (double)column) + (horizSepNDC * (double)column);
-			double yOffset = bottomMarginNDC + (mrtQuadHeight * (double)row) + (vertSepNDC * (double)row);
-
-			offsets.push_back(glm::vec4(xOffset, yOffset, 0.0f, 0.0f));
-		}
-	}
-
-	//Send the position offsets for all the render targets to the GPU as a special "texture buffer" object.
-	glGenBuffers(1, &tbo);
-	glBindBuffer(GL_TEXTURE_BUFFER, tbo);
-	glBufferData(GL_TEXTURE_BUFFER, sizeof(glm::vec4) * offsets.size(), &offsets[0], GL_STATIC_DRAW);
-
-	glGenTextures(1, &offsetDataTex);
-	glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
-	glTexBuffer(GL_TEXTURE_BUFFER, GL_RGBA32F, tbo);
-
-	//Construct a quad for use as a render target using the calculated mrtQuad values but offset for Normalized Device Coordinates
-	double mrtQuadWidthNDC = mrtQuadWidth - 1.0;
-	double mrtQuadHeightNDC = mrtQuadHeight - 1.0;
-
-	std::vector<MrtVertex> mrtQuadVertices;
-	mrtQuadVertices.push_back(MrtVertex(glm::vec3(-1, -1, 0), glm::vec2(0, 0)));
-	mrtQuadVertices.push_back(MrtVertex(glm::vec3(mrtQuadWidthNDC, -1, 0), glm::vec2(1, 0)));
-	mrtQuadVertices.push_back(MrtVertex(glm::vec3(mrtQuadWidthNDC, mrtQuadHeightNDC, 0), glm::vec2(1, 1)));
-	mrtQuadVertices.push_back(MrtVertex(glm::vec3(-1, mrtQuadHeightNDC, 0), glm::vec2(0, 1)));
-
-
-	// Create the indices for how the 
-	std::vector<unsigned int> mrtQuadIndices;
-	mrtQuadIndices.push_back(0); mrtQuadIndices.push_back(1); mrtQuadIndices.push_back(2);
-	mrtQuadIndices.push_back(2); mrtQuadIndices.push_back(3); mrtQuadIndices.push_back(0);
-
-
-	// CREATE Vertex buffers / index buffers for mrtQuad
-	glGenBuffers(1, &mrtQuadVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, mrtQuadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MrtVertex) * 4, &mrtQuadVertices[0], GL_STATIC_DRAW);
-	glGenBuffers(1, &mrtQuadIBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mrtQuadIBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, &mrtQuadIndices[0], GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0); glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
-	glEnableVertexAttribArray(1); glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
+	experimentOutput = new RenderTargetGrid(mrtShader, rows, columns, leftMargin, rightMargin, topMargin, bottomMargin, horizontalSep, verticalSep);
 
 	// ---- For each WINDOW / RENDER CONTEXT, we have to setup VAOs and Vertex Attribs for all renderable objects, Projection/View Matrices and Opengl features and blend modes
 	float leftBound;
@@ -150,41 +85,17 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 
 		SDL_GL_GetDrawableSize(windows[i], &screenWidth, &screenHeight);
 
-		int mrtWidth = (mrtQuadWidth / NDCWIDTH) * screenWidth;
-		int mrtHeight = (mrtQuadHeight / NDCHEIGHT) * screenHeight;
-
-		drawWidth.push_back(mrtWidth);
-		drawHeight.push_back(mrtHeight);
-
-		fbos[i].GenerateFBO(mrtWidth, mrtHeight);
-
 		//sync to refresh rate
 		SDL_GL_SetSwapInterval(1);
 
 		for (int dot = 0; dot < dots.size(); dot++) {
-			unsigned int dotVao;
-			glGenVertexArrays(1, &dotVao);
-			dots[dot]->addVao(dotVao);
+			dots[dot]->addVao();
 		}
 
-		// Setup VAOs and Vertex Attribs for mrtQuad:
-		mrtQuadVAOs[i] = 0;
-		glGenVertexArrays(1, &mrtQuadVAOs[i]);
-		glBindVertexArray(mrtQuadVAOs[i]);
-
-		glBindBuffer(GL_ARRAY_BUFFER, mrtQuadVBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mrtQuadIBO);
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
-
-		glBindVertexArray(0);
-
+		experimentOutput->addRenderTargetVAO(screenWidth, screenHeight);
 
 		//Setup Aspect Ratio
-		float aspect = (float)mrtWidth / (float)mrtHeight;
+		float aspect = (float)screenWidth / (float)screenHeight;
 		wxLogMessage(wxString(std::to_string(aspect)));
 
 		//Setup projection and view matrices
@@ -206,7 +117,7 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		m4ViewMatrix.push_back(glm::lookAt(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 
 		// set OpenGL Options:
-		glClearColor(0.0f, 0.0f, 0.0f, 1);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 
 		//TURN OFF FOR DEBUGGING
@@ -284,8 +195,7 @@ bool MRTExperiment::run(double currentTime)
 			SDL_GL_MakeCurrent(windows[window], renderContexts[window]);
 
 			//Pass 1, draw to framebuffer
-			fbos[window].bind();
-			glViewport(0, 0, drawWidth[window], drawHeight[window]);
+			experimentOutput->bindRenderTargetFBO(window);
 			
 			glEnable(GL_DEPTH_TEST);
 
@@ -299,21 +209,14 @@ bool MRTExperiment::run(double currentTime)
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			//glUseProgram(basicShader);
-
-			GLuint ProjectionID = glGetUniformLocation(basicShader, "Projection");
-			GLuint ViewID = glGetUniformLocation(basicShader, "View");
+			
 
 			for (int dot = 0; dot < dots.size(); dot++) {
 				dots[dot]->bindVao(window);
-
-				glUniformMatrix4fv(ProjectionID, 1, false, glm::value_ptr(m4Projection[window]));
-				glUniformMatrix4fv(ViewID, 1, false, glm::value_ptr(m4ViewMatrix[window]));
-
-				dots[dot]->draw(modelMatrix);
+				dots[dot]->draw(modelMatrix, m4Projection[window], m4ViewMatrix[window]);
 			}
 
-			fbos[window].unbind();
+			experimentOutput->unbindRenderTargetFBO();
 
 			//Pass 2 - FOR EACH RENDER TARGET - currently there is only one for testing
 
@@ -321,9 +224,7 @@ bool MRTExperiment::run(double currentTime)
 			int displayHeight = 0;
 
 			SDL_GL_GetDrawableSize(windows[window], &displayWidth, &displayHeight);
-
-			glViewport(0, 0, displayWidth, displayHeight);
-			
+			glViewport(0, 0, displayWidth, displayHeight);			
 
 			if (blending) {
 				glEnable(GL_BLEND);
@@ -334,24 +235,13 @@ bool MRTExperiment::run(double currentTime)
 				glClearColor(0.0f, 1.0f, 0, 1.0f);
 			}
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 
-			glUseProgram(mrtShader);
-
-			glActiveTexture(GL_TEXTURE0 + 1);
-			glBindTexture(GL_TEXTURE_2D, fbos[window].getRGBATexture());
-			GLuint tColor = glGetUniformLocation(mrtShader, "texture_color");
-			glUniform1i(tColor, 1);
-
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_BUFFER, offsetDataTex);
-			glUniform1i(glGetUniformLocation(mrtShader, "offsets"), 0);
-
-			glBindVertexArray(mrtQuadVAOs[window]);
+			experimentOutput->bindRenderTargetVAO(window);
 			/*glDisable(GL_DEPTH_TEST);
 			glDisable(GL_BLEND);*/
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows*columns);
+			experimentOutput->draw();
 
 			glFinish();
 

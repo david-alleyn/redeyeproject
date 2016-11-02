@@ -14,7 +14,7 @@ private:
 
 public:
 
-	FBO();
+	FBO(unsigned int width, unsigned int height);
 
 	~FBO();
 
@@ -31,11 +31,13 @@ private:
 
 	//generate a single channel depth texture with bilinear filtering
 	void GenerateDepthTexture(unsigned int width, unsigned int height);
+	
+	//Generate FBO
+	void GenerateFBO(unsigned int width, unsigned int height);
 
 public:
 
-	//Generate FBO
-	void GenerateFBO(unsigned int width, unsigned int height);
+	
 
 	//Get RGBA8 texture from FBO
 	unsigned int getRGBATexture();

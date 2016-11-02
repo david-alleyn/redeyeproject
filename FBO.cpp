@@ -4,7 +4,8 @@
 #endif
 #include "FBO.h"
 
-FBO::FBO() {
+FBO::FBO(unsigned int width, unsigned int height) {
+	GenerateFBO(width, height);
 }
 
 FBO::~FBO() {

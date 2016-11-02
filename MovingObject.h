@@ -63,9 +63,9 @@ public:
 	void setSpeed(double speed);
 
 	virtual void randomMovement();
-	virtual void addVao(unsigned int vao) = 0;
+	virtual void addVao() = 0;
 	virtual void bindVao(unsigned int vao) = 0;
-	virtual void draw(glm::mat4 relativeMatrix) = 0;
+	virtual void draw(glm::mat4 relativeMatrix, glm::mat4 projectionMatrix, glm::mat4 viewMatrix) = 0;
 
 
 };
