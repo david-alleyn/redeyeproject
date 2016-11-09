@@ -95,7 +95,8 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		experimentOutput->addRenderTargetVAO(screenWidth, screenHeight);
 
 		//Setup Aspect Ratio
-		float aspect = (float)screenWidth / (float)screenHeight;
+		//float aspect = (float)screenWidth / (float)screenHeight;
+		float aspect = experimentOutput->getAspectRatio(i);
 		wxLogMessage(wxString(std::to_string(aspect)));
 
 		//Setup projection and view matrices
@@ -121,7 +122,7 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 		glEnable(GL_DEPTH_TEST);
 
 		//TURN OFF FOR DEBUGGING
-		//glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -193,23 +194,29 @@ bool MRTExperiment::run(double currentTime)
 		for (int window = 0; window < windows.size(); window++)
 		{
 			SDL_GL_MakeCurrent(windows[window], renderContexts[window]);
-
-			//Pass 1, draw to framebuffer
-			experimentOutput->bindRenderTargetFBO(window);
 			
+			//Pass 1, draw to framebuffer
+
+			//if (window == 0) { //For rendering to identical screens
+			//experimentOutput->bindRenderTargetFBO(0); //For rendering to identical screens
+
+			experimentOutput->bindRenderTargetFBO(window);
+
+			//enable blending for framebuffer
 			glEnable(GL_DEPTH_TEST);
 
 			if (blending) {
 				glEnable(GL_BLEND);
 				glClearColor(0.0f, 0, 0, 1.0f);
-			} else {
+			}
+			else {
 				glDisable(GL_BLEND);
 				glClearColor(1.0f, 0, 0, 1.0f);
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			
+
 
 			for (int dot = 0; dot < dots.size(); dot++) {
 				dots[dot]->bindVao(window);
@@ -218,13 +225,16 @@ bool MRTExperiment::run(double currentTime)
 
 			experimentOutput->unbindRenderTargetFBO();
 
+
+			//} //For rendering to identical screens
+
 			//Pass 2 - FOR EACH RENDER TARGET - currently there is only one for testing
 
 			int displayWidth = 0;
 			int displayHeight = 0;
 
-			SDL_GL_GetDrawableSize(windows[window], &displayWidth, &displayHeight);
-			glViewport(0, 0, displayWidth, displayHeight);			
+			//SDL_GL_GetDrawableSize(windows[window], &displayWidth, &displayHeight);
+			//glViewport(0, 0, displayWidth, displayHeight);			
 
 			if (blending) {
 				glEnable(GL_BLEND);
@@ -238,6 +248,11 @@ bool MRTExperiment::run(double currentTime)
 			
 
 			experimentOutput->bindRenderTargetVAO(window);
+			
+			//FBOs can be shared between contexts. Not useful when rendering to disimilar screens
+			//experimentOutput->bindRenderTargetVAO(0);
+
+
 			/*glDisable(GL_DEPTH_TEST);
 			glDisable(GL_BLEND);*/
 			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -36,16 +36,10 @@
     <ClCompile Include="DisplayConfigurationDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RedDotExperiment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectFBExperiment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MRTExperiment.cpp">
@@ -80,9 +74,6 @@
     <ClInclude Include="DisplayConfigurationDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RedDotExperiment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,9 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectFBExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MRTExperiment.h">

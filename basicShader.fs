@@ -9,5 +9,9 @@ uniform sampler2D diffuseTexture;
 
 void main()
 {
-	outColour = texture(diffuseTexture, vUV) * vColour;
+	vec4 textureColor = texture(diffuseTexture, vUV);
+	if(textureColor.a < 0.001) {
+		discard;
+	}
+	outColour = textureColor * vColour;
 }

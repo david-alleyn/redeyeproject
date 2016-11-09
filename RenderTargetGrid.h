@@ -75,6 +75,7 @@ public:
 	void bindRenderTargetFBO(unsigned int fbo);
 	void unbindRenderTargetFBO();
 	void draw();
+	double getAspectRatio(unsigned int vaoIndex);
 
 	~RenderTargetGrid();
 };

@@ -164,7 +164,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="DirectFBExperiment.cpp" />
     <ClCompile Include="FBO.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
@@ -173,7 +172,6 @@
     <ClCompile Include="MRTExperiment.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="RedDotExperiment.cpp" />
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -185,7 +183,6 @@
     <ClInclude Include="DisplayConfigurationDialog.h" />
     <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
-    <ClInclude Include="DirectFBExperiment.h" />
     <ClInclude Include="FBO.h" />
     <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />
@@ -195,7 +192,6 @@
     <ClInclude Include="MRTExperiment.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="RedDotExperiment.h" />
     <ClInclude Include="RenderTargetGrid.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderLoader.h" />

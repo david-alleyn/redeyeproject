@@ -72,7 +72,7 @@ MovingCircle::MovingCircle(glm::vec2 size, glm::vec4 color, glm::vec2 position, 
 		Vertex circleQuadVertices[4];
 		circleQuadVertices[0].v4Position = glm::vec4(-0.1, 0, -0.1, 1);
 		circleQuadVertices[0].v2TexCoord = glm::vec2(0, 0);
-		circleQuadVertices[0].v4Colour.xyzw = color;
+		circleQuadVertices[0].v4Colour = color;
 		circleQuadVertices[1].v4Position = glm::vec4(0.1, 0, -0.1, 1);
 		circleQuadVertices[1].v2TexCoord = glm::vec2(1, 0);
 		circleQuadVertices[1].v4Colour = color;

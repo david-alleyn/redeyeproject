@@ -27,8 +27,8 @@ class MRTExperiment
 
 	RenderTargetGrid* experimentOutput;
 
-	unsigned int rows = 4;
-	unsigned int columns = 6;
+	unsigned int rows = 11;
+	unsigned int columns = 11;
 
 	unsigned int mrtShader = 0;
 	unsigned int basicShader = 0;
@@ -54,8 +54,8 @@ class MRTExperiment
 	double verticalSep = 0.01;
 
 	int numberOfDots = 100;
-	double sizeOfDots = 10.0;
-	glm::vec4 colorOfDots = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+	double sizeOfDots = 30.0;
+	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	double speedOfDots = 0.1;
 	vector<MovingCircle*> dots;
 

@@ -111,7 +111,7 @@ void RenderTargetGrid::addRenderTargetVAO(unsigned int width, unsigned int heigh
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(MrtVertex), (void*)sizeof(glm::vec3));
 
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 }
 
 void RenderTargetGrid::resizeFrameBuffer(unsigned int vaoIndex, unsigned int width, unsigned int height) {
@@ -149,7 +149,11 @@ void RenderTargetGrid::unbindRenderTargetFBO() {
 
 void RenderTargetGrid::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows*columns);
+	glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, rows * columns);
+}
+
+double RenderTargetGrid::getAspectRatio(unsigned int vaoIndex) {
+	return drawWidth[vaoIndex] / drawHeight[vaoIndex];
 }
 
 RenderTargetGrid::~RenderTargetGrid()
