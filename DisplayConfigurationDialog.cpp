@@ -5,7 +5,7 @@
 #include "DisplayConfigurationDialog.h"
 
 
-DisplayConfigurationDialog::DisplayConfigurationDialog(wxFrame* parent) : DisplayConfigurationDialogView(parent)
+DisplayConfigurationDialog::DisplayConfigurationDialog(wxFrame* parent, ConfigurationData* configData) : DisplayConfigurationDialogView(parent)
 {
 	
 }

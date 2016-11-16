@@ -3,7 +3,8 @@
 #include <wx/wx.h>
 #endif
 #include "MainWindow.h"
-#include "DisplayConfigurationDialogView.h"
+#include "DisplayConfigurationDialog.h"
+#include "ExperimentConfigurationDialog.h"
 #include "DisplayEngine.h"
 
 
@@ -40,13 +41,13 @@ void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 
 void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
 {
-	DisplayConfigurationDialogView* displayConfDialog = new DisplayConfigurationDialogView(0);
+	DisplayConfigurationDialog* displayConfDialog = new DisplayConfigurationDialog(0);
 	displayConfDialog->Show(true);
 }
 
 void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 {
-	event.Skip();
+	ExperimentConfigurationDialog* experimentConfDialog = new ExperimentConfigurationDialog(0);
 }
 
 void MainWindow::OnRunExperiment(wxCommandEvent& event)

@@ -158,12 +158,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigurationData.cpp" />
     <ClCompile Include="DisplayConfigurationDialog.cpp" />
     <ClCompile Include="DisplayConfigurationDialogView.cpp" />
     <ClCompile Include="DisplayEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="ExperimentConfigurationDialog.cpp" />
+    <ClCompile Include="ExperimentConfigurationDialogView.cpp" />
     <ClCompile Include="FBO.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
@@ -180,9 +183,12 @@
     <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConfigurationData.h" />
     <ClInclude Include="DisplayConfigurationDialog.h" />
     <ClInclude Include="DisplayConfigurationDialogView.h" />
     <ClInclude Include="DisplayEngine.h" />
+    <ClInclude Include="ExperimentConfigurationDialog.h" />
+    <ClInclude Include="ExperimentConfigurationDialogView.h" />
     <ClInclude Include="FBO.h" />
     <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />

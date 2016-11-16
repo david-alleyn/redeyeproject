@@ -17,8 +17,7 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/sizer.h>
-#include <wx/textctrl.h>
-#include <wx/statline.h>
+#include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 
@@ -32,24 +31,19 @@ class DisplayConfigurationDialogView : public wxDialog
 	private:
 	
 	protected:
-		wxStaticText* m_staticText2;
-		wxStaticText* m_numDisplays;
+		wxStaticText* m_staticText21;
+		wxStaticText* m_numDisplays1;
+		wxStaticText* m_staticText41;
 		wxStaticText* m_staticText4;
-		wxStaticText* m_maxDisplayIndex;
 		wxStaticText* m_staticText6;
-		wxTextCtrl* m_firstDisplayIndex;
-		wxStaticText* m_staticText7;
-		wxTextCtrl* m_lastDisplayIndex;
-		wxStaticLine* m_staticline1;
-		wxStaticText* m_staticText9;
-		wxStaticText* m_staticText10;
-		wxButton* m_unlockModificationButton;
+		wxChoice* m_firstDisplayIndex;
+		wxStaticText* m_staticText61;
+		wxChoice* m_lastDisplayIndex;
 		wxButton* m_okButton;
 		wxButton* m_cancelButton;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }
-		virtual void OnUnlock( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		

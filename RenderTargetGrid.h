@@ -44,13 +44,6 @@ class RenderTargetGrid
 	vector<unsigned int> screenWidth;
 	vector<unsigned int> screenHeight;
 
-	/*double leftMargin = 0.00;
-	double rightMargin = 0.00;
-	double topMargin = 0.00;
-	double bottomMargin = 0.00;
-	double horizontalSep = 0.00;
-	double verticalSep = 0.00;*/
-
 public:
 	struct MrtVertex {
 		glm::vec3 v3Position;
