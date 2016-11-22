@@ -24,6 +24,18 @@ MRTExperiment::MRTExperiment(string name, int duration)
 
 MRTExperiment::~MRTExperiment()
 {
+	//cleanup dynamic memory
+	for (int i = 0; i < dots.size(); i++) {
+		if (dots[i] != NULL) {
+			delete dots[i];
+			dots[i] = NULL;
+		}
+	}
+
+	if (experimentOutput != NULL) {
+		delete experimentOutput;
+		experimentOutput = NULL;
+	}
 }
 
 bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)

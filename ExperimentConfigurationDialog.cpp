@@ -15,8 +15,7 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	int numberOfDots = 100;
 	double sizeOfDots = 30.0;
 	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	double speedOfDots = 0.1;
-	vector<MovingCircle*> dots;*/
+	double speedOfDots = 0.1;*/
 
 	// Set experiment values
 
@@ -45,6 +44,8 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	behavioralModel->Append("Random Movement");
 	behavioralModel->SetSelection(0);
 
+	objectSpeed->SetValue("0.1");
+
 	// Set grid display parameters
 
 	gridLeftMargin->SetValue("0.02");
@@ -62,7 +63,7 @@ ExperimentConfigurationDialog::~ExperimentConfigurationDialog()
 }
 
 inline void ExperimentConfigurationDialog::OnIntegerInputHandler(wxCommandEvent & event) {
-	event.Skip();
+	
 }
 
 inline void ExperimentConfigurationDialog::OnDecimalInputHandler(wxCommandEvent & event) {
@@ -70,7 +71,7 @@ inline void ExperimentConfigurationDialog::OnDecimalInputHandler(wxCommandEvent 
 }
 
 inline void ExperimentConfigurationDialog::OnExit(wxCloseEvent & event) {
-	Close(true);
+	EndModal(wxID_CANCEL);
 }
 
 inline void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) {

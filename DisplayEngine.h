@@ -47,6 +47,7 @@ class DisplayEngine
 
 public:
 	static DisplayEngine* getInstance();
+	static void resetInstance();
 	vector<Display> enumerateAllDisplays();
 	
 	int getFirstDisplay();

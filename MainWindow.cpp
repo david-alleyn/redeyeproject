@@ -14,7 +14,8 @@ MainWindow::MainWindow() : MainWindowView(0)
 	m_fileMenu->AppendSeparator();
 	m_fileMenu->Append(wxID_EXIT);
 	
-	wxLog::SetActiveTarget(new wxLogTextCtrl(m_logTextControl));
+    logtextctrl = new wxLogTextCtrl(m_logTextControl);
+	wxLog::SetActiveTarget(logtextctrl);
 
 	DisplayEngine::getInstance();
 }
@@ -22,11 +23,16 @@ MainWindow::MainWindow() : MainWindowView(0)
 
 MainWindow::~MainWindow()
 {
+	DisplayEngine::resetInstance();
+	/*if (logtextctrl != NULL) {
+		delete logtextctrl;
+		logtextctrl = NULL;
+	}*/
 }
 
 void MainWindow::OnExit(wxCommandEvent& event)
 {
-	Close(true);
+	Destroy();
 }
 
 void MainWindow::OnLoadConfiguration(wxCommandEvent& event)
@@ -41,13 +47,22 @@ void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 
 void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
 {
-	DisplayConfigurationDialog* displayConfDialog = new DisplayConfigurationDialog(0);
-	displayConfDialog->Show(true);
+	DisplayConfigurationDialog* displayConfDialog = new DisplayConfigurationDialog(this);
+	if (displayConfDialog->ShowModal() == wxID_OK) {
+		//gather values and save into ConfigurationData
+	}
+	displayConfDialog->Destroy();
+	delete displayConfDialog;
 }
 
 void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 {
-	ExperimentConfigurationDialog* experimentConfDialog = new ExperimentConfigurationDialog(0);
+	ExperimentConfigurationDialog* experimentConfDialog = new ExperimentConfigurationDialog(this);
+	if (experimentConfDialog->ShowModal() == wxID_OK) {
+		//gather values and save into ConfigurationData
+	}
+	experimentConfDialog->Destroy();
+	delete experimentConfDialog;
 }
 
 void MainWindow::OnRunExperiment(wxCommandEvent& event)

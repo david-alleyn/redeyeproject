@@ -2,11 +2,6 @@
 #include "ConfigurationData.h"
 
 
-ConfigurationData::ConfigurationData()
-{
-}
-
-
 ConfigurationData::~ConfigurationData()
 {
 }

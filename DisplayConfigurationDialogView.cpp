@@ -57,10 +57,10 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	m_staticText6->Wrap( -1 );
 	line2Sizer->Add( m_staticText6, 0, wxALL, 5 );
 	
-	wxArrayString m_firstDisplayIndexChoices;
-	m_firstDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_firstDisplayIndexChoices, 0 );
-	m_firstDisplayIndex->SetSelection( 0 );
-	line2Sizer->Add( m_firstDisplayIndex, 0, wxALIGN_CENTER, 5 );
+	wxArrayString firstDisplayIndexChoices;
+	firstDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, firstDisplayIndexChoices, 0 );
+	firstDisplayIndex->SetSelection( 0 );
+	line2Sizer->Add( firstDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
 	rootSizer->Add( line2Sizer, 0, wxEXPAND, 5 );
@@ -68,14 +68,14 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxBoxSizer* line2Sizer1;
 	line2Sizer1 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText61 = new wxStaticText( this, wxID_ANY, wxT("Specify which displays to use:   First Display ID"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText61 = new wxStaticText( this, wxID_ANY, wxT("Specify the last display to use:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText61->Wrap( -1 );
 	line2Sizer1->Add( m_staticText61, 0, wxALL, 5 );
 	
-	wxArrayString m_lastDisplayIndexChoices;
-	m_lastDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_lastDisplayIndexChoices, 0 );
-	m_lastDisplayIndex->SetSelection( 0 );
-	line2Sizer1->Add( m_lastDisplayIndex, 0, wxALIGN_CENTER, 5 );
+	wxArrayString lastDisplayIndexChoices;
+	lastDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, lastDisplayIndexChoices, 0 );
+	lastDisplayIndex->SetSelection( 0 );
+	line2Sizer1->Add( lastDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
 	rootSizer->Add( line2Sizer1, 1, wxEXPAND, 5 );
@@ -83,10 +83,10 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxBoxSizer* OkCancelSizer;
 	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_okButton = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_okButton = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
 	OkCancelSizer->Add( m_okButton, 0, wxALL, 5 );
 	
-	m_cancelButton = new wxButton( this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_cancelButton = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	OkCancelSizer->Add( m_cancelButton, 0, wxALL, 5 );
 	
 	

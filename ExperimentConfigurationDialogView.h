@@ -33,7 +33,7 @@ class ExperimentConfigurationDialogView : public wxDialog
 	private:
 	
 	protected:
-		wxStaticText* m_staticText261;
+		wxStaticText* m_staticText23;
 		wxStaticText* m_staticText2;
 		wxChoice* experimentDuration;
 		wxStaticText* m_staticText3;
@@ -53,7 +53,7 @@ class ExperimentConfigurationDialogView : public wxDialog
 		wxStaticText* m_staticText2222;
 		wxTextCtrl* objectSpeed;
 		wxStaticLine* m_staticline5;
-		wxStaticText* m_staticText26;
+		wxStaticText* m_staticText22215;
 		wxStaticText* m_staticText2221;
 		wxTextCtrl* gridRows;
 		wxStaticText* m_staticText22211;

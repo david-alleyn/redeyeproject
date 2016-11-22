@@ -3,6 +3,8 @@
 class MainWindow :
 	public MainWindowView
 {
+	wxLogTextCtrl* logtextctrl;
+
 public:
 	MainWindow();
 	~MainWindow();

@@ -158,4 +158,10 @@ double RenderTargetGrid::getAspectRatio(unsigned int vaoIndex) {
 
 RenderTargetGrid::~RenderTargetGrid()
 {
+	for (int i = 0; i < fbos.size(); i++) {
+		if (fbos[i] != NULL) {
+			delete fbos[i];
+			fbos[i] = NULL;
+		}
+	}
 }

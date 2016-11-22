@@ -148,7 +148,7 @@
                                                 <property name="enabled">1</property>
                                                 <property name="fg"></property>
                                                 <property name="floatable">1</property>
-                                                <property name="font">,90,92,-1,70,0</property>
+                                                <property name="font"></property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -160,7 +160,7 @@
                                                 <property name="minimize_button">0</property>
                                                 <property name="minimum_size"></property>
                                                 <property name="moveable">1</property>
-                                                <property name="name">m_staticText261</property>
+                                                <property name="name">m_staticText23</property>
                                                 <property name="pane_border">1</property>
                                                 <property name="pane_position"></property>
                                                 <property name="pane_size"></property>
@@ -333,7 +333,7 @@
                                                         <property name="maximum_size"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
-                                                        <property name="minimum_size"></property>
+                                                        <property name="minimum_size">200,-1</property>
                                                         <property name="moveable">1</property>
                                                         <property name="name">experimentDuration</property>
                                                         <property name="pane_border">1</property>
@@ -504,7 +504,7 @@
                                                         <property name="maxlength"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
-                                                        <property name="minimum_size"></property>
+                                                        <property name="minimum_size">60,-1</property>
                                                         <property name="moveable">1</property>
                                                         <property name="name">timeInSeconds</property>
                                                         <property name="pane_border">1</property>
@@ -689,7 +689,7 @@
                                                         <property name="maximum_size"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
-                                                        <property name="minimum_size"></property>
+                                                        <property name="minimum_size">200,-1</property>
                                                         <property name="moveable">1</property>
                                                         <property name="name">movingObjectType</property>
                                                         <property name="pane_border">1</property>
@@ -871,7 +871,7 @@
                                                         <property name="maxlength"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
-                                                        <property name="minimum_size"></property>
+                                                        <property name="minimum_size">-1,-1</property>
                                                         <property name="moveable">1</property>
                                                         <property name="name">numberOfObjects</property>
                                                         <property name="pane_border">1</property>
@@ -1594,7 +1594,7 @@
                                                         <property name="maximum_size"></property>
                                                         <property name="min_size"></property>
                                                         <property name="minimize_button">0</property>
-                                                        <property name="minimum_size"></property>
+                                                        <property name="minimum_size">200,-1</property>
                                                         <property name="moveable">1</property>
                                                         <property name="name">behavioralModel</property>
                                                         <property name="pane_border">1</property>
@@ -1940,7 +1940,7 @@
                                                 <property name="enabled">1</property>
                                                 <property name="fg"></property>
                                                 <property name="floatable">1</property>
-                                                <property name="font">,90,92,-1,70,0</property>
+                                                <property name="font"></property>
                                                 <property name="gripper">0</property>
                                                 <property name="hidden">0</property>
                                                 <property name="id">wxID_ANY</property>
@@ -1952,7 +1952,7 @@
                                                 <property name="minimize_button">0</property>
                                                 <property name="minimum_size"></property>
                                                 <property name="moveable">1</property>
-                                                <property name="name">m_staticText26</property>
+                                                <property name="name">m_staticText22215</property>
                                                 <property name="pane_border">1</property>
                                                 <property name="pane_position"></property>
                                                 <property name="pane_size"></property>
@@ -3565,7 +3565,7 @@
                             <property name="flag">wxEXPAND</property>
                             <property name="proportion">0</property>
                             <object class="wxBoxSizer" expanded="1">
-                                <property name="minimum_size"></property>
+                                <property name="minimum_size">150,-1</property>
                                 <property name="name">editorInformationSizer</property>
                                 <property name="orient">wxVERTICAL</property>
                                 <property name="permission">none</property>
@@ -3813,7 +3813,7 @@
                                 <property name="font"></property>
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
-                                <property name="id">wxID_ANY</property>
+                                <property name="id">wxID_OK</property>
                                 <property name="label">OK</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>
@@ -3901,7 +3901,7 @@
                                 <property name="font"></property>
                                 <property name="gripper">0</property>
                                 <property name="hidden">0</property>
-                                <property name="id">wxID_ANY</property>
+                                <property name="id">wxID_CANCEL</property>
                                 <property name="label">Cancel</property>
                                 <property name="max_size"></property>
                                 <property name="maximize_button">0</property>

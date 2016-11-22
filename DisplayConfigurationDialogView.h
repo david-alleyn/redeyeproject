@@ -36,9 +36,9 @@ class DisplayConfigurationDialogView : public wxDialog
 		wxStaticText* m_staticText41;
 		wxStaticText* m_staticText4;
 		wxStaticText* m_staticText6;
-		wxChoice* m_firstDisplayIndex;
+		wxChoice* firstDisplayIndex;
 		wxStaticText* m_staticText61;
-		wxChoice* m_lastDisplayIndex;
+		wxChoice* lastDisplayIndex;
 		wxButton* m_okButton;
 		wxButton* m_cancelButton;
 		

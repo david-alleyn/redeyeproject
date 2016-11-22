@@ -178,7 +178,6 @@
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="HelloWorldFrame.cpp" />
     <ClCompile Include="RenderTargetGrid.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
@@ -190,7 +189,6 @@
     <ClInclude Include="ExperimentConfigurationDialog.h" />
     <ClInclude Include="ExperimentConfigurationDialogView.h" />
     <ClInclude Include="FBO.h" />
-    <ClInclude Include="HelloWorldFrame.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
     <ClInclude Include="MovingCircle.h" />

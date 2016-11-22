@@ -17,7 +17,7 @@ DisplayConfigurationDialog::~DisplayConfigurationDialog()
 
 void DisplayConfigurationDialog::OnExit(wxCloseEvent& event)
 {
-	Close(true);
+	EndModal(wxID_CANCEL);
 }
 
 void DisplayConfigurationDialog::OnUnlock(wxCommandEvent& event)

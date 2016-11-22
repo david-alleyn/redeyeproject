@@ -71,6 +71,13 @@ DisplayEngine* DisplayEngine::getInstance()
 	return s_instance;
 }
 
+void DisplayEngine::resetInstance() {
+	if (s_instance != NULL) {
+		delete s_instance;
+		s_instance = NULL;
+	}
+}
+
 vector<Display> DisplayEngine::enumerateAllDisplays()
 {
 	wxLogMessage("Enumerating all displays on the system");
@@ -93,6 +100,8 @@ vector<Display> DisplayEngine::enumerateAllDisplays()
 			}
 			
 			wxLogMessage("Display " + wxString::Format(wxT("%i"), i) + ", mode " + wxString::Format(wxT("%i"), j) + ": " + wxString::Format(wxT("%i"), displayMode->w) + "x" + wxString::Format(wxT("%i"), displayMode->h) + " " + wxString::Format(wxT("%i"), displayMode->refresh_rate) + "hz");
+
+			delete displayMode;
 		}
 
 	}

@@ -31,11 +31,9 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxBoxSizer* editorColumnsSizer1;
 	editorColumnsSizer1 = new wxBoxSizer( wxVERTICAL );
 	
-	m_staticText261 = new wxStaticText( this, wxID_ANY, wxT("Experiment Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText261->Wrap( -1 );
-	m_staticText261->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
-	
-	editorColumnsSizer1->Add( m_staticText261, 0, wxALL, 5 );
+	m_staticText23 = new wxStaticText( this, wxID_ANY, wxT("Experiment Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText23->Wrap( -1 );
+	editorColumnsSizer1->Add( m_staticText23, 0, wxALL, 5 );
 	
 	wxBoxSizer* durationSizer;
 	durationSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -47,6 +45,8 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxArrayString experimentDurationChoices;
 	experimentDuration = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, experimentDurationChoices, 0 );
 	experimentDuration->SetSelection( 0 );
+	experimentDuration->SetMinSize( wxSize( 200,-1 ) );
+	
 	durationSizer->Add( experimentDuration, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Time in Seconds:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -55,6 +55,7 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	
 	timeInSeconds = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	timeInSeconds->Enable( false );
+	timeInSeconds->SetMinSize( wxSize( 60,-1 ) );
 	
 	durationSizer->Add( timeInSeconds, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
@@ -71,6 +72,8 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxArrayString movingObjectTypeChoices;
 	movingObjectType = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, movingObjectTypeChoices, 0 );
 	movingObjectType->SetSelection( 0 );
+	movingObjectType->SetMinSize( wxSize( 200,-1 ) );
+	
 	movingObjectionSizer->Add( movingObjectType, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
@@ -137,6 +140,8 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxArrayString behavioralModelChoices;
 	behavioralModel = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, behavioralModelChoices, 0 );
 	behavioralModel->SetSelection( 0 );
+	behavioralModel->SetMinSize( wxSize( 200,-1 ) );
+	
 	behavioralModelSizer->Add( behavioralModel, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
@@ -158,11 +163,9 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	m_staticline5 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	editorColumnsSizer1->Add( m_staticline5, 0, wxEXPAND | wxALL, 5 );
 	
-	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Grid Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText26->Wrap( -1 );
-	m_staticText26->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
-	
-	editorColumnsSizer1->Add( m_staticText26, 0, wxALL, 5 );
+	m_staticText22215 = new wxStaticText( this, wxID_ANY, wxT("Grid Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22215->Wrap( -1 );
+	editorColumnsSizer1->Add( m_staticText22215, 0, wxALL, 5 );
 	
 	wxBoxSizer* rowsSizer;
 	rowsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -280,6 +283,7 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxBoxSizer* editorInformationSizer;
 	editorInformationSizer = new wxBoxSizer( wxVERTICAL );
 	
+	editorInformationSizer->SetMinSize( wxSize( 150,-1 ) ); 
 	wxBoxSizer* editorColumnsSizer11;
 	editorColumnsSizer11 = new wxBoxSizer( wxVERTICAL );
 	
@@ -315,10 +319,10 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxBoxSizer* OkCancelSizer;
 	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	okButton = new wxButton( this, wxID_ANY, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	okButton = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
 	OkCancelSizer->Add( okButton, 0, wxALL, 5 );
 	
-	cancelButton = new wxButton( this, wxID_ANY, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	cancelButton = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	OkCancelSizer->Add( cancelButton, 0, wxALL, 5 );
 	
 	
