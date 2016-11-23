@@ -70,19 +70,13 @@ class ExperimentConfigurationDialogView : public wxDialog
 		wxTextCtrl* gridVerticalSeperation;
 		wxStaticText* m_staticText2221421;
 		wxTextCtrl* gridHorizontalSeperation;
-		wxStaticLine* m_staticline2;
-		wxStaticText* m_staticText21;
-		wxStaticText* m_staticText211;
 		wxButton* okButton;
 		wxButton* cancelButton;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnTimeSelectHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDurationTextHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnObjectTypeSelectHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnIntegerInputHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDecimalInputHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnColourPickerHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBehaviorModelSelectHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }

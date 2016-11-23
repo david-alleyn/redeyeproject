@@ -277,42 +277,6 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	
 	editorColumnsSizer->Add( editorParametersSizer, 0, wxEXPAND, 5 );
 	
-	m_staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
-	editorColumnsSizer->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
-	
-	wxBoxSizer* editorInformationSizer;
-	editorInformationSizer = new wxBoxSizer( wxVERTICAL );
-	
-	editorInformationSizer->SetMinSize( wxSize( 150,-1 ) ); 
-	wxBoxSizer* editorColumnsSizer11;
-	editorColumnsSizer11 = new wxBoxSizer( wxVERTICAL );
-	
-	wxBoxSizer* durationSizer1;
-	durationSizer1 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText21 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText21->Wrap( -1 );
-	durationSizer1->Add( m_staticText21, 0, wxALL, 5 );
-	
-	
-	editorColumnsSizer11->Add( durationSizer1, 0, wxEXPAND, 5 );
-	
-	wxBoxSizer* durationSizer11;
-	durationSizer11 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText211 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText211->Wrap( -1 );
-	durationSizer11->Add( m_staticText211, 0, wxALL, 5 );
-	
-	
-	editorColumnsSizer11->Add( durationSizer11, 0, wxEXPAND, 5 );
-	
-	
-	editorInformationSizer->Add( editorColumnsSizer11, 0, wxEXPAND, 5 );
-	
-	
-	editorColumnsSizer->Add( editorInformationSizer, 0, wxEXPAND, 5 );
-	
 	
 	rootSizer->Add( editorColumnsSizer, 0, wxEXPAND, 5 );
 	
@@ -338,21 +302,9 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	timeInSeconds->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDurationTextHandler ), NULL, this );
 	movingObjectType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnObjectTypeSelectHandler ), NULL, this );
-	numberOfObjects->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	sizeOfObjects->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
 	colourPickerButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
 	behavioralModel->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnBehaviorModelSelectHandler ), NULL, this );
-	objectSpeed->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridRows->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	gridColumns->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	gridLeftMargin->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridRightMargin->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridTopMargin->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridBottomMargin->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridVerticalSeperation->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridHorizontalSeperation->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
 	okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 }
@@ -362,21 +314,9 @@ ExperimentConfigurationDialogView::~ExperimentConfigurationDialogView()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	timeInSeconds->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDurationTextHandler ), NULL, this );
 	movingObjectType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnObjectTypeSelectHandler ), NULL, this );
-	numberOfObjects->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	sizeOfObjects->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
 	colourPickerButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
 	behavioralModel->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnBehaviorModelSelectHandler ), NULL, this );
-	objectSpeed->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridRows->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	gridColumns->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnIntegerInputHandler ), NULL, this );
-	gridLeftMargin->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridRightMargin->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridTopMargin->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridBottomMargin->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridVerticalSeperation->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
-	gridHorizontalSeperation->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnDecimalInputHandler ), NULL, this );
 	okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 	
