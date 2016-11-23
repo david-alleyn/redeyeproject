@@ -57,9 +57,11 @@ void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
 
 void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 {
+	//TODO: pass partially initialized configurationdata object to the config dialog
+
 	ExperimentConfigurationDialog* experimentConfDialog = new ExperimentConfigurationDialog(this);
 	if (experimentConfDialog->ShowModal() == wxID_OK) {
-		//gather values and save into ConfigurationData
+		//TODO: ??? perhaps trigger a "save validation check" before allowing the user to save the configuration
 	}
 	experimentConfDialog->Destroy();
 	delete experimentConfDialog;

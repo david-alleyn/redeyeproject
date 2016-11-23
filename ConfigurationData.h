@@ -8,51 +8,54 @@ class ConfigurationData
 {
 public:
 
-	//display config data
-	int firstMonitorIndex;
-	int lastMonitorIndex;
+	//display config data -- suffixed with disp_
+	int disp_firstMonitorIndex;
+	int disp_lastMonitorIndex;
 
-	//experiment config data
-	int timeInSeconds;
-	int movingObjectType;
-	int numberOfObjects;
-	double sizeOfObjects;
-	wxColour selectedColour;
-	double objectSpeed;
+	//experiment config data -- suffixed with exp_
+	int exp_timeInSeconds;
+	int exp_movingObjectType;
+	int exp_numberOfObjects;
+	double exp_sizeOfObjects;
+	float exp_selectedColour_red;
+	float exp_selectedColour_green;
+	float exp_selectedColour_blue;
+	double exp_objectSpeed;
 
-	//grid parameters
+	int exp_rows;
+	int exp_columns;
 
-	int rows;
-	int columns;
+	double exp_gridLeftMargin;
+	double exp_gridRightMargin;
+	double exp_gridTopMargin;
+	double exp_gridBottomMargin;
+	double exp_gridHorizontalSeperation;
+	double exp_gridVerticalSeperation;
 
-	double gridLeftMargin;
-	double gridRightMargin;
-	double gridTopMargin;
-	double gridBottomMargin;
-	double gridHorizontalSeperation;
-	double gridVerticalSeperation;
+	//flags
+
+	bool displayConfigInitialized;
+	bool experimentConfigInitialized;
 
 	ConfigurationData() {
 
-		firstMonitorIndex = -1;
-		lastMonitorIndex = -1;
-
-		timeInSeconds = -1;
-		movingObjectType = -1;
-		numberOfObjects = -1;
-		sizeOfObjects = -1.0;
-		selectedColour = wxColour("BLACK");
-
-		rows = -1;
-		columns = -1;
-
-		gridLeftMargin = -1.0;
-		gridRightMargin = -1.0;
-		gridTopMargin = -1.0;
-		gridBottomMargin = -1.0;
-		gridHorizontalSeperation = -1.0;
-		gridVerticalSeperation = -1.0;
+		displayConfigInitialized = false;
+		experimentConfigInitialized = false;
 	}
+
+	ConfigurationData(wxString fileName) {
+		//initialize with file data
+	}
+
+	bool writeToFile(wxString fileName) {
+		if (displayConfigInitialized == true && experimentConfigInitialized == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	~ConfigurationData();
 };
 

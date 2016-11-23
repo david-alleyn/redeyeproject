@@ -20,11 +20,6 @@ void DisplayConfigurationDialog::OnExit(wxCloseEvent& event)
 	EndModal(wxID_CANCEL);
 }
 
-void DisplayConfigurationDialog::OnUnlock(wxCommandEvent& event)
-{
-	event.Skip();
-}
-
 void DisplayConfigurationDialog::OnOk(wxCommandEvent& event)
 {
 	event.Skip();

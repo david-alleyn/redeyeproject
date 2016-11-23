@@ -115,7 +115,7 @@ void ExperimentConfigurationDialog::OnExit(wxCloseEvent & event) {
 }
 
 void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) {
-	wxChoice timeChosen = event.GetEventObject;
+	wxChoice* timeChosen = static_cast<wxChoice*> (event.GetEventObject());
 
 	//based on these values determined in the constructor of ExperimentConfigurationDialog
 	/*experimentDuration->Append("Specify Your Own -->");
@@ -127,14 +127,14 @@ void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) 
 	experimentDuration->Append("45 Minutes");
 	experimentDuration->Append("1 Hour");*/
 
-	if (timeChosen.GetSelection() == 0) {
+	if (timeChosen->GetSelection() == 0) {
 		timeInSeconds->Enable();
 	}
 	else {
 		timeInSeconds->Disable();
 	}
 
-	switch (timeChosen.GetSelection()) {
+	switch (timeChosen->GetSelection()) {
 		case 0:
 			break;
 		case 1:
@@ -162,6 +162,10 @@ void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) 
 }
 
 void ExperimentConfigurationDialog::OnOk(wxCommandEvent & event) {
+	//TODO: populate the ConfigurationData object with the desired values
+
+
+
 	event.Skip();
 }
 
