@@ -76,9 +76,7 @@ class ExperimentConfigurationDialogView : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnTimeSelectHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnObjectTypeSelectHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnColourPickerHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnBehaviorModelSelectHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		

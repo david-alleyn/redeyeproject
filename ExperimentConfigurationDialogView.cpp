@@ -302,9 +302,7 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	movingObjectType->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnObjectTypeSelectHandler ), NULL, this );
 	colourPickerButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
-	behavioralModel->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnBehaviorModelSelectHandler ), NULL, this );
 	okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 }
@@ -314,9 +312,7 @@ ExperimentConfigurationDialogView::~ExperimentConfigurationDialogView()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	movingObjectType->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnObjectTypeSelectHandler ), NULL, this );
 	colourPickerButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
-	behavioralModel->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnBehaviorModelSelectHandler ), NULL, this );
 	okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 	
