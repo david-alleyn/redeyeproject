@@ -13,10 +13,8 @@ using namespace std;
 
 class MovingObject
 {
-private:
-	static int maxId;
-
 protected:
+	static int maxId;
 	int id;
 	glm::vec2 size;
 	glm::vec2 position;
@@ -37,7 +35,6 @@ protected:
 
 public:
 
-	
 	~MovingObject();
 
 	glm::vec2 getSize();

@@ -1,21 +1,66 @@
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
+
+#include <wx/valnum.h>
+
 #include "ExperimentConfigurationDialog.h"
 
 
 ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, ConfigurationData* configData) : ExperimentConfigurationDialogView(parent)
 {
+	//Setup input field validation for text boxes
 
-	/*double leftMargin = 0.02;
-	double rightMargin = 0.02;
-	double topMargin = 0.02;
-	double bottomMargin = 0.02;
-	double horizontalSep = 0.01;
-	double verticalSep = 0.01;
+	wxIntegerValidator<int> timeInSecondsValidator = wxIntegerValidator<int>();
+	timeInSecondsValidator.SetRange(1, 31536000);
+	timeInSeconds->SetValidator(timeInSecondsValidator);
 
-	int numberOfDots = 100;
-	double sizeOfDots = 30.0;
-	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	double speedOfDots = 0.1;*/
+	wxIntegerValidator<int> numberOfObjectsValidator = wxIntegerValidator<int>();
+	numberOfObjectsValidator.SetRange(1, 10000);
+	numberOfObjects->SetValidator(numberOfObjectsValidator);
+
+	wxFloatingPointValidator<double> sizeOfObjectsValidator = wxFloatingPointValidator<double>();
+	sizeOfObjectsValidator.SetRange(0.01, 100);
+	sizeOfObjects->SetValidator(sizeOfObjectsValidator);
+
+	wxFloatingPointValidator<double> objectSpeedValidator = wxFloatingPointValidator<double>();
+	objectSpeedValidator.SetRange(0.01, 100);
+	objectSpeed->SetValidator(objectSpeedValidator);
+
+	wxIntegerValidator<int> gridRowsValidator = wxIntegerValidator<int>();
+	gridRowsValidator.SetRange(1, 10);
+	gridRows->SetValidator(gridRowsValidator);
+
+	wxIntegerValidator<int> gridColumnsValidator = wxIntegerValidator<int>();
+	gridColumnsValidator.SetRange(1, 10);
+	gridColumns->SetValidator(gridColumnsValidator);
+
+	wxFloatingPointValidator<double> gridLeftMarginValidator = wxFloatingPointValidator<double>();
+	gridLeftMarginValidator.SetRange(0, 1);
+	gridLeftMargin->SetValidator(gridLeftMarginValidator);
+
+	wxFloatingPointValidator<double> gridRightMarginValidator = wxFloatingPointValidator<double>();
+	gridRightMarginValidator.SetRange(0, 1);
+	gridRightMargin->SetValidator(gridRightMarginValidator);
+
+	wxFloatingPointValidator<double> gridTopMarginValidator = wxFloatingPointValidator<double>();
+	gridTopMarginValidator.SetRange(0, 1);
+	gridTopMargin->SetValidator(gridTopMarginValidator);
+
+	wxFloatingPointValidator<double> gridBottomMarginValidator = wxFloatingPointValidator<double>();
+	gridBottomMarginValidator.SetRange(0, 1);
+	gridBottomMargin->SetValidator(gridBottomMarginValidator);
+
+	wxFloatingPointValidator<double> gridHorizontalSeperationValidator = wxFloatingPointValidator<double>();
+	gridHorizontalSeperationValidator.SetRange(0, 1);
+	gridHorizontalSeperation->SetValidator(gridHorizontalSeperationValidator);
+
+	wxFloatingPointValidator<double> gridVerticalSeperationValidator = wxFloatingPointValidator<double>();
+	gridVerticalSeperationValidator.SetRange(0, 1);
+	gridVerticalSeperation->SetValidator(gridVerticalSeperationValidator);
+
+	// For when configuration data is not initialized, load hardcoded values.
 
 	// Set experiment values
 
@@ -29,6 +74,7 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	experimentDuration->Append("1 Hour");
 	experimentDuration->SetSelection(0);
 
+	timeInSeconds->Enable();
 	timeInSeconds->SetValue("60");
 
 	movingObjectType->Append("Dot / Circle");
@@ -48,6 +94,9 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 
 	// Set grid display parameters
 
+	gridRows->SetValue("3");
+	gridColumns->SetValue("3");
+
 	gridLeftMargin->SetValue("0.02");
 	gridRightMargin->SetValue("0.02");
 	gridTopMargin->SetValue("0.02");
@@ -62,23 +111,11 @@ ExperimentConfigurationDialog::~ExperimentConfigurationDialog()
 {
 }
 
-inline void ExperimentConfigurationDialog::OnIntegerInputHandler(wxCommandEvent & event) {
-	
-}
-
-inline void ExperimentConfigurationDialog::OnDecimalInputHandler(wxCommandEvent & event) {
-	event.Skip();
-}
-
 inline void ExperimentConfigurationDialog::OnExit(wxCloseEvent & event) {
 	EndModal(wxID_CANCEL);
 }
 
 inline void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) {
-	event.Skip();
-}
-
-inline void ExperimentConfigurationDialog::OnDurationTextHandler(wxCommandEvent & event) {
 	event.Skip();
 }
 

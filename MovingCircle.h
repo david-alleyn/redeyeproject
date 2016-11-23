@@ -44,6 +44,8 @@ public:
 	MovingCircle(glm::vec2 size, glm::vec4 color, glm::vec2 position, double speed, unsigned int shader, unsigned int vbo, unsigned int ibo);
 	~MovingCircle();
 
+	static void resetStaticState();
+
 	glm::vec4 getColor();
 	unsigned int getVBOHandle();
 	unsigned int getIBOHandle();

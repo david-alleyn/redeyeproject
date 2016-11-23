@@ -164,4 +164,14 @@ RenderTargetGrid::~RenderTargetGrid()
 			fbos[i] = NULL;
 		}
 	}
+
+	glDeleteBuffers(1, &mrtQuadVBO);
+	glDeleteBuffers(1, &mrtQuadIBO);
+	glDeleteBuffers(1, &tbo);
+	glDeleteTextures(1, &offsetDataTex);
+	
+	for (int i = 0; i < vaos.size(); i++) {
+		glDeleteVertexArrays(1, &vaos[0]);
+	}
+
 }

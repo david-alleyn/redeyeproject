@@ -32,10 +32,20 @@ MRTExperiment::~MRTExperiment()
 		}
 	}
 
+	MovingCircle::resetStaticState();
+
 	if (experimentOutput != NULL) {
 		delete experimentOutput;
 		experimentOutput = NULL;
 	}
+
+	/*mrtShader
+		basicShader
+		sharedVBO
+		sharedIBO*/
+
+	glDeleteShader(mrtShader);
+	glDeleteShader(basicShader);
 }
 
 bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts)
@@ -56,6 +66,8 @@ bool MRTExperiment::initialize(double currentTime, vector<SDL_Window*> allWindow
 
 
 	// CREATE SHADERS
+
+
 	mrtShader = ShaderLoader::loadShader("renderToTexture.vs", "renderToTexture.fs");
 	basicShader = ShaderLoader::loadShader("basicShader.vs", "basicShader.fs");
 

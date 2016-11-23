@@ -189,10 +189,12 @@ void DisplayEngine::StartEngine()
 	{
 		SDL_GL_DeleteContext(glContexts[i]);
 		SDL_DestroyWindow(windows[i]);
+		glContexts[i] = 0;
+		windows[i] = 0;
 	}
 
-
-
+	glContexts.clear();
+	windows.clear();
 
 	/* BEGIN IDEAS
 

@@ -11,11 +11,8 @@ public:
 	~ExperimentConfigurationDialog();
 
 	
-	virtual void OnIntegerInputHandler(wxCommandEvent& event);
-	virtual void OnDecimalInputHandler(wxCommandEvent& event);
 	virtual void OnExit(wxCloseEvent& event);
 	virtual void OnTimeSelectHandler(wxCommandEvent& event);
-	virtual void OnDurationTextHandler(wxCommandEvent& event);
 	virtual void OnObjectTypeSelectHandler(wxCommandEvent& event);
 	virtual void OnColourPickerHandler(wxCommandEvent& event);
 	virtual void OnBehaviorModelSelectHandler(wxCommandEvent& event);

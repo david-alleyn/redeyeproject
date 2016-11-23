@@ -117,6 +117,22 @@ MovingCircle::MovingCircle(glm::vec2 size, glm::vec4 color, glm::vec2 position, 
 
 MovingCircle::~MovingCircle()
 {
+	if(!sharedBuffer){
+		glDeleteBuffers(1, &vbo);
+		glDeleteBuffers(1, &ibo);
+		glDeleteTextures(1, &texture);
+	}
+
+	for (int i = 0; i < vaos.size(); i++) {
+		glDeleteVertexArrays(1, &vaos[i]);
+	}
+}
+
+void MovingCircle::resetStaticState() {
+	maxId = 0;
+	texture = 0;
+	textureGenerated = false;
+
 }
 
 glm::vec4 MovingCircle::getColor()
@@ -132,6 +148,7 @@ unsigned int MovingCircle::getIBOHandle() {
 	return ibo;
 }
 
+//multiple vao's are used because a unique client state object is required for each "device"/"screen" on which the object is rendered.
 void MovingCircle::addVao() {
 	unsigned int dotVao;
 	glGenVertexArrays(1, &dotVao);
