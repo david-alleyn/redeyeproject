@@ -4,8 +4,6 @@
 class ExperimentConfigurationDialog :
 	public ExperimentConfigurationDialogView
 {
-
-	wxColour selectedColour;
 public:
 	ExperimentConfigurationDialog(wxFrame* parent, ConfigurationData* configData = 0);
 	~ExperimentConfigurationDialog();
@@ -13,9 +11,6 @@ public:
 	
 	virtual void OnExit(wxCloseEvent& event);
 	virtual void OnTimeSelectHandler(wxCommandEvent& event);
-	virtual void OnObjectTypeSelectHandler(wxCommandEvent& event);
-	virtual void OnColourPickerHandler(wxCommandEvent& event);
-	virtual void OnBehaviorModelSelectHandler(wxCommandEvent& event);
 	virtual void OnOk(wxCommandEvent& event);
 	virtual void OnExit(wxCommandEvent& event);
 };

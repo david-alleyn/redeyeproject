@@ -61,7 +61,6 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	gridVerticalSeperation->SetValidator(gridVerticalSeperationValidator);
 
 	// For when configuration data is not initialized, load hardcoded values.
-
 	// Set experiment values
 
 	experimentDuration->Append("Specify Your Own -->");
@@ -77,6 +76,7 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	timeInSeconds->Enable();
 	timeInSeconds->SetValue("60");
 
+	//when more than one object type comes along... dynamically generate options for this menu item
 	movingObjectType->Append("Dot / Circle");
 	movingObjectType->SetSelection(0);
 
@@ -84,8 +84,7 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 
 	sizeOfObjects->SetValue("20.0");
 
-	selectedColour = wxColour("RED");
-	currentColourAsAButton->SetBackgroundColour(selectedColour);
+	selectedColour->SetColour(wxColour("RED"));
 
 	behavioralModel->Append("Random Movement");
 	behavioralModel->SetSelection(0);
@@ -111,30 +110,61 @@ ExperimentConfigurationDialog::~ExperimentConfigurationDialog()
 {
 }
 
-inline void ExperimentConfigurationDialog::OnExit(wxCloseEvent & event) {
+void ExperimentConfigurationDialog::OnExit(wxCloseEvent & event) {
 	EndModal(wxID_CANCEL);
 }
 
-inline void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) {
+void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) {
+	wxChoice timeChosen = event.GetEventObject;
+
+	//based on these values determined in the constructor of ExperimentConfigurationDialog
+	/*experimentDuration->Append("Specify Your Own -->");
+	experimentDuration->Append("1 Minute");
+	experimentDuration->Append("5 Minutes");
+	experimentDuration->Append("10 Minutes");
+	experimentDuration->Append("15 Minutes");
+	experimentDuration->Append("30 Minutes");
+	experimentDuration->Append("45 Minutes");
+	experimentDuration->Append("1 Hour");*/
+
+	if (timeChosen.GetSelection() == 0) {
+		timeInSeconds->Enable();
+	}
+	else {
+		timeInSeconds->Disable();
+	}
+
+	switch (timeChosen.GetSelection()) {
+		case 0:
+			break;
+		case 1:
+			timeInSeconds->SetValue("60");
+			break;
+		case 2:
+			timeInSeconds->SetValue("300");
+			break;
+		case 3:
+			timeInSeconds->SetValue("600");
+			break;
+		case 4:
+			timeInSeconds->SetValue("900");
+			break;
+		case 5:
+			timeInSeconds->SetValue("1800");
+			break;
+		case 6:
+			timeInSeconds->SetValue("2700");
+			break;
+		case 7:
+			timeInSeconds->SetValue("3600");
+			break;
+	}
+}
+
+void ExperimentConfigurationDialog::OnOk(wxCommandEvent & event) {
 	event.Skip();
 }
 
-inline void ExperimentConfigurationDialog::OnObjectTypeSelectHandler(wxCommandEvent & event) {
-	event.Skip();
-}
-
-inline void ExperimentConfigurationDialog::OnColourPickerHandler(wxCommandEvent & event) {
-	event.Skip();
-}
-
-inline void ExperimentConfigurationDialog::OnBehaviorModelSelectHandler(wxCommandEvent & event) {
-	event.Skip();
-}
-
-inline void ExperimentConfigurationDialog::OnOk(wxCommandEvent & event) {
-	event.Skip();
-}
-
-inline void ExperimentConfigurationDialog::OnExit(wxCommandEvent & event) {
+void ExperimentConfigurationDialog::OnExit(wxCommandEvent & event) {
 	event.Skip();
 }
