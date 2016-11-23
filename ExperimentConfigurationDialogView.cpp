@@ -110,22 +110,12 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	
 	m_staticText221 = new wxStaticText( this, wxID_ANY, wxT("Object Colour:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText221->Wrap( -1 );
-	objectColourSizer->Add( m_staticText221, 0, wxALL, 5 );
+	objectColourSizer->Add( m_staticText221, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	colourPickerButton = new wxButton( this, wxID_ANY, wxT("Colour Picker"), wxDefaultPosition, wxDefaultSize, 0 );
-	objectColourSizer->Add( colourPickerButton, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
+	selectedColour = new wxColourPickerCtrl( this, wxID_ANY, *wxBLACK, wxDefaultPosition, wxDefaultSize, wxCLRP_DEFAULT_STYLE );
+	selectedColour->SetMinSize( wxSize( 100,30 ) );
 	
-	m_staticText20 = new wxStaticText( this, wxID_ANY, wxT("Current Colour:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText20->Wrap( -1 );
-	objectColourSizer->Add( m_staticText20, 0, wxALL, 5 );
-	
-	currentColourAsAButton = new wxButton( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	currentColourAsAButton->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
-	currentColourAsAButton->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
-	currentColourAsAButton->Enable( false );
-	currentColourAsAButton->SetMinSize( wxSize( 75,-1 ) );
-	
-	objectColourSizer->Add( currentColourAsAButton, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
+	objectColourSizer->Add( selectedColour, 0, wxALIGN_CENTER, 5 );
 	
 	
 	editorColumnsSizer1->Add( objectColourSizer, 0, wxEXPAND, 5 );
@@ -302,7 +292,6 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	colourPickerButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
 	okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 }
@@ -312,7 +301,6 @@ ExperimentConfigurationDialogView::~ExperimentConfigurationDialogView()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ExperimentConfigurationDialogView::OnExit ) );
 	experimentDuration->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnTimeSelectHandler ), NULL, this );
-	colourPickerButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnColourPickerHandler ), NULL, this );
 	okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnOk ), NULL, this );
 	cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ExperimentConfigurationDialogView::OnExit ), NULL, this );
 	

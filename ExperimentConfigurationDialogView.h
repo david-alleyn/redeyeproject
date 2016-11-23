@@ -19,8 +19,9 @@
 #include <wx/choice.h>
 #include <wx/textctrl.h>
 #include <wx/sizer.h>
-#include <wx/button.h>
+#include <wx/clrpicker.h>
 #include <wx/statline.h>
+#include <wx/button.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -45,9 +46,7 @@ class ExperimentConfigurationDialogView : public wxDialog
 		wxStaticText* m_staticText222211;
 		wxTextCtrl* sizeOfObjects;
 		wxStaticText* m_staticText221;
-		wxButton* colourPickerButton;
-		wxStaticText* m_staticText20;
-		wxButton* currentColourAsAButton;
+		wxColourPickerCtrl* selectedColour;
 		wxStaticText* m_staticText222;
 		wxChoice* behavioralModel;
 		wxStaticText* m_staticText2222;
@@ -76,7 +75,6 @@ class ExperimentConfigurationDialogView : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnTimeSelectHandler( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnColourPickerHandler( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnOk( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		
