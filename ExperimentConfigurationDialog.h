@@ -5,6 +5,8 @@ class ExperimentConfigurationDialog :
 	public ExperimentConfigurationDialogView
 {
 public:
+	ConfigurationData* configData;
+
 	ExperimentConfigurationDialog(wxFrame* parent, ConfigurationData* configData = 0);
 	~ExperimentConfigurationDialog();
 

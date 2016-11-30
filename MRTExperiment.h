@@ -9,63 +9,49 @@
 #include "glm/ext.hpp"
 
 #include "FBO.h"
+#include "DisplayEngine.h"
 #include "RenderTargetGrid.h"
 #include "MovingCircle.h"
+#include "ConfigurationData.h"
 
 using namespace std;
 
 class MRTExperiment
 {
-	string name;
-	int duration;
-	vector<SDL_Window*> windows;
-	vector<SDL_GLContext> renderContexts;
-	bool initialized;
-	bool running;
+	//Configuration Handle
+	ConfigurationData* configData;
 
-	bool blending = true;
-
+	//Tools
+	DisplayEngine* displayEngine;
 	RenderTargetGrid* experimentOutput;
 
-	unsigned int rows = 11;
-	unsigned int columns = 11;
+	//Experiment state variables
 
-	unsigned int mrtShader = 0;
-	unsigned int basicShader = 0;
+	bool initialized;
+	bool running;
+	bool timeRemains;
+
+	SDL_TimerID experimentTimer;
+
+	bool debugging = true;
+
+	unsigned int mrtShader;
+	unsigned int basicShader;
+
 	glm::mat4	 modelMatrix;
 
-	vector<int>	drawWidth;
-	vector<int>	drawHeight;
 	vector<glm::mat4>		m4Projection;
 	vector<glm::mat4>		m4ViewMatrix;
 
-	/*double leftMargin = 0.00;
-	double rightMargin = 0.00;
-	double topMargin = 0.00;
-	double bottomMargin = 0.00;
-	double horizontalSep = 0.00;
-	double verticalSep = 0.00;*/
-
-	double leftMargin = 0.02;
-	double rightMargin = 0.02;
-	double topMargin = 0.02;
-	double bottomMargin = 0.02;
-	double horizontalSep = 0.01;
-	double verticalSep = 0.01;
-
-	int numberOfDots = 100;
-	double sizeOfDots = 30.0;
-	glm::vec4 colorOfDots = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	double speedOfDots = 0.1;
 	vector<MovingCircle*> dots;
 
 public:
-	MRTExperiment(string name, int duration);
-	virtual ~MRTExperiment();
+	MRTExperiment();
+	~MRTExperiment();
 
-	virtual bool initialize(double currentTime, vector<SDL_Window*> allWindows, vector<SDL_GLContext> allRenderContexts);
-	virtual bool run(double currentTime);
-	virtual bool cleanup();
-	virtual int timeRemaining();
+	bool initialize(ConfigurationData* configData);
+	bool run();
+
+	static Uint32 experimentTimeoutCallback(Uint32 interval, void *param);
 };
 

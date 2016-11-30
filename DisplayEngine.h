@@ -3,44 +3,32 @@
 #include <vector>
 #include <SDL.h>
 
-using namespace std;
+#include "ConfigurationData.h"
 
-class Display
-{
-public:
-	
-	int displayId;
-	int maxWidth;
-	int maxHeight;
-	int maxRefreshRate;	
-	
-	Display(int displayId, int maxWidth, int maxHeight, int maxRefreshRate)
-	{
-		this->displayId = displayId;
-		this->maxWidth = maxWidth;
-		this->maxHeight = maxHeight;
-		this->maxRefreshRate = maxRefreshRate;
-	}
-};
+using namespace std;
 
 class DisplayEngine
 {
-	//Singleton Instance
+	//Singleton Instance - We can only ever have a single manager of window creation and control
 	static DisplayEngine* s_instance;
 
-	int numDisplays;
-	vector<SDL_Window*> windows;
-	vector<SDL_GLContext> glContexts;
+	struct Window {
+		SDL_Window* window;
+		SDL_GLContext glContext;
+
+		Window(SDL_Window* window, SDL_GLContext glContext);
+	};
+
+	vector<Window> windows;
+
+	int currentlyActiveWindow;
 
 	//State
 	bool running;
 
 	//Display Configuration Variables
-	int firstDisplay = -1; // Default = -1 (secondary display is first). First display will be used if there is only one display.
-	int lastDisplay = -1; // Default = -1 (the Nth display is last). First display will be used if there is only one display
-
-	//Experiment Configuration
-	// Experiment object (or a subclass thereof) implementing a series of "init", "run", "terminate" functions to run the experiment
+	int firstDisplay;
+	int lastDisplay;
 	
 	DisplayEngine();
 	~DisplayEngine();
@@ -48,17 +36,58 @@ class DisplayEngine
 public:
 	static DisplayEngine* getInstance();
 	static void resetInstance();
-	vector<Display> enumerateAllDisplays();
+
+	bool setUsingConfigData(ConfigurationData* configData);
 	
+	//Returns the number of available displays. Starts at value 1
+	int getNumAttachedDisplays();
+
+	//Returns the current index of the first display
 	int getFirstDisplay();
-	void setFirstDisplay(int displayIndex);
 
+	//Used to set the first display. Must be equal to or lower than getLastDisplay() otherwise it will return false.
+	bool setFirstDisplay(int displayIndex);
+
+	//Returns the current index of the last display
 	int getLastDisplay();
-	void setLastDisplay(int displayIndex);
 
-	// Controls
-	void StartEngine();
-	void StopEngine();
-	
+	//Used to set the last display. Must be equal to or greater than getFirstDisplay() otherwise it will return false.
+	bool setLastDisplay(int displayIndex);
 
+	//REQUIRED TO SET THE DisplayEngine to "Running state"
+	//Creates the rendering windows to be used by the application
+	//By default they appear as a black and borderless window, occupying the full screen.
+	bool startEngine();
+
+	//Used to check and see if the DisplayEngine is running
+	//Returns false if startEngine() did not run successfully or when stopEngine() has executed.
+	bool isRunning();
+
+	//NOT REQUIRED BUT HIGHLY SUGGESTED before the reuse of the created windows for any purposes.
+	//This will close any open windows and cleanup any resources that they were using.
+	bool stopEngine();
+
+	//Returns the index of the currently active window
+	//REQUIRES isRunning() to return true
+	int getCurrentActiveWindow();
+
+	//Returns the number of windows
+	//REQUIRES isRunning() to return true
+	int getNumWindows();
+
+	//Used to set the active window
+	//REQUIRES isRunning() to return true, also returns false when displayIndex is out of bounds
+	bool setActiveWindow(int displayIndex);
+
+	//Draws the graphics buffer for the active window, to the active window.
+	//REQUIRES isRunning() to return true
+	bool swapActiveWindowBuffer();
+
+	//Returns the index of the currently active window
+	//REQUIRES isRunning() to return true
+	bool paintWindowsBlack();
+
+	//Returns the drawable area size of the currently active window
+	//REQUIRES isRunning() to return true
+	bool getActiveWindowSize(int& width, int& height);
 };

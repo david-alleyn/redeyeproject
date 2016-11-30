@@ -17,10 +17,11 @@ public:
 	int exp_movingObjectType;
 	int exp_numberOfObjects;
 	double exp_sizeOfObjects;
-	float exp_selectedColour_red;
-	float exp_selectedColour_green;
-	float exp_selectedColour_blue;
+	unsigned char exp_selectedColour_red;
+	unsigned char exp_selectedColour_green;
+	unsigned char exp_selectedColour_blue;
 	double exp_objectSpeed;
+	int exp_behavioralModel;
 
 	int exp_rows;
 	int exp_columns;
@@ -37,24 +38,15 @@ public:
 	bool displayConfigInitialized;
 	bool experimentConfigInitialized;
 
-	ConfigurationData() {
 
-		displayConfigInitialized = false;
-		experimentConfigInitialized = false;
-	}
+	//Functions
+	ConfigurationData();
 
-	ConfigurationData(wxString fileName) {
-		//initialize with file data
-	}
+	ConfigurationData(wxString fileName);
 
-	bool writeToFile(wxString fileName) {
-		if (displayConfigInitialized == true && experimentConfigInitialized == true) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+	bool isFullyInitialized();
+
+	bool writeToFile(wxString fileName);
 
 	~ConfigurationData();
 };

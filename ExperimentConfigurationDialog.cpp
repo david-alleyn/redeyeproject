@@ -103,6 +103,82 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	gridHorizontalSeperation->SetValue("0.01");
 	gridVerticalSeperation->SetValue("0.01");
 
+	//Validate passed in ConfigurationData and set the appropriate dialog options to match
+
+	if (configData != nullptr) {
+		if (configData->displayConfigInitialized) {
+			this->configData = configData;
+		}
+	}
+
+	if (configData != nullptr) {
+		if (configData->experimentConfigInitialized) {
+			this->configData = configData;
+
+			//Calls to SetValue() result in validation of the data being set. If the data is valid, it will be set, otherwise the old values will remain.
+			wxString timeToString;
+			timeToString << configData->exp_timeInSeconds;
+			timeInSeconds->SetValue(timeToString);
+
+			wxString numObjectsToString;
+			numObjectsToString << configData->exp_numberOfObjects;
+			numberOfObjects->SetValue(numObjectsToString);
+
+			wxString sizeObjectsToString;
+			sizeObjectsToString << configData->exp_sizeOfObjects;
+			sizeOfObjects->SetValue(sizeObjectsToString);
+
+			wxString speedObjectsToString;
+			speedObjectsToString << configData->exp_objectSpeed;
+			objectSpeed->SetValue(speedObjectsToString);
+
+			wxString gridRowsToString;
+			gridRowsToString << configData->exp_rows;
+			gridRows->SetValue(gridRowsToString);
+
+			wxString gridColumnsToString;
+			gridColumnsToString << configData->exp_columns;
+			gridColumns->SetValue(gridColumnsToString);
+
+			wxString gridLeftMarginToString;
+			gridLeftMarginToString << configData->exp_gridLeftMargin;
+			gridLeftMargin->SetValue(gridLeftMarginToString);
+
+			wxString gridRightMarginToString;
+			gridRightMarginToString << configData->exp_gridRightMargin;
+			gridRightMargin->SetValue(gridRightMarginToString);
+
+			wxString gridTopMarginToString;
+			gridTopMarginToString << configData->exp_gridTopMargin;
+			gridTopMargin->SetValue(gridTopMarginToString);
+
+			wxString gridBottomMarginToString;
+			gridBottomMarginToString << configData->exp_gridBottomMargin;
+			gridBottomMargin->SetValue(gridBottomMarginToString);
+
+			wxString gridHorizontalSeperationToString;
+			gridHorizontalSeperationToString << configData->exp_gridHorizontalSeperation;
+			gridHorizontalSeperation->SetValue(gridHorizontalSeperationToString);
+
+			wxString gridVerticalSeperationToString;
+			gridVerticalSeperationToString << configData->exp_gridVerticalSeperation;
+			gridVerticalSeperation->SetValue(gridVerticalSeperationToString);
+
+			if (configData->exp_movingObjectType < (int)movingObjectType->GetCount()) {
+				movingObjectType->SetSelection(configData->exp_movingObjectType);
+			}
+
+			wxColour savedColour = wxColour(configData->exp_selectedColour_red, configData->exp_selectedColour_green, configData->exp_selectedColour_blue, 255);
+			selectedColour->SetColour(savedColour);
+
+			if (configData->exp_behavioralModel < (int)behavioralModel->GetCount()) {
+				behavioralModel->SetSelection(configData->exp_behavioralModel);
+			}
+			
+			wxLogMessage("Existing valid Experiment Configuration Data detected, reusing...");
+		}
+	}
+
 }
 
 
@@ -162,9 +238,75 @@ void ExperimentConfigurationDialog::OnTimeSelectHandler(wxCommandEvent & event) 
 }
 
 void ExperimentConfigurationDialog::OnOk(wxCommandEvent & event) {
-	//TODO: populate the ConfigurationData object with the desired values
+	if (this->configData == nullptr) {
+		this->configData = new ConfigurationData();
+	}
 
+	//All input was validated successfully before reaching this point
 
+	unsigned long exp_timeInSeconds;
+	timeInSeconds->GetValue().ToCULong(&exp_timeInSeconds);
+	configData->exp_timeInSeconds = exp_timeInSeconds & INT_MAX;
+
+	configData->exp_movingObjectType = movingObjectType->GetSelection();
+
+	unsigned long exp_numberOfObjects;
+	numberOfObjects->GetValue().ToCULong(&exp_numberOfObjects);
+	configData->exp_numberOfObjects = exp_numberOfObjects & INT_MAX;
+
+	double exp_sizeOfObjects;
+	sizeOfObjects->GetValue().ToDouble(&exp_sizeOfObjects);
+	configData->exp_sizeOfObjects = exp_sizeOfObjects;
+
+	double exp_objectSpeed;
+	objectSpeed->GetValue().ToDouble(&exp_objectSpeed);
+	configData->exp_objectSpeed = exp_objectSpeed;
+
+	configData->exp_selectedColour_red = selectedColour->GetColour().Red();
+	configData->exp_selectedColour_green = selectedColour->GetColour().Green();
+	configData->exp_selectedColour_blue = selectedColour->GetColour().Blue();
+
+	configData->exp_behavioralModel = behavioralModel->GetSelection();
+
+	double exp_rows;
+	gridRows->GetValue().ToDouble(&exp_rows);
+	configData->exp_rows = exp_rows;
+
+	double exp_columns;
+	gridColumns->GetValue().ToDouble(&exp_columns);
+	configData->exp_columns = exp_columns;
+
+	double exp_gridLeftMargin;
+	gridLeftMargin->GetValue().ToDouble(&exp_gridLeftMargin);
+	configData->exp_gridLeftMargin = exp_gridLeftMargin;
+
+	double exp_gridRightMargin;
+	gridRightMargin->GetValue().ToDouble(&exp_gridRightMargin);
+	configData->exp_gridRightMargin = exp_gridRightMargin;
+
+	double exp_gridTopMargin;
+	gridTopMargin->GetValue().ToDouble(&exp_gridTopMargin);
+	configData->exp_gridTopMargin = exp_gridTopMargin;
+
+	double exp_gridBottomMargin;
+	gridBottomMargin->GetValue().ToDouble(&exp_gridBottomMargin);
+	configData->exp_gridBottomMargin = exp_gridBottomMargin;
+
+	double exp_gridVerticalSeperation;
+	gridVerticalSeperation->GetValue().ToDouble(&exp_gridVerticalSeperation);
+	configData->exp_gridVerticalSeperation = exp_gridVerticalSeperation;
+
+	double exp_gridHorizontalSeperation;
+	gridHorizontalSeperation->GetValue().ToDouble(&exp_gridHorizontalSeperation);
+	configData->exp_gridHorizontalSeperation = exp_gridHorizontalSeperation;
+
+	configData->experimentConfigInitialized = true;
+
+	/*configData->disp_firstMonitorIndex = firstDisplayIndex->GetSelection();
+	configData->disp_lastMonitorIndex = lastDisplayIndex->GetSelection();
+	configData->displayConfigInitialized = true;*/
+
+	wxLogMessage("Experiment Configuration Data is valid. Configuration Data updated.");
 
 	event.Skip();
 }

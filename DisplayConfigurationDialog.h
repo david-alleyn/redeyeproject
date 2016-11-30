@@ -5,6 +5,9 @@ class DisplayConfigurationDialog :
 	public DisplayConfigurationDialogView
 {
 public:
+
+	ConfigurationData* configData;
+
 	DisplayConfigurationDialog(wxFrame* parent, ConfigurationData* configData = 0);
 	~DisplayConfigurationDialog();
 

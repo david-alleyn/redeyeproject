@@ -1,9 +1,12 @@
 #pragma once
 #include "MainWindowView.h"
+#include "ConfigurationData.h"
 class MainWindow :
 	public MainWindowView
 {
 	wxLogTextCtrl* logtextctrl;
+
+	ConfigurationData* configData;
 
 public:
 	MainWindow();
