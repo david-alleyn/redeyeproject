@@ -4,6 +4,10 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/textfile.h>
+
+#define CONFIGDATAVARIABLECOUNT 19
+
 class ConfigurationData
 {
 public:
@@ -42,11 +46,11 @@ public:
 	//Functions
 	ConfigurationData();
 
-	ConfigurationData(wxString fileName);
+	ConfigurationData(wxTextFile* fileInputStream);
 
 	bool isFullyInitialized();
 
-	bool writeToFile(wxString fileName);
+	bool writeToFile(wxTextFile* fileOutputStream);
 
 	~ConfigurationData();
 };

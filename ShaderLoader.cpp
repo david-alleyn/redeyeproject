@@ -9,10 +9,12 @@ unsigned int ShaderLoader::loadShader(const std::string & vertex_shader_file, co
 	std::vector<unsigned int> shaders;
 	shaders.push_back(_createShader(vertex_shader_file, GL_VERTEX_SHADER));
 	shaders.push_back(_createShader(fragment_shader_file, GL_FRAGMENT_SHADER));
-
-	std::cout << "Shader Loader : incarc shaderul compus din " << std::endl;
-	std::cout << "\tvertex shader = " << vertex_shader_file << std::endl;
-	std::cout << "\tframgnet shader = " << fragment_shader_file << std::endl;
+	
+	wxString logOut;
+	logOut << "Shader Loader : Loading Shader " << "\n";
+	logOut << "\tvertex shader = " << vertex_shader_file << "\n";
+	logOut << "\tframgnet shader = " << fragment_shader_file << "\n";
+	wxLogMessage(logOut);
 	return _createProgram(shaders);
 }
 
@@ -24,10 +26,12 @@ unsigned int ShaderLoader::loadShader(const std::string & vertex_shader_file, co
 	shaders.push_back(_createShader(geometry_shader_file, GL_GEOMETRY_SHADER));
 	shaders.push_back(_createShader(fragment_shader_file, GL_FRAGMENT_SHADER));
 
-	std::cout << "Shader Loader : incarc shaderul compus din " << std::endl;
-	std::cout << "\tvertex shader = " << vertex_shader_file << std::endl;
-	std::cout << "\tgeometry shader = " << geometry_shader_file << std::endl;
-	std::cout << "\tframgnet shader = " << fragment_shader_file << std::endl;
+	wxString logOut;
+	logOut << "Shader Loader : Loading Shader " << "\n";
+	logOut << "\tvertex shader = " << vertex_shader_file << "\n";
+	logOut << "\tgeometry shader = " << geometry_shader_file << "\n";
+	logOut << "\tframgnet shader = " << fragment_shader_file << "\n";
+	wxLogMessage(logOut);
 	return _createProgram(shaders);
 }
 
@@ -35,7 +39,9 @@ unsigned int ShaderLoader::_createShader(const std::string & shader_file, GLenum
 	std::string shader_code;
 	std::ifstream file(shader_file.c_str(), std::ios::in);
 	if (!file.good()) {
-		std::cout << "Shader Loader: Nu am gasit fisierul shader " << shader_file << " sau nu am drepturile sa il deschid!" << std::endl;
+		wxString errOut;
+		errOut << "Shader Loader: While opening shader " << shader_file << " encountered file access violation!" << "\n";
+		wxLogMessage(errOut);
 		std::terminate();
 	}
 	file.seekg(0, std::ios::end);
@@ -66,7 +72,9 @@ unsigned int ShaderLoader::_createShader(const std::string & shader_file, GLenum
 		glGetShaderiv(gl_shader_object, GL_INFO_LOG_LENGTH, &info_log_length);
 		std::vector<char> shader_log(info_log_length);
 		glGetShaderInfoLog(gl_shader_object, info_log_length, NULL, &shader_log[0]);
-		std::cout << "Shader Loader: EROARE DE COMPILARE pentru " << str_shader_type << std::endl << &shader_log[0] << std::endl;
+		wxString errOut;
+		errOut << "Shader Loader: Error during compilation " << str_shader_type << "\n" << &shader_log[0] << "\n";
+		wxLogMessage(errOut);
 		return 0;
 	}
 
@@ -87,7 +95,9 @@ unsigned int ShaderLoader::_createProgram(const std::vector<unsigned int>& shade
 		glGetProgramiv(gl_program_object, GL_INFO_LOG_LENGTH, &info_log_length);
 		std::vector<char> program_log(info_log_length);
 		glGetProgramInfoLog(gl_program_object, info_log_length, NULL, &program_log[0]);
-		std::cout << "Shader Loader : EROARE DE LINKARE" << std::endl << &program_log[0] << std::endl;
+		wxString errOut;
+		errOut << "Shader Loader : Error during linking" << "\n" << &program_log[0] << "\n";
+		wxLogMessage(errOut);
 		return 0;
 	}
 

@@ -25,15 +25,7 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxBoxSizer* line1Sizer1;
 	line1Sizer1 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText21 = new wxStaticText( this, wxID_ANY, wxT("We detected"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText21->Wrap( -1 );
-	line1Sizer1->Add( m_staticText21, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
-	
-	m_numDisplays1 = new wxStaticText( this, wxID_ANY, wxT("NUMBER"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_numDisplays1->Wrap( -1 );
-	line1Sizer1->Add( m_numDisplays1, 0, wxTOP, 5 );
-	
-	m_staticText41 = new wxStaticText( this, wxID_ANY, wxT("displays. We recommend that they are physically arranged in"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText41 = new wxStaticText( this, wxID_ANY, wxT("Please specify the displays which will be used in the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText41->Wrap( -1 );
 	line1Sizer1->Add( m_staticText41, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
@@ -43,12 +35,22 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxBoxSizer* line1Sizer;
 	line1Sizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("the same order in which they are specified in the Windows display configuration."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("We recommend NOT specifying display #1."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
-	line1Sizer->Add( m_staticText4, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	line1Sizer->Add( m_staticText4, 0, wxLEFT|wxRIGHT, 5 );
 	
 	
 	rootSizer->Add( line1Sizer, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* line1Sizer2;
+	line1Sizer2 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText42 = new wxStaticText( this, wxID_ANY, wxT("Display #1 is generally used to control the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText42->Wrap( -1 );
+	line1Sizer2->Add( m_staticText42, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	
+	
+	rootSizer->Add( line1Sizer2, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* line2Sizer;
 	line2Sizer = new wxBoxSizer( wxHORIZONTAL );
@@ -63,7 +65,7 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	line2Sizer->Add( firstDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
-	rootSizer->Add( line2Sizer, 0, wxEXPAND, 5 );
+	rootSizer->Add( line2Sizer, 0, wxALIGN_RIGHT, 5 );
 	
 	wxBoxSizer* line2Sizer1;
 	line2Sizer1 = new wxBoxSizer( wxHORIZONTAL );
@@ -78,7 +80,7 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	line2Sizer1->Add( lastDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
-	rootSizer->Add( line2Sizer1, 1, wxEXPAND, 5 );
+	rootSizer->Add( line2Sizer1, 1, wxALIGN_RIGHT, 5 );
 	
 	wxBoxSizer* OkCancelSizer;
 	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );

@@ -8,6 +8,8 @@ class MainWindow :
 
 	ConfigurationData* configData;
 
+	bool experimentRunning;
+
 public:
 	MainWindow();
 	~MainWindow();
@@ -18,5 +20,6 @@ public:
 	void OnDisplayConfiguration(wxCommandEvent& event) override;
 	void OnExperimentConfiguration(wxCommandEvent& event) override;
 	void OnRunExperiment(wxCommandEvent& event) override;
+	void OnStageExperiment(wxCommandEvent& event) override;
 };
 

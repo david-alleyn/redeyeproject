@@ -10,7 +10,7 @@ DisplayConfigurationDialog::DisplayConfigurationDialog(wxFrame* parent, Configur
 {
 	DisplayEngine* displayEngine = DisplayEngine::getInstance();
 
-	int numDisplays = displayEngine->getNumAttachedDisplays();
+	int numDisplays = displayEngine->getNumPhysicalDisplays();
 
 	for (int i = 1; i <= numDisplays; i++) {
 		wxString intToString;

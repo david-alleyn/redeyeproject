@@ -20,12 +20,14 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	numberOfObjectsValidator.SetRange(1, 10000);
 	numberOfObjects->SetValidator(numberOfObjectsValidator);
 
-	wxFloatingPointValidator<double> sizeOfObjectsValidator = wxFloatingPointValidator<double>();
-	sizeOfObjectsValidator.SetRange(0.01, 100);
+	wxFloatingPointValidator<double> sizeOfObjectsValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
+	sizeOfObjectsValidator.SetRange(0.0001, 100);
+	sizeOfObjectsValidator.SetPrecision(6);
 	sizeOfObjects->SetValidator(sizeOfObjectsValidator);
 
-	wxFloatingPointValidator<double> objectSpeedValidator = wxFloatingPointValidator<double>();
-	objectSpeedValidator.SetRange(0.01, 100);
+	wxFloatingPointValidator<double> objectSpeedValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
+	objectSpeedValidator.SetRange(0.0001, 100);
+	objectSpeedValidator.SetPrecision(6);
 	objectSpeed->SetValidator(objectSpeedValidator);
 
 	wxIntegerValidator<int> gridRowsValidator = wxIntegerValidator<int>();
@@ -36,28 +38,34 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	gridColumnsValidator.SetRange(1, 10);
 	gridColumns->SetValidator(gridColumnsValidator);
 
-	wxFloatingPointValidator<double> gridLeftMarginValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridLeftMarginValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridLeftMarginValidator.SetRange(0, 1);
+	gridLeftMarginValidator.SetPrecision(6);
 	gridLeftMargin->SetValidator(gridLeftMarginValidator);
 
-	wxFloatingPointValidator<double> gridRightMarginValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridRightMarginValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridRightMarginValidator.SetRange(0, 1);
+	gridRightMarginValidator.SetPrecision(6);
 	gridRightMargin->SetValidator(gridRightMarginValidator);
 
-	wxFloatingPointValidator<double> gridTopMarginValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridTopMarginValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridTopMarginValidator.SetRange(0, 1);
+	gridTopMarginValidator.SetPrecision(6);
 	gridTopMargin->SetValidator(gridTopMarginValidator);
 
-	wxFloatingPointValidator<double> gridBottomMarginValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridBottomMarginValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridBottomMarginValidator.SetRange(0, 1);
+	gridBottomMarginValidator.SetPrecision(6);
 	gridBottomMargin->SetValidator(gridBottomMarginValidator);
 
-	wxFloatingPointValidator<double> gridHorizontalSeperationValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridHorizontalSeperationValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridHorizontalSeperationValidator.SetRange(0, 1);
+	gridHorizontalSeperationValidator.SetPrecision(6);
 	gridHorizontalSeperation->SetValidator(gridHorizontalSeperationValidator);
 
-	wxFloatingPointValidator<double> gridVerticalSeperationValidator = wxFloatingPointValidator<double>();
+	wxFloatingPointValidator<double> gridVerticalSeperationValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
 	gridVerticalSeperationValidator.SetRange(0, 1);
+	gridVerticalSeperationValidator.SetPrecision(6);
 	gridVerticalSeperation->SetValidator(gridVerticalSeperationValidator);
 
 	// For when configuration data is not initialized, load hardcoded values.
@@ -94,7 +102,7 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	// Set grid display parameters
 
 	gridRows->SetValue("3");
-	gridColumns->SetValue("3");
+	gridColumns->SetValue("5");
 
 	gridLeftMargin->SetValue("0.02");
 	gridRightMargin->SetValue("0.02");

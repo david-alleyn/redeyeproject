@@ -25,9 +25,9 @@ DisplayEngine::DisplayEngine()
 		wxLogMessage("SDL initialized by DisplayEngine.");
 	}
 
-	if (getNumAttachedDisplays() > 1) {
+	if (getNumPhysicalDisplays() > 1) {
 		firstDisplay = 1;
-		lastDisplay = getNumAttachedDisplays() - 1;
+		lastDisplay = getNumPhysicalDisplays() - 1;
 	}
 	else {
 		firstDisplay = 0;
@@ -76,66 +76,69 @@ bool DisplayEngine::setUsingConfigData(ConfigurationData * configData) {
 		return false;
 	}
 
-	if (configData->displayConfigInitialized) {
+	if (configData->isFullyInitialized()) {
 
-		if (configData->disp_firstMonitorIndex < getNumAttachedDisplays() && configData->disp_lastMonitorIndex < getNumAttachedDisplays()) {
+		if (configData->disp_firstMonitorIndex < getNumPhysicalDisplays() && configData->disp_lastMonitorIndex < getNumPhysicalDisplays()) {
 
 			if (configData->disp_firstMonitorIndex <= configData->disp_lastMonitorIndex) {
 
-				if (setFirstDisplay(configData->disp_firstMonitorIndex)
-					&& setLastDisplay(configData->disp_lastMonitorIndex)) {
+				if (setFirstPhysicalDisplay(configData->disp_firstMonitorIndex)
+					&& setLastPhysicalDisplay(configData->disp_lastMonitorIndex)) {
 					return true;
 				}
 			}
+			return false;
 		}
-		return true;
+		return false;
 	}
 	else {
 		return false;
 	}
+
+	return false;
 }
 
-inline int DisplayEngine::getNumAttachedDisplays()
+inline int DisplayEngine::getNumPhysicalDisplays()
 {
 	return SDL_GetNumVideoDisplays();
 }
-inline int DisplayEngine::getFirstDisplay() {
+inline int DisplayEngine::getFirstPhysicalDisplay() {
 	return firstDisplay;
 }
-bool DisplayEngine::setFirstDisplay(int displayIndex)
+bool DisplayEngine::setFirstPhysicalDisplay(int displayIndex)
 {
 	if (isRunning()) {
 		wxLogMessage("Error: In setFirstDisplay(int), DisplayEngine is running!");
 		return false;
 	}
 	
-	if(displayIndex >= 0 && displayIndex < getNumAttachedDisplays() && displayIndex <= getLastDisplay())
-	{
+	/*if(displayIndex >= 0 && displayIndex < getNumAttachedDisplays() && displayIndex <= getLastDisplay())
+	{*/
 		firstDisplay = displayIndex;
 		return true;
-	} else {
+	/*} else {
 		return false;
-	}
+	}*/
 }
 
-inline int DisplayEngine::getLastDisplay()
+inline int DisplayEngine::getLastPhysicalDisplay()
 {
 	return lastDisplay;
 }
-bool DisplayEngine::setLastDisplay(int displayIndex)
+bool DisplayEngine::setLastPhysicalDisplay(int displayIndex)
 {
 	if (isRunning()) {
 		wxLogMessage("Error: In setLastDisplay(int), DisplayEngine is running!");
 		return false;
 	}
 	
-	if (displayIndex >= 0 && displayIndex < getNumAttachedDisplays() && displayIndex >= getFirstDisplay())
-	{
+	/*if (displayIndex >= 0 && displayIndex < getNumAttachedDisplays() && displayIndex >= getFirstDisplay())
+	{*/
 		lastDisplay = displayIndex;
 		return true;
-	} else {
+	/*} else {
 		return false;
-	}
+	}*/
 }
 
 bool DisplayEngine::startEngine()
@@ -147,7 +150,7 @@ bool DisplayEngine::startEngine()
 	}
 
 
-	for (int i = getFirstDisplay(); i < getLastDisplay(); i++)
+	for (int i = getFirstPhysicalDisplay(); i <= getLastPhysicalDisplay(); i++)
 	{
 		// use double buffering
 		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -163,12 +166,12 @@ bool DisplayEngine::startEngine()
 
 		SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
 
-		SDL_DisplayMode* desktopDisplayMode = 0;
+		SDL_DisplayMode desktopDisplayMode;
 
-		SDL_GetDesktopDisplayMode(i, desktopDisplayMode);
+		SDL_GetDesktopDisplayMode(i, &desktopDisplayMode);
 
 		//Create window
-		SDL_Window* sdl_window = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), desktopDisplayMode->w, desktopDisplayMode->h, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
+		SDL_Window* sdl_window = SDL_CreateWindow("Red Eye Project", SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), SDL_WINDOWPOS_UNDEFINED_DISPLAY(i), desktopDisplayMode.w, desktopDisplayMode.h, SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS);
 		
 		/*if (glContexts.size() > 0)
 		{
@@ -185,18 +188,7 @@ bool DisplayEngine::startEngine()
 		windows.push_back(window);
 	}
 
-	//MRTExperiment* newExperiment =  new MRTExperiment("Test experiment", 0);
-	////DirectFBExperiment* newExperiment = new DirectFBExperiment("Test experiment", 0);
-
-	//newExperiment->initialize(SDL_GetTicks(), windows, glContexts);
-
-	//running = true;
-	//
-	//newExperiment->run(SDL_GetTicks());
-
-	//newExperiment->cleanup();
-
-	//delete newExperiment;
+	running = true;
 
 	return true;
 }
@@ -291,6 +283,7 @@ bool DisplayEngine::paintWindowsBlack() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); //bind the default draw buffer.
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //set "display clearing color" to black
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the window
+		swapActiveWindowBuffer();
 	}
 
 	return true;

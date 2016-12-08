@@ -23,28 +23,30 @@ MRTExperiment::MRTExperiment()
 
 MRTExperiment::~MRTExperiment()
 {
-	//cleanup dynamic memory
-	for (int i = 0; i < dots.size(); i++) {
-		if (dots[i] != NULL) {
-			delete dots[i];
-			dots[i] = NULL;
+	if (initialized) {
+		//cleanup dynamic memory
+		for (int i = 0; i < dots.size(); i++) {
+			if (dots[i] != NULL) {
+				delete dots[i];
+				dots[i] = NULL;
+			}
 		}
+
+		MovingCircle::resetStaticState();
+
+		if (experimentOutput != NULL) {
+			delete experimentOutput;
+			experimentOutput = NULL;
+		}
+
+		/*mrtShader
+			basicShader
+			sharedVBO
+			sharedIBO*/
+
+		glDeleteShader(mrtShader);
+		glDeleteShader(basicShader);
 	}
-
-	MovingCircle::resetStaticState();
-
-	if (experimentOutput != NULL) {
-		delete experimentOutput;
-		experimentOutput = NULL;
-	}
-
-	/*mrtShader
-		basicShader
-		sharedVBO
-		sharedIBO*/
-
-	glDeleteShader(mrtShader);
-	glDeleteShader(basicShader);
 }
 
 bool MRTExperiment::initialize(ConfigurationData* configData)
@@ -59,6 +61,7 @@ bool MRTExperiment::initialize(ConfigurationData* configData)
 	if (configData->isFullyInitialized()) {
 
 		displayEngine = DisplayEngine::getInstance();
+		this->configData = configData;
 
 		if (!displayEngine->isRunning()) {
 			//DisplayEngine is not running
@@ -181,7 +184,9 @@ bool MRTExperiment::initialize(ConfigurationData* configData)
 			dots[dot]->setBounds(leftBound, rightBound, topBound, bottomBound);
 		}
 
+		initialized = true;
 		running = true;
+
 		return true;
 	}
 	else {
@@ -203,7 +208,13 @@ bool MRTExperiment::run()
 	//RENDER CALL
 	//SWAP WINDOW BUFFERS
 
+	if (!initialized) {
+		wxLogMessage("Error in MRTExperiment::run(double), MRTExperiment hasn't been initialized");
+		return false;
+	}
+
 	experimentTimer = SDL_AddTimer(configData->exp_timeInSeconds * 1000, &MRTExperiment::experimentTimeoutCallback, 0);
+	timeRemains = true;
 
 	if (experimentTimer <= 0) {
 		wxLogMessage("Error in MRTExperiment::run(double), SDL_AddTimer error: " + wxString(SDL_GetError()));
@@ -228,6 +239,7 @@ bool MRTExperiment::run()
 			case SDL_USEREVENT: //The only user defined event happens to be fired by the experimentTimeoutCallback function
 				timeRemains = false;
 				if (experimentTimer != 0) SDL_RemoveTimer(experimentTimer);
+				break;
 			case SDL_QUIT:
 				running = false;
 				break;

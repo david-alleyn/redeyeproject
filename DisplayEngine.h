@@ -40,19 +40,19 @@ public:
 	bool setUsingConfigData(ConfigurationData* configData);
 	
 	//Returns the number of available displays. Starts at value 1
-	int getNumAttachedDisplays();
+	int getNumPhysicalDisplays();
 
 	//Returns the current index of the first display
-	int getFirstDisplay();
+	int getFirstPhysicalDisplay();
 
 	//Used to set the first display. Must be equal to or lower than getLastDisplay() otherwise it will return false.
-	bool setFirstDisplay(int displayIndex);
+	bool setFirstPhysicalDisplay(int displayIndex);
 
 	//Returns the current index of the last display
-	int getLastDisplay();
+	int getLastPhysicalDisplay();
 
 	//Used to set the last display. Must be equal to or greater than getFirstDisplay() otherwise it will return false.
-	bool setLastDisplay(int displayIndex);
+	bool setLastPhysicalDisplay(int displayIndex);
 
 	//REQUIRED TO SET THE DisplayEngine to "Running state"
 	//Creates the rendering windows to be used by the application

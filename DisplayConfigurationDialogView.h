@@ -31,10 +31,9 @@ class DisplayConfigurationDialogView : public wxDialog
 	private:
 	
 	protected:
-		wxStaticText* m_staticText21;
-		wxStaticText* m_numDisplays1;
 		wxStaticText* m_staticText41;
 		wxStaticText* m_staticText4;
+		wxStaticText* m_staticText42;
 		wxStaticText* m_staticText6;
 		wxChoice* firstDisplayIndex;
 		wxStaticText* m_staticText61;

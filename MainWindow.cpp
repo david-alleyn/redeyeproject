@@ -2,6 +2,9 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+
+#include <wx/textfile.h>
+
 #include "MainWindow.h"
 #include "DisplayConfigurationDialog.h"
 #include "ExperimentConfigurationDialog.h"
@@ -11,14 +14,12 @@
 
 MainWindow::MainWindow() : MainWindowView(0)
 {
-	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::OnExit, this, wxID_EXIT);
-	m_fileMenu->AppendSeparator();
-	m_fileMenu->Append(wxID_EXIT);
-	
-    logtextctrl = new wxLogTextCtrl(m_logTextControl);
+	logtextctrl = new wxLogTextCtrl(m_logTextControl);
 	wxLog::SetActiveTarget(logtextctrl);
 
 	configData = nullptr;
+	experimentRunning = false;
+	m_saveConfButton->Disable();
 }
 
 
@@ -38,12 +39,71 @@ void MainWindow::OnExit(wxCommandEvent& event)
 
 void MainWindow::OnLoadConfiguration(wxCommandEvent& event)
 {
-	event.Skip();
+	wxFileDialog openFileDialog(this, _("Open Configuration file"), "", "",
+			"Experiment files (*.exp)|*.exp", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	if (openFileDialog.ShowModal() == wxID_CANCEL)
+		return;     // the user changed idea...
+
+					// proceed loading the file chosen by the user;
+					// this can be done with e.g. wxWidgets input streams:
+	wxTextFile* inputFile = new wxTextFile(openFileDialog.GetPath());
+	if (!inputFile->Open())
+	{
+		wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
+		return;
+	}
+
+	this->configData = new ConfigurationData(inputFile);
+
+	if (configData != nullptr){
+		if (configData->isFullyInitialized()) {
+			m_saveConfButton->Enable();
+		}
+	}
+
+	delete inputFile;
 }
 
 void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 {
-	event.Skip();
+	if (configData != nullptr) {
+		if (configData->isFullyInitialized()) {
+
+
+			wxFileDialog
+				saveFileDialog(this, _("Save Configuration file"), "", "",
+					"Configuration files (*.exp)|*.exp", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+			if (saveFileDialog.ShowModal() == wxID_CANCEL)
+				return;     // the user changed idea...
+
+							// save the current contents in the file;
+							// this can be done with e.g. wxWidgets output streams:
+			wxTextFile* outputFile = new wxTextFile(saveFileDialog.GetPath());
+			if (outputFile->Open())
+			{
+				outputFile->Clear();
+			}
+			else if (!outputFile->Create()) {
+				wxLogError("Cannot create file '%s'.", saveFileDialog.GetPath());
+				return;
+			} 
+
+			if (!configData->writeToFile(outputFile)) {
+				wxLogError("Cannot successfully write to file '%s'.", saveFileDialog.GetPath());
+				return;
+			}
+			else {
+				outputFile->Write();
+				outputFile->Close();
+			}
+
+			
+
+		}
+	}
+
+	
+
 }
 
 void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
@@ -52,8 +112,13 @@ void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
 
 	if (displayConfDialog->ShowModal() == wxID_OK) {
 		//gather configuration data pointer.
-		if (this->configData == nullptr && displayConfDialog->configData != nullptr) {
+		if (displayConfDialog->configData != nullptr) {
 			this->configData = displayConfDialog->configData;
+
+			if (this->configData->isFullyInitialized())
+			{
+				m_saveConfButton->Enable();
+			}
 		}
 	}
 	displayConfDialog->Destroy();
@@ -68,8 +133,13 @@ void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 
 	if (experimentConfDialog->ShowModal() == wxID_OK) {
 		//gather configuration data pointer.
-		if (this->configData == nullptr && experimentConfDialog->configData != nullptr) {
+		if (experimentConfDialog->configData != nullptr) {
 			this->configData = experimentConfDialog->configData;
+
+			if (this->configData->isFullyInitialized())
+			{
+				m_saveConfButton->Enable();
+			}
 		}
 	}
 	experimentConfDialog->Destroy();
@@ -78,44 +148,88 @@ void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 
 void MainWindow::OnRunExperiment(wxCommandEvent& event)
 {
-	//Check CONFIGURATIONDATA object for proper initialization of data.
-	//Validation can be accomplished by using the validation built into DisplayConfigurationDialog and ExperimentConfigurationDialog
-	if (configData == nullptr) {
-		wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
-		warningMessage->ShowModal();
-		return;
+	if (!experimentRunning) {
+		//Check CONFIGURATIONDATA object for proper initialization of data.
+		//Validation can be accomplished by using the validation built into DisplayConfigurationDialog and ExperimentConfigurationDialog
+		if (configData == nullptr) {
+			wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
+			warningMessage->ShowModal();
+			return;
+		}
+		else if (!configData->isFullyInitialized()) {
+			wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
+			warningMessage->ShowModal();
+			return;
+		}
+
+		//Get DisplayEngine
+		DisplayEngine* displayEngine = DisplayEngine::getInstance();
+
+		//If DisplayEngine has already been started (experiment has been "staged"), skip starting
+		if (!displayEngine->isRunning()) {
+			//Prepare DisplayEngine (using config or otherwise)
+			displayEngine->setUsingConfigData(configData);
+
+			//Start DisplayEngine (this will open black borderless windows on all the configured displays)
+			displayEngine->startEngine();
+		}
+
+
+
+		//Prepare MRTExperiment (using config or otherwise)
+		MRTExperiment* experiment = new MRTExperiment();
+		experiment->initialize(configData);
+
+		experimentRunning = true;
+		m_runExperimentButton->Disable();
+		m_stageExperimentButton->Disable();
+
+		//Start Experiment (will run until time is complete and then rest at a black screen or terminate when ESCAPE is pressed)
+		experiment->run();
+
+		//Experiment cleanup
+		delete experiment;
+		experiment = nullptr;
+
+		//Stop DisplayEngine
+		displayEngine->stopEngine();
+
+		//Reset DisplayEngine
+		displayEngine->resetInstance();
+
+		experimentRunning = false;
+		m_runExperimentButton->Enable();
+		m_stageExperimentButton->Enable();
 	}
-	else if (!configData->isFullyInitialized()) {
-		wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
-		warningMessage->ShowModal();
-		return;
+}
+
+void MainWindow::OnStageExperiment(wxCommandEvent & event)
+{
+	if (!experimentRunning) {
+		//Check CONFIGURATIONDATA object for proper initialization of data.
+		//Validation can be accomplished by using the validation built into DisplayConfigurationDialog and ExperimentConfigurationDialog
+		if (configData == nullptr) {
+			wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
+			warningMessage->ShowModal();
+			return;
+		}
+		else if (!configData->isFullyInitialized()) {
+			wxMessageDialog* warningMessage = new wxMessageDialog(this, "Before running an experiment, please \"Load Configuration\" OR \"Configure Displays\" AND \"Configure Experiment\"", "Incomplete configuration", wxOK);
+			warningMessage->ShowModal();
+			return;
+		}
+
+		//Get DisplayEngine
+		DisplayEngine* displayEngine = DisplayEngine::getInstance();
+
+		if (!displayEngine->isRunning()) {
+			m_stageExperimentButton->Disable();
+
+			//Prepare DisplayEngine (using config or otherwise)
+			displayEngine->setUsingConfigData(configData);
+
+			//Start DisplayEngine (this will open black borderless windows on all the configured displays)
+			displayEngine->startEngine();
+		}
 	}
-
-	//Get DisplayEngine
-	DisplayEngine* displayEngine = DisplayEngine::getInstance();
-
-	//If DisplayEngine has already been started (experiment has been "staged"), skip starting
-	if (!displayEngine->isRunning()) {
-		//Prepare DisplayEngine (using config or otherwise)
-		displayEngine->setUsingConfigData(configData);
-
-		//Start DisplayEngine (this will open black borderless windows on all the configured displays)
-		displayEngine->startEngine();
-	}
-
-	//Prepare MRTExperiment (using config or otherwise)
-	MRTExperiment experiment;
-	experiment.initialize(configData);
-
-	//Start Experiment (will run until time is complete and then rest at a black screen or terminate when ESCAPE is pressed)
-	experiment.run();
-
-	//Experiment cleanup
-	experiment.~MRTExperiment();
-
-	//Stop DisplayEngine
-	displayEngine->stopEngine();
-
-	//Reset DisplayEngine
-	displayEngine->resetInstance();
 }

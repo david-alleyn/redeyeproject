@@ -11,15 +11,11 @@
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
-#include <wx/bitmap.h>
-#include <wx/image.h>
-#include <wx/icon.h>
-#include <wx/menu.h>
+#include <wx/button.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/button.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
@@ -35,20 +31,22 @@ class MainWindowView : public wxFrame
 	private:
 	
 	protected:
-		wxMenuBar* m_menubar;
-		wxMenu* m_fileMenu;
 		wxButton* m_displayConfButton;
 		wxButton* m_experimentConfButton;
 		wxButton* m_runExperimentButton;
+		wxButton* m_loadConfButton;
+		wxButton* m_saveConfButton;
+		wxButton* m_stageExperimentButton;
 		wxStaticText* m_logTextTitle;
 		wxTextCtrl* m_logTextControl;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnLoadConfiguration( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnSaveConfiguration( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDisplayConfiguration( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnExperimentConfiguration( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRunExperiment( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnLoadConfiguration( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSaveConfiguration( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnStageExperiment( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
