@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -25,14 +25,14 @@ MainWindowView::MainWindowView( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* topSizer;
 	topSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_displayConfButton = new wxButton( this, wxID_ANY, wxT("Display\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer->Add( m_displayConfButton, 0, wxALL, 5 );
+	displayConfButton = new wxButton( this, wxID_ANY, wxT("Display\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer->Add( displayConfButton, 0, wxALL, 5 );
 	
-	m_experimentConfButton = new wxButton( this, wxID_ANY, wxT("Experiment\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer->Add( m_experimentConfButton, 0, wxALL, 5 );
+	experimentConfButton = new wxButton( this, wxID_ANY, wxT("Experiment\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer->Add( experimentConfButton, 0, wxALL, 5 );
 	
-	m_runExperimentButton = new wxButton( this, wxID_ANY, wxT("Run\nExperiment"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer->Add( m_runExperimentButton, 0, wxALL, 5 );
+	runExperimentButton = new wxButton( this, wxID_ANY, wxT("Run\nExperiment"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer->Add( runExperimentButton, 0, wxALL, 5 );
 	
 	
 	rootSizer->Add( topSizer, 0, wxALIGN_CENTER, 5 );
@@ -40,14 +40,14 @@ MainWindowView::MainWindowView( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* topSizer1;
 	topSizer1 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_loadConfButton = new wxButton( this, wxID_ANY, wxT("Load\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer1->Add( m_loadConfButton, 0, wxALL, 5 );
+	loadConfButton = new wxButton( this, wxID_ANY, wxT("Load\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer1->Add( loadConfButton, 0, wxALL, 5 );
 	
-	m_saveConfButton = new wxButton( this, wxID_ANY, wxT("Save\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer1->Add( m_saveConfButton, 0, wxALL, 5 );
+	saveConfButton = new wxButton( this, wxID_ANY, wxT("Save\nConfiguration"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer1->Add( saveConfButton, 0, wxALL, 5 );
 	
-	m_stageExperimentButton = new wxButton( this, wxID_ANY, wxT("Stage\nExperiment"), wxDefaultPosition, wxDefaultSize, 0 );
-	topSizer1->Add( m_stageExperimentButton, 0, wxALL, 5 );
+	stageExperimentButton = new wxButton( this, wxID_ANY, wxT("Stage\nExperiment"), wxDefaultPosition, wxDefaultSize, 0 );
+	topSizer1->Add( stageExperimentButton, 0, wxALL, 5 );
 	
 	
 	rootSizer->Add( topSizer1, 0, wxALIGN_CENTER, 5 );
@@ -55,12 +55,12 @@ MainWindowView::MainWindowView( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* bottomSizer;
 	bottomSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_logTextTitle = new wxStaticText( this, wxID_ANY, wxT("The Program Log"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_logTextTitle->Wrap( -1 );
-	bottomSizer->Add( m_logTextTitle, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	logTextTitle = new wxStaticText( this, wxID_ANY, wxT("The Program Log"), wxDefaultPosition, wxDefaultSize, 0 );
+	logTextTitle->Wrap( -1 );
+	bottomSizer->Add( logTextTitle, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	m_logTextControl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	bottomSizer->Add( m_logTextControl, 1, wxALL|wxEXPAND, 5 );
+	logTextControl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	bottomSizer->Add( logTextControl, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	rootSizer->Add( bottomSizer, 1, wxEXPAND, 5 );
@@ -72,22 +72,22 @@ MainWindowView::MainWindowView( wxWindow* parent, wxWindowID id, const wxString&
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_displayConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnDisplayConfiguration ), NULL, this );
-	m_experimentConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnExperimentConfiguration ), NULL, this );
-	m_runExperimentButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnRunExperiment ), NULL, this );
-	m_loadConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnLoadConfiguration ), NULL, this );
-	m_saveConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnSaveConfiguration ), NULL, this );
-	m_stageExperimentButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnStageExperiment ), NULL, this );
+	displayConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnDisplayConfiguration ), NULL, this );
+	experimentConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnExperimentConfiguration ), NULL, this );
+	runExperimentButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnRunExperiment ), NULL, this );
+	loadConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnLoadConfiguration ), NULL, this );
+	saveConfButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnSaveConfiguration ), NULL, this );
+	stageExperimentButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnStageExperiment ), NULL, this );
 }
 
 MainWindowView::~MainWindowView()
 {
 	// Disconnect Events
-	m_displayConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnDisplayConfiguration ), NULL, this );
-	m_experimentConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnExperimentConfiguration ), NULL, this );
-	m_runExperimentButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnRunExperiment ), NULL, this );
-	m_loadConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnLoadConfiguration ), NULL, this );
-	m_saveConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnSaveConfiguration ), NULL, this );
-	m_stageExperimentButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnStageExperiment ), NULL, this );
+	displayConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnDisplayConfiguration ), NULL, this );
+	experimentConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnExperimentConfiguration ), NULL, this );
+	runExperimentButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnRunExperiment ), NULL, this );
+	loadConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnLoadConfiguration ), NULL, this );
+	saveConfButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnSaveConfiguration ), NULL, this );
+	stageExperimentButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainWindowView::OnStageExperiment ), NULL, this );
 	
 }

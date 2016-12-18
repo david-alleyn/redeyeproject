@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -31,15 +31,15 @@ class DisplayConfigurationDialogView : public wxDialog
 	private:
 	
 	protected:
-		wxStaticText* m_staticText41;
-		wxStaticText* m_staticText4;
-		wxStaticText* m_staticText42;
-		wxStaticText* m_staticText6;
+		wxStaticText* instructionLabel1;
+		wxStaticText* instructionLabel2;
+		wxStaticText* instructionLabel3;
+		wxStaticText* firstDisplayIndexLabel;
 		wxChoice* firstDisplayIndex;
-		wxStaticText* m_staticText61;
+		wxStaticText* lastDisplayIndexLabel;
 		wxChoice* lastDisplayIndex;
-		wxButton* m_okButton;
-		wxButton* m_cancelButton;
+		wxButton* okButton;
+		wxButton* cancelButton;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnExit( wxCloseEvent& event ) { event.Skip(); }

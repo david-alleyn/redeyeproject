@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -28,19 +28,18 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	wxBoxSizer* editorParametersSizer;
 	editorParametersSizer = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* editorColumnsSizer1;
-	editorColumnsSizer1 = new wxBoxSizer( wxVERTICAL );
+	experimentParametersLabel = new wxStaticText( this, wxID_ANY, wxT("Experiment Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
+	experimentParametersLabel->Wrap( -1 );
+	experimentParametersLabel->SetFont( wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
 	
-	m_staticText23 = new wxStaticText( this, wxID_ANY, wxT("Experiment Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText23->Wrap( -1 );
-	editorColumnsSizer1->Add( m_staticText23, 0, wxALL, 5 );
+	editorParametersSizer->Add( experimentParametersLabel, 0, wxALL, 5 );
 	
 	wxBoxSizer* durationSizer;
 	durationSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Experiment Duration:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2->Wrap( -1 );
-	durationSizer->Add( m_staticText2, 0, wxALL, 5 );
+	experimentDurationLabel = new wxStaticText( this, wxID_ANY, wxT("Experiment Duration:"), wxDefaultPosition, wxDefaultSize, 0 );
+	experimentDurationLabel->Wrap( -1 );
+	durationSizer->Add( experimentDurationLabel, 0, wxALL, 5 );
 	
 	wxArrayString experimentDurationChoices;
 	experimentDuration = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, experimentDurationChoices, 0 );
@@ -49,9 +48,9 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	
 	durationSizer->Add( experimentDuration, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
-	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Time in Seconds:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText3->Wrap( -1 );
-	durationSizer->Add( m_staticText3, 0, wxALL, 5 );
+	timeInSecondsLabel = new wxStaticText( this, wxID_ANY, wxT("Time in Seconds:"), wxDefaultPosition, wxDefaultSize, 0 );
+	timeInSecondsLabel->Wrap( -1 );
+	durationSizer->Add( timeInSecondsLabel, 0, wxALL, 5 );
 	
 	timeInSeconds = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	timeInSeconds->Enable( false );
@@ -60,14 +59,14 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	durationSizer->Add( timeInSeconds, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( durationSizer, 0, wxEXPAND, 5 );
+	editorParametersSizer->Add( durationSizer, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* movingObjectionSizer;
 	movingObjectionSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22 = new wxStaticText( this, wxID_ANY, wxT("Moving Object Type:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22->Wrap( -1 );
-	movingObjectionSizer->Add( m_staticText22, 0, wxALL, 5 );
+	movingObjectTypeLabel = new wxStaticText( this, wxID_ANY, wxT("Moving Object Type:"), wxDefaultPosition, wxDefaultSize, 0 );
+	movingObjectTypeLabel->Wrap( -1 );
+	movingObjectionSizer->Add( movingObjectTypeLabel, 0, wxALL, 5 );
 	
 	wxArrayString movingObjectTypeChoices;
 	movingObjectType = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, movingObjectTypeChoices, 0 );
@@ -77,40 +76,40 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	movingObjectionSizer->Add( movingObjectType, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( movingObjectionSizer, 0, wxEXPAND, 5 );
+	editorParametersSizer->Add( movingObjectionSizer, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* numberOfObjectsSizer;
 	numberOfObjectsSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22221 = new wxStaticText( this, wxID_ANY, wxT("Number of Objects:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22221->Wrap( -1 );
-	numberOfObjectsSizer->Add( m_staticText22221, 0, wxALL, 5 );
+	numberOfObjectsLabel = new wxStaticText( this, wxID_ANY, wxT("Number of Objects:"), wxDefaultPosition, wxDefaultSize, 0 );
+	numberOfObjectsLabel->Wrap( -1 );
+	numberOfObjectsSizer->Add( numberOfObjectsLabel, 0, wxALL, 5 );
 	
 	numberOfObjects = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	numberOfObjectsSizer->Add( numberOfObjects, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( numberOfObjectsSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( numberOfObjectsSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* sizeOfObjectsSizer;
 	sizeOfObjectsSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText222211 = new wxStaticText( this, wxID_ANY, wxT("Size of Objects:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText222211->Wrap( -1 );
-	sizeOfObjectsSizer->Add( m_staticText222211, 0, wxALL, 5 );
+	sizeOfObjectsLabel = new wxStaticText( this, wxID_ANY, wxT("Size of Objects:"), wxDefaultPosition, wxDefaultSize, 0 );
+	sizeOfObjectsLabel->Wrap( -1 );
+	sizeOfObjectsSizer->Add( sizeOfObjectsLabel, 0, wxALL, 5 );
 	
 	sizeOfObjects = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	sizeOfObjectsSizer->Add( sizeOfObjects, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( sizeOfObjectsSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( sizeOfObjectsSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* objectColourSizer;
 	objectColourSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText221 = new wxStaticText( this, wxID_ANY, wxT("Object Colour:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText221->Wrap( -1 );
-	objectColourSizer->Add( m_staticText221, 0, wxALIGN_CENTER|wxALL, 5 );
+	objectColorLabel = new wxStaticText( this, wxID_ANY, wxT("Object Colour:"), wxDefaultPosition, wxDefaultSize, 0 );
+	objectColorLabel->Wrap( -1 );
+	objectColourSizer->Add( objectColorLabel, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	selectedColour = new wxColourPickerCtrl( this, wxID_ANY, *wxBLACK, wxDefaultPosition, wxDefaultSize, wxCLRP_DEFAULT_STYLE );
 	selectedColour->SetMinSize( wxSize( 100,30 ) );
@@ -118,14 +117,14 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	objectColourSizer->Add( selectedColour, 0, wxALIGN_CENTER, 5 );
 	
 	
-	editorColumnsSizer1->Add( objectColourSizer, 0, wxEXPAND, 5 );
+	editorParametersSizer->Add( objectColourSizer, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* behavioralModelSizer;
 	behavioralModelSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText222 = new wxStaticText( this, wxID_ANY, wxT("Behavioral Model:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText222->Wrap( -1 );
-	behavioralModelSizer->Add( m_staticText222, 0, wxALL, 5 );
+	behavioralModelLabel = new wxStaticText( this, wxID_ANY, wxT("Behavioral Model:"), wxDefaultPosition, wxDefaultSize, 0 );
+	behavioralModelLabel->Wrap( -1 );
+	behavioralModelSizer->Add( behavioralModelLabel, 0, wxALL, 5 );
 	
 	wxArrayString behavioralModelChoices;
 	behavioralModel = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, behavioralModelChoices, 0 );
@@ -135,134 +134,133 @@ ExperimentConfigurationDialogView::ExperimentConfigurationDialogView( wxWindow* 
 	behavioralModelSizer->Add( behavioralModel, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( behavioralModelSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( behavioralModelSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* objectSpeedSizer;
 	objectSpeedSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText2222 = new wxStaticText( this, wxID_ANY, wxT("Object Speed:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2222->Wrap( -1 );
-	objectSpeedSizer->Add( m_staticText2222, 0, wxALL, 5 );
+	objectSpeedLabel = new wxStaticText( this, wxID_ANY, wxT("Object Speed:"), wxDefaultPosition, wxDefaultSize, 0 );
+	objectSpeedLabel->Wrap( -1 );
+	objectSpeedSizer->Add( objectSpeedLabel, 0, wxALL, 5 );
 	
 	objectSpeed = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	objectSpeedSizer->Add( objectSpeed, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( objectSpeedSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( objectSpeedSizer, 1, wxEXPAND, 5 );
 	
-	m_staticline5 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	editorColumnsSizer1->Add( m_staticline5, 0, wxEXPAND | wxALL, 5 );
+	parametersLineSeperator = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	editorParametersSizer->Add( parametersLineSeperator, 0, wxEXPAND | wxALL, 5 );
 	
-	m_staticText22215 = new wxStaticText( this, wxID_ANY, wxT("Grid Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22215->Wrap( -1 );
-	editorColumnsSizer1->Add( m_staticText22215, 0, wxALL, 5 );
+	gridParametersLabel = new wxStaticText( this, wxID_ANY, wxT("Grid Parameters"), wxDefaultPosition, wxDefaultSize, 0 );
+	gridParametersLabel->Wrap( -1 );
+	gridParametersLabel->SetFont( wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Arial") ) );
+	
+	editorParametersSizer->Add( gridParametersLabel, 0, wxALL, 5 );
 	
 	wxBoxSizer* rowsSizer;
 	rowsSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText2221 = new wxStaticText( this, wxID_ANY, wxT("Rows:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2221->Wrap( -1 );
-	rowsSizer->Add( m_staticText2221, 0, wxALL, 5 );
+	rowsLabel = new wxStaticText( this, wxID_ANY, wxT("Rows:"), wxDefaultPosition, wxDefaultSize, 0 );
+	rowsLabel->Wrap( -1 );
+	rowsSizer->Add( rowsLabel, 0, wxALL, 5 );
 	
 	gridRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	rowsSizer->Add( gridRows, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( rowsSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( rowsSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* columnsSizer;
 	columnsSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22211 = new wxStaticText( this, wxID_ANY, wxT("Columns:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22211->Wrap( -1 );
-	columnsSizer->Add( m_staticText22211, 0, wxALL, 5 );
+	columnsLabel = new wxStaticText( this, wxID_ANY, wxT("Columns:"), wxDefaultPosition, wxDefaultSize, 0 );
+	columnsLabel->Wrap( -1 );
+	columnsSizer->Add( columnsLabel, 0, wxALL, 5 );
 	
 	gridColumns = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	columnsSizer->Add( gridColumns, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( columnsSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( columnsSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* leftMarginSizer;
 	leftMarginSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22212 = new wxStaticText( this, wxID_ANY, wxT("Left Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22212->Wrap( -1 );
-	leftMarginSizer->Add( m_staticText22212, 0, wxALL, 5 );
+	leftMarginLabel = new wxStaticText( this, wxID_ANY, wxT("Left Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	leftMarginLabel->Wrap( -1 );
+	leftMarginSizer->Add( leftMarginLabel, 0, wxALL, 5 );
 	
 	gridLeftMargin = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	leftMarginSizer->Add( gridLeftMargin, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( leftMarginSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( leftMarginSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* rightMarginSizer;
 	rightMarginSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22213 = new wxStaticText( this, wxID_ANY, wxT("Right Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22213->Wrap( -1 );
-	rightMarginSizer->Add( m_staticText22213, 0, wxALL, 5 );
+	rightMarginLabel = new wxStaticText( this, wxID_ANY, wxT("Right Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	rightMarginLabel->Wrap( -1 );
+	rightMarginSizer->Add( rightMarginLabel, 0, wxALL, 5 );
 	
 	gridRightMargin = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	rightMarginSizer->Add( gridRightMargin, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( rightMarginSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( rightMarginSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* topMarginSizer;
 	topMarginSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText22214 = new wxStaticText( this, wxID_ANY, wxT("Top Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText22214->Wrap( -1 );
-	topMarginSizer->Add( m_staticText22214, 0, wxALL, 5 );
+	topMarginLabel = new wxStaticText( this, wxID_ANY, wxT("Top Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	topMarginLabel->Wrap( -1 );
+	topMarginSizer->Add( topMarginLabel, 0, wxALL, 5 );
 	
 	gridTopMargin = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	topMarginSizer->Add( gridTopMargin, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( topMarginSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( topMarginSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bottomMarginSizer;
 	bottomMarginSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText222141 = new wxStaticText( this, wxID_ANY, wxT("Bottom Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText222141->Wrap( -1 );
-	bottomMarginSizer->Add( m_staticText222141, 0, wxALL, 5 );
+	bottomMarginLabel = new wxStaticText( this, wxID_ANY, wxT("Bottom Margin (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	bottomMarginLabel->Wrap( -1 );
+	bottomMarginSizer->Add( bottomMarginLabel, 0, wxALL, 5 );
 	
 	gridBottomMargin = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bottomMarginSizer->Add( gridBottomMargin, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( bottomMarginSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( bottomMarginSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* verticalCellSeperationSizer;
 	verticalCellSeperationSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText222142 = new wxStaticText( this, wxID_ANY, wxT("Vertical Cell Seperation (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText222142->Wrap( -1 );
-	verticalCellSeperationSizer->Add( m_staticText222142, 0, wxALL, 5 );
+	verticalSeperationLabel = new wxStaticText( this, wxID_ANY, wxT("Vertical Cell Seperation (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	verticalSeperationLabel->Wrap( -1 );
+	verticalCellSeperationSizer->Add( verticalSeperationLabel, 0, wxALL, 5 );
 	
 	gridVerticalSeperation = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	verticalCellSeperationSizer->Add( gridVerticalSeperation, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( verticalCellSeperationSizer, 1, wxEXPAND, 5 );
+	editorParametersSizer->Add( verticalCellSeperationSizer, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* horizontalCellSeperationSizer;
 	horizontalCellSeperationSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText2221421 = new wxStaticText( this, wxID_ANY, wxT("Horizontal Cell Seperation (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2221421->Wrap( -1 );
-	horizontalCellSeperationSizer->Add( m_staticText2221421, 0, wxALL, 5 );
+	horizontalSeperationLabel = new wxStaticText( this, wxID_ANY, wxT("Horizontal Cell Seperation (% of Screen):"), wxDefaultPosition, wxDefaultSize, 0 );
+	horizontalSeperationLabel->Wrap( -1 );
+	horizontalCellSeperationSizer->Add( horizontalSeperationLabel, 0, wxALL, 5 );
 	
 	gridHorizontalSeperation = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	horizontalCellSeperationSizer->Add( gridHorizontalSeperation, 0, wxALIGN_CENTER|wxLEFT|wxRIGHT, 5 );
 	
 	
-	editorColumnsSizer1->Add( horizontalCellSeperationSizer, 1, wxEXPAND, 5 );
-	
-	
-	editorParametersSizer->Add( editorColumnsSizer1, 0, wxEXPAND, 5 );
+	editorParametersSizer->Add( horizontalCellSeperationSizer, 1, wxEXPAND, 5 );
 	
 	
 	editorColumnsSizer->Add( editorParametersSizer, 0, wxEXPAND, 5 );

@@ -182,6 +182,7 @@ bool MRTExperiment::initialize(ConfigurationData* configData)
 
 		for (int dot = 0; dot < dots.size(); dot++) {
 			dots[dot]->setBounds(leftBound, rightBound, topBound, bottomBound);
+			dots[dot]->setRandomPosition();
 		}
 
 		initialized = true;

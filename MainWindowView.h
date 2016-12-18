@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -31,14 +31,14 @@ class MainWindowView : public wxFrame
 	private:
 	
 	protected:
-		wxButton* m_displayConfButton;
-		wxButton* m_experimentConfButton;
-		wxButton* m_runExperimentButton;
-		wxButton* m_loadConfButton;
-		wxButton* m_saveConfButton;
-		wxButton* m_stageExperimentButton;
-		wxStaticText* m_logTextTitle;
-		wxTextCtrl* m_logTextControl;
+		wxButton* displayConfButton;
+		wxButton* experimentConfButton;
+		wxButton* runExperimentButton;
+		wxButton* loadConfButton;
+		wxButton* saveConfButton;
+		wxButton* stageExperimentButton;
+		wxStaticText* logTextTitle;
+		wxTextCtrl* logTextControl;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnDisplayConfiguration( wxCommandEvent& event ) { event.Skip(); }

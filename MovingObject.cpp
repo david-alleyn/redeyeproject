@@ -18,6 +18,7 @@ MovingObject::MovingObject()
 
 	unif = std::uniform_real_distribution<double>(0.0, 1.0);
 	re = std::default_random_engine(id);
+	re.seed((unsigned int) ((wxGetLocalTime() + id) % UINT_MAX));
 }
 
 
@@ -105,6 +106,15 @@ void MovingObject::setDeltaPosition(glm::vec2 deltaPosition) {
 
 void MovingObject::setSpeed(double speed) {
 	this->speed = speed;
+}
+
+void MovingObject::setRandomPosition() {
+
+	std::uniform_real_distribution<double> xValueGen(leftbound, rightbound);
+	std::uniform_real_distribution<double> yValueGen(bottombound, topbound);
+
+	position.x = xValueGen(re);
+	position.y = yValueGen(re);
 }
 
 void MovingObject::randomMovement() {

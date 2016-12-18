@@ -90,4 +90,8 @@ public:
 	//Returns the drawable area size of the currently active window
 	//REQUIRES isRunning() to return true
 	bool getActiveWindowSize(int& width, int& height);
+
+	//Focuses the currently active window
+	//REQUIRES isRunning() to return true
+	bool setFocusToActiveWindow();
 };

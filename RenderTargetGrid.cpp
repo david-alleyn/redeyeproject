@@ -153,7 +153,7 @@ void RenderTargetGrid::draw() {
 }
 
 double RenderTargetGrid::getAspectRatio(unsigned int vaoIndex) {
-	return drawWidth[vaoIndex] / drawHeight[vaoIndex];
+	return (double) drawWidth[vaoIndex] / (double) drawHeight[vaoIndex];
 }
 
 RenderTargetGrid::~RenderTargetGrid()

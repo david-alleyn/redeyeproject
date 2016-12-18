@@ -182,10 +182,15 @@ bool DisplayEngine::startEngine()
 
 		Window window = Window(sdl_window, sdl_glContext);
 
+		SDL_GL_MakeCurrent(sdl_window, sdl_glContext);
+
 		//sync to refresh rate
 		SDL_GL_SetSwapInterval(1);
 
 		windows.push_back(window);
+
+		//record the index of the most recently created window as the "currently active display"
+		currentlyActiveWindow = windows.size() - 1;
 	}
 
 	running = true;
@@ -245,6 +250,7 @@ bool DisplayEngine::setActiveWindow(int displayIndex) {
 
 	if (displayIndex >= 0 && displayIndex <= getNumWindows() - 1) {
 		if (SDL_GL_MakeCurrent(windows[displayIndex].window, windows[displayIndex].glContext) == 0) {
+			currentlyActiveWindow = displayIndex;
 			return true;
 		}
 		else {
@@ -299,6 +305,22 @@ bool DisplayEngine::getActiveWindowSize(int & width, int & height) {
 	}
 
 	SDL_GL_GetDrawableSize(windows[currentlyActiveWindow].window, &width, &height);
+	return true;
+}
+
+//Focuses the currently active window
+//REQUIRES isRunning() to return true
+
+bool DisplayEngine::setFocusToActiveWindow() {
+	if (!isRunning()) {
+		wxLogMessage("Error: In setFocusToActiveWindow(), DisplayEngine is not running!");
+		return false;
+	}
+
+	if (SDL_SetWindowInputFocus(windows[currentlyActiveWindow].window) < 0) {
+		wxLogMessage("Error: In setFocusToActiveWindow(), could not set focus to active window! " + wxString(SDL_GetError()));
+		return false;
+	}
 	return true;
 }
 

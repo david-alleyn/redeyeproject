@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -34,40 +34,40 @@ class ExperimentConfigurationDialogView : public wxDialog
 	private:
 	
 	protected:
-		wxStaticText* m_staticText23;
-		wxStaticText* m_staticText2;
+		wxStaticText* experimentParametersLabel;
+		wxStaticText* experimentDurationLabel;
 		wxChoice* experimentDuration;
-		wxStaticText* m_staticText3;
+		wxStaticText* timeInSecondsLabel;
 		wxTextCtrl* timeInSeconds;
-		wxStaticText* m_staticText22;
+		wxStaticText* movingObjectTypeLabel;
 		wxChoice* movingObjectType;
-		wxStaticText* m_staticText22221;
+		wxStaticText* numberOfObjectsLabel;
 		wxTextCtrl* numberOfObjects;
-		wxStaticText* m_staticText222211;
+		wxStaticText* sizeOfObjectsLabel;
 		wxTextCtrl* sizeOfObjects;
-		wxStaticText* m_staticText221;
+		wxStaticText* objectColorLabel;
 		wxColourPickerCtrl* selectedColour;
-		wxStaticText* m_staticText222;
+		wxStaticText* behavioralModelLabel;
 		wxChoice* behavioralModel;
-		wxStaticText* m_staticText2222;
+		wxStaticText* objectSpeedLabel;
 		wxTextCtrl* objectSpeed;
-		wxStaticLine* m_staticline5;
-		wxStaticText* m_staticText22215;
-		wxStaticText* m_staticText2221;
+		wxStaticLine* parametersLineSeperator;
+		wxStaticText* gridParametersLabel;
+		wxStaticText* rowsLabel;
 		wxTextCtrl* gridRows;
-		wxStaticText* m_staticText22211;
+		wxStaticText* columnsLabel;
 		wxTextCtrl* gridColumns;
-		wxStaticText* m_staticText22212;
+		wxStaticText* leftMarginLabel;
 		wxTextCtrl* gridLeftMargin;
-		wxStaticText* m_staticText22213;
+		wxStaticText* rightMarginLabel;
 		wxTextCtrl* gridRightMargin;
-		wxStaticText* m_staticText22214;
+		wxStaticText* topMarginLabel;
 		wxTextCtrl* gridTopMargin;
-		wxStaticText* m_staticText222141;
+		wxStaticText* bottomMarginLabel;
 		wxTextCtrl* gridBottomMargin;
-		wxStaticText* m_staticText222142;
+		wxStaticText* verticalSeperationLabel;
 		wxTextCtrl* gridVerticalSeperation;
-		wxStaticText* m_staticText2221421;
+		wxStaticText* horizontalSeperationLabel;
 		wxTextCtrl* gridHorizontalSeperation;
 		wxButton* okButton;
 		wxButton* cancelButton;

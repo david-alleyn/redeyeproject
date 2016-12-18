@@ -58,6 +58,7 @@ public:
 	void setPosition(glm::vec2 position);
 	void setDeltaPosition(glm::vec2 deltaPosition);
 	void setSpeed(double speed);
+	void setRandomPosition();
 
 	virtual void randomMovement();
 	virtual void addVao() = 0;

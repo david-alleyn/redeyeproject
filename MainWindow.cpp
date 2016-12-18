@@ -14,12 +14,12 @@
 
 MainWindow::MainWindow() : MainWindowView(0)
 {
-	logtextctrl = new wxLogTextCtrl(m_logTextControl);
+	logtextctrl = new wxLogTextCtrl(logTextControl);
 	wxLog::SetActiveTarget(logtextctrl);
 
 	configData = nullptr;
 	experimentRunning = false;
-	m_saveConfButton->Disable();
+	saveConfButton->Disable();
 }
 
 
@@ -57,7 +57,7 @@ void MainWindow::OnLoadConfiguration(wxCommandEvent& event)
 
 	if (configData != nullptr){
 		if (configData->isFullyInitialized()) {
-			m_saveConfButton->Enable();
+			saveConfButton->Enable();
 		}
 	}
 
@@ -117,7 +117,7 @@ void MainWindow::OnDisplayConfiguration(wxCommandEvent& event)
 
 			if (this->configData->isFullyInitialized())
 			{
-				m_saveConfButton->Enable();
+				saveConfButton->Enable();
 			}
 		}
 	}
@@ -138,7 +138,7 @@ void MainWindow::OnExperimentConfiguration(wxCommandEvent& event)
 
 			if (this->configData->isFullyInitialized())
 			{
-				m_saveConfButton->Enable();
+				saveConfButton->Enable();
 			}
 		}
 	}
@@ -173,6 +173,9 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 			//Start DisplayEngine (this will open black borderless windows on all the configured displays)
 			displayEngine->startEngine();
 		}
+		else {
+			displayEngine->setFocusToActiveWindow();
+		}
 
 
 
@@ -181,8 +184,8 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 		experiment->initialize(configData);
 
 		experimentRunning = true;
-		m_runExperimentButton->Disable();
-		m_stageExperimentButton->Disable();
+		runExperimentButton->Disable();
+		stageExperimentButton->Disable();
 
 		//Start Experiment (will run until time is complete and then rest at a black screen or terminate when ESCAPE is pressed)
 		experiment->run();
@@ -198,8 +201,8 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 		displayEngine->resetInstance();
 
 		experimentRunning = false;
-		m_runExperimentButton->Enable();
-		m_stageExperimentButton->Enable();
+		runExperimentButton->Enable();
+		stageExperimentButton->Enable();
 	}
 }
 
@@ -223,7 +226,7 @@ void MainWindow::OnStageExperiment(wxCommandEvent & event)
 		DisplayEngine* displayEngine = DisplayEngine::getInstance();
 
 		if (!displayEngine->isRunning()) {
-			m_stageExperimentButton->Disable();
+			stageExperimentButton->Disable();
 
 			//Prepare DisplayEngine (using config or otherwise)
 			displayEngine->setUsingConfigData(configData);

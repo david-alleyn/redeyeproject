@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun 17 2015)
+// C++ code generated with wxFormBuilder (version Dec 14 2016)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -22,74 +22,74 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	wxBoxSizer* rootSizer;
 	rootSizer = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* line1Sizer1;
-	line1Sizer1 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* labelSizer1;
+	labelSizer1 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText41 = new wxStaticText( this, wxID_ANY, wxT("Please specify the displays which will be used in the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText41->Wrap( -1 );
-	line1Sizer1->Add( m_staticText41, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
-	
-	
-	rootSizer->Add( line1Sizer1, 0, wxEXPAND, 5 );
-	
-	wxBoxSizer* line1Sizer;
-	line1Sizer = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("We recommend NOT specifying display #1."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	line1Sizer->Add( m_staticText4, 0, wxLEFT|wxRIGHT, 5 );
+	instructionLabel1 = new wxStaticText( this, wxID_ANY, wxT("Please specify the displays which will be used in the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
+	instructionLabel1->Wrap( -1 );
+	labelSizer1->Add( instructionLabel1, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	
-	rootSizer->Add( line1Sizer, 0, wxEXPAND, 5 );
+	rootSizer->Add( labelSizer1, 0, wxEXPAND, 5 );
 	
-	wxBoxSizer* line1Sizer2;
-	line1Sizer2 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* labelSizer2;
+	labelSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText42 = new wxStaticText( this, wxID_ANY, wxT("Display #1 is generally used to control the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText42->Wrap( -1 );
-	line1Sizer2->Add( m_staticText42, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	instructionLabel2 = new wxStaticText( this, wxID_ANY, wxT("We recommend NOT specifying display #1."), wxDefaultPosition, wxDefaultSize, 0 );
+	instructionLabel2->Wrap( -1 );
+	labelSizer2->Add( instructionLabel2, 0, wxLEFT|wxRIGHT, 5 );
 	
 	
-	rootSizer->Add( line1Sizer2, 1, wxEXPAND, 5 );
+	rootSizer->Add( labelSizer2, 0, wxEXPAND, 5 );
 	
-	wxBoxSizer* line2Sizer;
-	line2Sizer = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* labelSizer3;
+	labelSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText6 = new wxStaticText( this, wxID_ANY, wxT("Specify the first display to use:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText6->Wrap( -1 );
-	line2Sizer->Add( m_staticText6, 0, wxALL, 5 );
+	instructionLabel3 = new wxStaticText( this, wxID_ANY, wxT("Display #1 is generally used to control the experiment."), wxDefaultPosition, wxDefaultSize, 0 );
+	instructionLabel3->Wrap( -1 );
+	labelSizer3->Add( instructionLabel3, 0, wxBOTTOM|wxLEFT|wxRIGHT, 5 );
+	
+	
+	rootSizer->Add( labelSizer3, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* labelSizer4;
+	labelSizer4 = new wxBoxSizer( wxHORIZONTAL );
+	
+	firstDisplayIndexLabel = new wxStaticText( this, wxID_ANY, wxT("Specify the first display to use:"), wxDefaultPosition, wxDefaultSize, 0 );
+	firstDisplayIndexLabel->Wrap( -1 );
+	labelSizer4->Add( firstDisplayIndexLabel, 0, wxALL, 5 );
 	
 	wxArrayString firstDisplayIndexChoices;
 	firstDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, firstDisplayIndexChoices, 0 );
 	firstDisplayIndex->SetSelection( 0 );
-	line2Sizer->Add( firstDisplayIndex, 0, wxALIGN_CENTER, 5 );
+	labelSizer4->Add( firstDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
-	rootSizer->Add( line2Sizer, 0, wxALIGN_RIGHT, 5 );
+	rootSizer->Add( labelSizer4, 0, wxALIGN_RIGHT, 5 );
 	
-	wxBoxSizer* line2Sizer1;
-	line2Sizer1 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* labelSizer5;
+	labelSizer5 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_staticText61 = new wxStaticText( this, wxID_ANY, wxT("Specify the last display to use:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText61->Wrap( -1 );
-	line2Sizer1->Add( m_staticText61, 0, wxALL, 5 );
+	lastDisplayIndexLabel = new wxStaticText( this, wxID_ANY, wxT("Specify the last display to use:"), wxDefaultPosition, wxDefaultSize, 0 );
+	lastDisplayIndexLabel->Wrap( -1 );
+	labelSizer5->Add( lastDisplayIndexLabel, 0, wxALL, 5 );
 	
 	wxArrayString lastDisplayIndexChoices;
 	lastDisplayIndex = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, lastDisplayIndexChoices, 0 );
 	lastDisplayIndex->SetSelection( 0 );
-	line2Sizer1->Add( lastDisplayIndex, 0, wxALIGN_CENTER, 5 );
+	labelSizer5->Add( lastDisplayIndex, 0, wxALIGN_CENTER, 5 );
 	
 	
-	rootSizer->Add( line2Sizer1, 1, wxALIGN_RIGHT, 5 );
+	rootSizer->Add( labelSizer5, 1, wxALIGN_RIGHT, 5 );
 	
 	wxBoxSizer* OkCancelSizer;
 	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_okButton = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	OkCancelSizer->Add( m_okButton, 0, wxALL, 5 );
+	okButton = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	OkCancelSizer->Add( okButton, 0, wxALL, 5 );
 	
-	m_cancelButton = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	OkCancelSizer->Add( m_cancelButton, 0, wxALL, 5 );
+	cancelButton = new wxButton( this, wxID_CANCEL, wxT("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	OkCancelSizer->Add( cancelButton, 0, wxALL, 5 );
 	
 	
 	rootSizer->Add( OkCancelSizer, 0, wxALIGN_RIGHT, 5 );
@@ -103,15 +103,15 @@ DisplayConfigurationDialogView::DisplayConfigurationDialogView( wxWindow* parent
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DisplayConfigurationDialogView::OnExit ) );
-	m_okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
-	m_cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
+	okButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
+	cancelButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
 }
 
 DisplayConfigurationDialogView::~DisplayConfigurationDialogView()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( DisplayConfigurationDialogView::OnExit ) );
-	m_okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
-	m_cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
+	okButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnOk ), NULL, this );
+	cancelButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DisplayConfigurationDialogView::OnExit ), NULL, this );
 	
 }
