@@ -107,6 +107,8 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir)/libs/wxWidgets/include/;$(ProjectDir)/libs/wxWidgets/include/msvc/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/SDL2/include/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/glm/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,14 +138,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WXUSINGDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)/libs/wxWidgets/include/;$(ProjectDir)/libs/wxWidgets/include/msvc/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/SDL2/include/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/glm/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,7 +157,7 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
-      <AdditionalLibraryDirectories>$(ProjectDir)/libs/glew/lib/Release/x64;$(ProjectDir)/libs/wxWidgets/lib/vc140_x64_dll;$(ProjectDir)/libs/SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)/libs/glew/lib/Release/x64;$(ProjectDir)/libs/wxWidgets/lib/vc_x64_dll;$(ProjectDir)/libs/SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -177,6 +180,7 @@
     </ClCompile>
     <ClCompile Include="RedEyeApp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RenderTargetGrid.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
