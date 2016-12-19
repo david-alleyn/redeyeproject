@@ -164,11 +164,14 @@
       <AdditionalLibraryDirectories>$(ProjectDir)/libs/glew/lib/Release/x64;$(ProjectDir)/libs/wxWidgets/lib/vc_x64_dll;$(ProjectDir)/libs/SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)*.fs $(OutputPath) /Y /D
-xcopy $(ProjectDir)*.vs $(OutputPath) /Y /D
-xcopy $(ProjectDir)*.gs $(OutputPath) /Y /D
-xcopy $(ProjectDir)libs\SDL2\lib\x64\*.dll $(OutputPath) /Y /D
-xcopy $(ProjectDir)libs\wxWidgets\lib\vc_x64_dll\wx*u_*.dll $(OutputPath) /Y /D</Command>
+      <Command>xcopy "$(ProjectDir)*.fs" $(OutputPath) /Y /D
+xcopy "$(ProjectDir)*.vs" $(OutputPath) /Y /D
+xcopy "$(ProjectDir)*.gs" $(OutputPath) /Y /D
+
+xcopy "$(ProjectDir)libs\SDL2\lib\x64\*.dll" $(OutputPath) /Y /D
+xcopy "$(ProjectDir)libs\wxWidgets\lib\vc_x64_dll\wx*u_*.dll" $(OutputPath) /Y /D
+
+xcopy "$(VCInstallDir_140)redist\x64\Microsoft.VC140.CRT\*.dll" $(OutputPath) /Y /D</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -216,10 +219,18 @@ xcopy $(ProjectDir)libs\wxWidgets\lib\vc_x64_dll\wx*u_*.dll $(OutputPath) /Y /D<
     <ClInclude Include="ShaderLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="basicShader.fs" />
-    <None Include="basicShader.vs" />
-    <None Include="renderToTexture.fs" />
-    <None Include="renderToTexture.vs" />
+    <None Include="basicShader.fs">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="basicShader.vs">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="renderToTexture.fs">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="renderToTexture.vs">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
