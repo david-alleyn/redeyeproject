@@ -2,7 +2,7 @@
 
 **Pre-built project binaries for Windows**
 
-Zip File: https://drive.google.com/open?id=0B2cXFE6Ox3lwYTNPV3BMcmNVOG8
+Zip File: https://drive.google.com/open?id=0B2cXFE6Ox3lwYTNPV3BMcmNVOG8  
 Installer: https://drive.google.com/open?id=0B2cXFE6Ox3lwRXF6T0FYVm43QWs
 
 **Dependent Library Binaries**
