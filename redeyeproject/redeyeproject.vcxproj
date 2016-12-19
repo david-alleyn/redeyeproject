@@ -185,7 +185,7 @@ xcopy "$(VCInstallDir_140)redist\x64\Microsoft.VC140.CRT\*.dll" $(OutputPath) /Y
     </ClCompile>
     <ClCompile Include="ExperimentConfigurationDialog.cpp" />
     <ClCompile Include="ExperimentConfigurationDialogView.cpp" />
-    <ClCompile Include="FBO.cpp" />
+    <ClCompile Include="FrameBufferWrapper.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MainWindowView.cpp" />
     <ClCompile Include="MovingCircle.cpp" />
@@ -207,7 +207,7 @@ xcopy "$(VCInstallDir_140)redist\x64\Microsoft.VC140.CRT\*.dll" $(OutputPath) /Y
     <ClInclude Include="DisplayEngine.h" />
     <ClInclude Include="ExperimentConfigurationDialog.h" />
     <ClInclude Include="ExperimentConfigurationDialogView.h" />
-    <ClInclude Include="FBO.h" />
+    <ClInclude Include="FrameBufferWrapper.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MainWindowView.h" />
     <ClInclude Include="MovingCircle.h" />

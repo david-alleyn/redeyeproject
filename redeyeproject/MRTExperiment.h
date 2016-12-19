@@ -8,7 +8,7 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 
-#include "FBO.h"
+#include "FrameBufferWrapper.h"
 #include "DisplayEngine.h"
 #include "RenderTargetGrid.h"
 #include "MovingCircle.h"

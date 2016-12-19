@@ -81,14 +81,16 @@ void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 			wxTextFile* outputFile = new wxTextFile(saveFileDialog.GetPath());
 			
 			if (!outputFile->Create()) {
-				wxLogError("File '%s' already exists. Overwriting.", saveFileDialog.GetPath());
+				wxLogMessage("File '%s' already exists. Overwriting.", saveFileDialog.GetPath());
 			} 
 
 			if (!outputFile->Open())
 			{
 				wxLogError("File coult not be opened. Cancelling.", saveFileDialog.GetPath());
-				outputFile->Clear();
+				return;
 			}
+
+			outputFile->Clear();
 
 			if (!configData->writeToFile(outputFile)) {
 				wxLogError("Cannot successfully write to file '%s'.", saveFileDialog.GetPath());

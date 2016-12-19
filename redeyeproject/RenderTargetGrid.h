@@ -12,7 +12,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include "FBO.h"
+#include "FrameBufferWrapper.h"
 
 using namespace std;
 
@@ -32,7 +32,7 @@ class RenderTargetGrid
 
 	unsigned int shader;
 	vector<unsigned int> vaos;
-	vector<FBO*> fbos;
+	vector<FrameBufferWrapper*> fbos;
 	unsigned int tbo;
 	unsigned int offsetDataTex;
 	unsigned int mrtQuadVBO;

@@ -90,14 +90,14 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 
 	numberOfObjects->SetValue("5");
 
-	sizeOfObjects->SetValue("20.0");
+	sizeOfObjects->SetValue("5.0");
 
 	selectedColour->SetColour(wxColour("RED"));
 
 	behavioralModel->Append("Random Movement");
 	behavioralModel->SetSelection(0);
 
-	objectSpeed->SetValue("0.1");
+	objectSpeed->SetValue("5.0");
 
 	// Set grid display parameters
 

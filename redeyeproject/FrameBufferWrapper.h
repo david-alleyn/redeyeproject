@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <vector>
 
-class FBO {
+class FrameBufferWrapper {
 
 private:
 
@@ -14,9 +14,9 @@ private:
 
 public:
 
-	FBO(unsigned int width, unsigned int height);
+	FrameBufferWrapper(unsigned int width, unsigned int height);
 
-	~FBO();
+	~FrameBufferWrapper();
 
 private:
 

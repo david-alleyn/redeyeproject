@@ -146,23 +146,31 @@ bool MRTExperiment::initialize(ConfigurationData* configData)
 			experimentOutput->addRenderTargetVAO(screenWidth, screenHeight);
 
 			//Setup Aspect Ratio
-			//float aspect = (float)screenWidth / (float)screenHeight;
-			float aspect = experimentOutput->getAspectRatio(i);
-			/*wxLogMessage(wxString(std::to_string(aspect)));*/
+			//float aspect = experimentOutput->getAspectRatio(i);
+			float xWidth = experimentOutput->getViewportWidth(i);
+			xWidth -= (xWidth / 2.0f);
+			float yWidth = experimentOutput->getViewportHeight(i);
+			yWidth -= (yWidth / 2.0f);
 
 			//Setup projection and view matrices
-			if (aspect >= 1.0) {
-				leftBound = -10.0f * aspect;
-				rightBound = 10.0f * aspect;
-				bottomBound = -10.0f;
-				topBound = 10.0f;
-			}
-			else {
-				leftBound = -10.0f;
-				rightBound = 10.0f;
-				bottomBound = -10.0f / aspect;
-				topBound = 10.0f / aspect;
-			}
+				leftBound = -xWidth;
+				rightBound = xWidth;
+				bottomBound = -yWidth;
+				topBound = yWidth;
+
+			////Setup projection and view matrices
+			//if (aspect >= 1.0) {
+			//	leftBound = -10.0f * aspect;
+			//	rightBound = 10.0f * aspect;
+			//	bottomBound = -10.0f;
+			//	topBound = 10.0f;
+			//}
+			//else {
+			//	leftBound = -10.0f;
+			//	rightBound = 10.0f;
+			//	bottomBound = -10.0f / aspect;
+			//	topBound = 10.0f / aspect;
+			//}
 
 
 			m4Projection.push_back(glm::ortho(leftBound, rightBound, bottomBound, topBound, 0.0f, 10000.0f));

@@ -2,23 +2,23 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-#include "FBO.h"
+#include "FrameBufferWrapper.h"
 
-FBO::FBO(unsigned int width, unsigned int height) {
+FrameBufferWrapper::FrameBufferWrapper(unsigned int width, unsigned int height) {
 	GenerateFBO(width, height);
 }
 
-FBO::~FBO() {
+FrameBufferWrapper::~FrameBufferWrapper() {
 	destroy();
 }
 
-void FBO::destroy() {
+void FrameBufferWrapper::destroy() {
 	glDeleteFramebuffers(1, &fbo);
 	glDeleteTextures(1, &rgbTexture);
 	glDeleteTextures(1, &depthTexture);
 }
 
-void FBO::GenerateRGBA8Texture(unsigned int width, unsigned int height) {
+void FrameBufferWrapper::GenerateRGBA8Texture(unsigned int width, unsigned int height) {
 
 	glGenTextures(1, &rgbTexture);
 	glBindTexture(GL_TEXTURE_2D, rgbTexture);
@@ -29,7 +29,7 @@ void FBO::GenerateRGBA8Texture(unsigned int width, unsigned int height) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 }
 
-void FBO::GenerateDepthTexture(unsigned int width, unsigned int height) {
+void FrameBufferWrapper::GenerateDepthTexture(unsigned int width, unsigned int height) {
 
 	glGenTextures(1, &depthTexture);
 	glBindTexture(GL_TEXTURE_2D, depthTexture);
@@ -41,7 +41,7 @@ void FBO::GenerateDepthTexture(unsigned int width, unsigned int height) {
 
 }
 
-void FBO::GenerateFBO(unsigned int width, unsigned int height) {
+void FrameBufferWrapper::GenerateFBO(unsigned int width, unsigned int height) {
 
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -63,20 +63,20 @@ void FBO::GenerateFBO(unsigned int width, unsigned int height) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-unsigned int FBO::getRGBATexture() {
+unsigned int FrameBufferWrapper::getRGBATexture() {
 	return rgbTexture;
 }
 
-unsigned int FBO::getDepthTexture() {
+unsigned int FrameBufferWrapper::getDepthTexture() {
 	return depthTexture;
 }
 
-void FBO::resize(unsigned int width, unsigned int height) {
+void FrameBufferWrapper::resize(unsigned int width, unsigned int height) {
 	destroy();
 	GenerateFBO(width, height);
 }
 
-void FBO::bind() {
+void FrameBufferWrapper::bind() {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -84,6 +84,6 @@ void FBO::bind() {
 
 }
 
-void FBO::unbind() {
+void FrameBufferWrapper::unbind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

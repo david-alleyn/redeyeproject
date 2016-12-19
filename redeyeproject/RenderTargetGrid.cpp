@@ -98,7 +98,7 @@ void RenderTargetGrid::addRenderTargetVAO(unsigned int width, unsigned int heigh
 
 	// Setup VAOs and Vertex Attribs for mrtQuad:
 	vaos.push_back(mrtVao);
-	fbos.push_back(new FBO(mrtWidth, mrtHeight));
+	fbos.push_back(new FrameBufferWrapper(mrtWidth, mrtHeight));
 	
 
 	glBindVertexArray(mrtVao);

@@ -19,9 +19,6 @@
     <ClCompile Include="ExperimentConfigurationDialogView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FBO.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBufferWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigurationData.h">
@@ -64,9 +64,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ExperimentConfigurationDialogView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FBO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h">
@@ -91,6 +88,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBufferWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

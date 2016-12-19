@@ -131,10 +131,10 @@ void MovingObject::randomMovement() {
 		}
 	} while (deltaPosition.x == 0 && deltaPosition.y == 0);
 
-	if (position.x + deltaPosition.x < leftbound || position.x + deltaPosition.x > rightbound) {
+	if (position.x + deltaPosition.x < leftbound + size.x || position.x + deltaPosition.x > rightbound - size.x) {
 		deltaPosition.x = 0;
 	}
-	if (position.y + deltaPosition.y < bottombound || position.y + deltaPosition.y > topbound) {
+	if (position.y + deltaPosition.y < bottombound + size.y || position.y + deltaPosition.y > topbound - size.y) {
 		deltaPosition.y = 0;
 	}
 
