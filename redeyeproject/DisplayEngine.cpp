@@ -317,7 +317,7 @@ bool DisplayEngine::lockMouseToActiveWindow() {
 		return false;
 	}
 
-	SDL_SetWindowGrab(windows[currentlyActiveWindow].window, SDL_TRUE);
+	SDL_RaiseWindow(windows[currentlyActiveWindow].window);
 	return true;
 }
 
