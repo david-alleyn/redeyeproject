@@ -180,6 +180,8 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 		else {
 			//early gl calls require call to glewInit();
 			glewInit();
+
+			//since the experiment window was already running (stage experiment was used), we need to set input focus on the existing window.
 			displayEngine->setActiveWindow(0);
 			displayEngine->lockMouseToActiveWindow();
 		}
@@ -215,7 +217,9 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 
 void MainWindow::OnStageExperiment(wxCommandEvent & event)
 {
-	if (!experimentRunning) {
+	DisplayEngine* displayEngine = DisplayEngine::getInstance();
+	
+	if (!experimentRunning && displayEngine->getNumPhysicalDisplays() > 1) {
 		//Check CONFIGURATIONDATA object for proper initialization of data.
 		//Validation can be accomplished by using the validation built into DisplayConfigurationDialog and ExperimentConfigurationDialog
 		if (configData == nullptr) {
@@ -228,9 +232,6 @@ void MainWindow::OnStageExperiment(wxCommandEvent & event)
 			warningMessage->ShowModal();
 			return;
 		}
-
-		//Get DisplayEngine
-		DisplayEngine* displayEngine = DisplayEngine::getInstance();
 
 		if (!displayEngine->isRunning()) {
 			stageExperimentButton->Disable();
