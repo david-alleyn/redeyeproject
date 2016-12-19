@@ -1,4 +1,4 @@
-# redeyeproject
+# Red Eye Project
 
 **Pre-built project binaries for Windows**
 
