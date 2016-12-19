@@ -1,5 +1,12 @@
 # Red Eye Project
 
+**Libraries used** - Packaged in the "Dependent Library Binaries" zip file
+
+- wxWidgets 3.1.0
+- SDL2
+- GLM
+- GLEW
+
 **Pre-built project binaries for Windows**
 
 Zip File: https://drive.google.com/open?id=0B2cXFE6Ox3lwYTNPV3BMcmNVOG8  
