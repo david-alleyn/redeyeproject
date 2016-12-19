@@ -79,14 +79,16 @@ void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 							// save the current contents in the file;
 							// this can be done with e.g. wxWidgets output streams:
 			wxTextFile* outputFile = new wxTextFile(saveFileDialog.GetPath());
-			if (outputFile->Open())
+			
+			if (!outputFile->Create()) {
+				wxLogError("File '%s' already exists. Overwriting.", saveFileDialog.GetPath());
+			} 
+
+			if (!outputFile->Open())
 			{
+				wxLogError("File coult not be opened. Cancelling.", saveFileDialog.GetPath());
 				outputFile->Clear();
 			}
-			else if (!outputFile->Create()) {
-				wxLogError("Cannot create file '%s'.", saveFileDialog.GetPath());
-				return;
-			} 
 
 			if (!configData->writeToFile(outputFile)) {
 				wxLogError("Cannot successfully write to file '%s'.", saveFileDialog.GetPath());

@@ -5,20 +5,28 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RedEyeProject", "redeyeproject\redeyeproject.vcxproj", "{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RedEyeSetup", "RedEyeSetup\RedEyeSetup.vdproj", "{02B30802-DA81-41B0-BA0F-70746AC99087}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RedEyeSetup", "RedEyeSetup\RedEyeSetup.vdproj", "{E4DB23AA-B7B5-40F2-9E52-8032673E84DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Debug|x64.ActiveCfg = Debug|x64
 		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Debug|x64.Build.0 = Debug|x64
+		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Debug|x86.Build.0 = Debug|Win32
 		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Release|x64.ActiveCfg = Release|x64
 		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Release|x64.Build.0 = Release|x64
-		{02B30802-DA81-41B0-BA0F-70746AC99087}.Debug|x64.ActiveCfg = Debug
-		{02B30802-DA81-41B0-BA0F-70746AC99087}.Release|x64.ActiveCfg = Release
+		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Release|x86.ActiveCfg = Release|Win32
+		{9E8AC1DC-31D6-4F22-BE9D-11B04FCAB14D}.Release|x86.Build.0 = Release|Win32
+		{E4DB23AA-B7B5-40F2-9E52-8032673E84DD}.Debug|x64.ActiveCfg = Debug
+		{E4DB23AA-B7B5-40F2-9E52-8032673E84DD}.Debug|x86.ActiveCfg = Debug
+		{E4DB23AA-B7B5-40F2-9E52-8032673E84DD}.Release|x64.ActiveCfg = Release
+		{E4DB23AA-B7B5-40F2-9E52-8032673E84DD}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
