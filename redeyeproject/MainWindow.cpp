@@ -71,7 +71,7 @@ void MainWindow::OnSaveConfiguration(wxCommandEvent& event)
 
 
 			wxFileDialog
-				saveFileDialog(this, _("Save Configuration file"), "", "",
+				saveFileDialog(this, _("Save Configuration file"), "", "experimentConfiguration",
 					"Configuration files (*.exp)|*.exp", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 			if (saveFileDialog.ShowModal() == wxID_CANCEL)
 				return;     // the user changed idea...
@@ -178,7 +178,10 @@ void MainWindow::OnRunExperiment(wxCommandEvent& event)
 			displayEngine->startEngine();
 		}
 		else {
-			displayEngine->setFocusToActiveWindow();
+			//early gl calls require call to glewInit();
+			glewInit();
+			displayEngine->setActiveWindow(0);
+			displayEngine->lockMouseToActiveWindow();
 		}
 
 
@@ -237,6 +240,11 @@ void MainWindow::OnStageExperiment(wxCommandEvent & event)
 
 			//Start DisplayEngine (this will open black borderless windows on all the configured displays)
 			displayEngine->startEngine();
+
+			//early use of gl functions requires glewInit();
+
+			glewInit();
+			displayEngine->paintWindowsBlack();
 		}
 	}
 }

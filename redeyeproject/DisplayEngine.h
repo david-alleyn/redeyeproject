@@ -93,5 +93,5 @@ public:
 
 	//Focuses the currently active window
 	//REQUIRES isRunning() to return true
-	bool setFocusToActiveWindow();
+	bool lockMouseToActiveWindow();
 };

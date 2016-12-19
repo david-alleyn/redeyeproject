@@ -287,8 +287,8 @@ bool DisplayEngine::paintWindowsBlack() {
 		setActiveWindow(i);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0); //bind the default draw buffer.
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //set "display clearing color" to black
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the window
 		swapActiveWindowBuffer();
 	}
 
@@ -311,16 +311,13 @@ bool DisplayEngine::getActiveWindowSize(int & width, int & height) {
 //Focuses the currently active window
 //REQUIRES isRunning() to return true
 
-bool DisplayEngine::setFocusToActiveWindow() {
+bool DisplayEngine::lockMouseToActiveWindow() {
 	if (!isRunning()) {
-		wxLogMessage("Error: In setFocusToActiveWindow(), DisplayEngine is not running!");
+		wxLogMessage("Error: In lockMouseToActiveWindow(), DisplayEngine is not running!");
 		return false;
 	}
 
-	if (SDL_SetWindowInputFocus(windows[currentlyActiveWindow].window) < 0) {
-		wxLogMessage("Error: In setFocusToActiveWindow(), could not set focus to active window! " + wxString(SDL_GetError()));
-		return false;
-	}
+	SDL_SetWindowGrab(windows[currentlyActiveWindow].window, SDL_TRUE);
 	return true;
 }
 
