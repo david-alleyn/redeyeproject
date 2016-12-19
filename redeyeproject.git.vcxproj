@@ -109,12 +109,16 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/libs/wxWidgets/include/;$(ProjectDir)/libs/wxWidgets/include/msvc/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/SDL2/include/;$(ProjectDir)/libs/glew/include/;$(ProjectDir)/libs/glm/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FunctionLevelLinking>
       </FunctionLevelLinking>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glew32s.lib;opengl32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)/libs/glew/lib/Release/x64;$(ProjectDir)/libs/wxWidgets/lib/vc_x64_dll;$(ProjectDir)/libs/SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/verbose:lib</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,6 +163,13 @@
       </IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>$(ProjectDir)/libs/glew/lib/Release/x64;$(ProjectDir)/libs/wxWidgets/lib/vc_x64_dll;$(ProjectDir)/libs/SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy $(ProjectDir)*.fs $(OutputPath) /Y /D
+xcopy $(ProjectDir)*.vs $(OutputPath) /Y /D
+xcopy $(ProjectDir)*.gs $(OutputPath) /Y /D
+xcopy $(ProjectDir)libs\SDL2\lib\x64\*.dll $(OutputPath) /Y /D
+xcopy $(ProjectDir)libs\wxWidgets\lib\vc_x64_dll\wx*u_*.dll $(OutputPath) /Y /D</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConfigurationData.cpp" />
