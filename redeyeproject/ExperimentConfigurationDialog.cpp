@@ -31,11 +31,11 @@ ExperimentConfigurationDialog::ExperimentConfigurationDialog(wxFrame* parent, Co
 	objectSpeed->SetValidator(objectSpeedValidator);
 
 	wxIntegerValidator<int> gridRowsValidator = wxIntegerValidator<int>();
-	gridRowsValidator.SetRange(1, 10);
+	gridRowsValidator.SetRange(1, 100);
 	gridRows->SetValidator(gridRowsValidator);
 
 	wxIntegerValidator<int> gridColumnsValidator = wxIntegerValidator<int>();
-	gridColumnsValidator.SetRange(1, 10);
+	gridColumnsValidator.SetRange(1, 100);
 	gridColumns->SetValidator(gridColumnsValidator);
 
 	wxFloatingPointValidator<double> gridLeftMarginValidator = wxFloatingPointValidator<double>(0, wxNUM_VAL_NO_TRAILING_ZEROES);
